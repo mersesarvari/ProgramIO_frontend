@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/authentication/LoginPage";
 import RegisterPage from "./pages/authentication/RegisterPage";
 import Cookies from "js-cookie";
-import PrivateRoutes from "./PrivateRoute";
+import { LoggedInRoutes, LoggedOutRoutes } from "./SpecificRoutes";
 
 export const isAuthenticated = () => {
   const accessToken = Cookies.get("accessToken");
@@ -30,12 +30,14 @@ const App = () => {
     <Router>
       <Routes>
         {/* Protected routes */}
-        <Route element={<PrivateRoutes />}>
+        <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<LoggedOutRoutes />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
       </Routes>
     </Router>
   );
