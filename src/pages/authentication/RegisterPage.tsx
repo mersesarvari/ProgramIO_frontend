@@ -1,6 +1,9 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { useEffect } from "react";
+import { isAuthenticated } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterFormValues {
   email: string;
@@ -10,6 +13,11 @@ interface RegisterFormValues {
 }
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    isAuthenticated() ? navigate("/home") : null;
+  }, []);
+
   const initialValues: RegisterFormValues = {
     email: "",
     password: "",
@@ -43,6 +51,7 @@ const RegisterPage = () => {
 
       // Handle the response as needed
       console.log("Response:", response.data);
+      navigate("/login");
     } catch (error) {
       // Check if the error has a response from the server
       if (error.response) {

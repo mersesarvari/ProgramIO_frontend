@@ -1,10 +1,11 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 //import axios from "axios";
 import api from "../../api";
-
 import Cookies from "js-cookie";
+import { isAuthenticated } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormValues {
   email: string;
@@ -12,6 +13,11 @@ interface LoginFormValues {
 }
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    isAuthenticated() ? navigate("/home") : null;
+  }, []);
+
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
@@ -34,6 +40,11 @@ const LoginPage: React.FC = () => {
 
       // Handle the response as needed
       console.log("Response:", response.data);
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+      Cookies.set("accessToken", response.data.accessToken);
+      Cookies.set("refreshToken", response.data.refreshToken);
+      navigate("/home");
     } catch (error) {
       // Check if the error has a response from the server
       if (error.response) {
