@@ -29,9 +29,19 @@ api.interceptors.response.use(
 
     // Handling error 499
     if (error.response.status === 499 && !originalRequest._retry) {
+      console.log(
+        "[Error] : Refresh token was not valid, trying to access a new one..."
+      );
+
       originalRequest._retry = true;
       try {
         console.log("499Error", error.response);
+        if (Cookies.get("refreshToken") === null) {
+          console.log(
+            "[Console] : No refresh token found, removing accessToken"
+          );
+          Cookies.remove("accessToken");
+        }
         // When receiving a 499 error ---> asking for a new accessToken
         const refreshResponse = await api.post(
           "/auth/token",
@@ -45,7 +55,7 @@ api.interceptors.response.use(
         console.log(refreshResponse);
 
         const newAccessToken = refreshResponse.data.accessToken;
-
+        console.log("[Client]: Token refresh succeeded:", newAccessToken);
         // Update the access token in cookies
         await Cookies.remove("accessToken");
         await Cookies.set("accessToken", newAccessToken);
@@ -54,8 +64,12 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        console.error("Token refresh failed:", refreshError.message);
-        // Redirect to login or handle appropriately
+        console.error("[Client] Token refresh failed:", refreshError.message);
+        //Removing refresh and access tokens
+        Cookies.remove("accessToken");
+        Cookies.remove("refreshToken");
+        console.log("[Client]: removed invalid cookie tokens");
+
         return Promise.reject(refreshError);
       }
     }
