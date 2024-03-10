@@ -10,6 +10,7 @@ import LoginPage from "./pages/authentication/LoginPage";
 import RegisterPage from "./pages/authentication/RegisterPage";
 import Cookies from "js-cookie";
 import { LoggedInRoutes, LoggedOutRoutes } from "./SpecificRoutes";
+import AdminPage from "./pages/AdminPage";
 
 export const isAuthenticated = () => {
   const accessToken = Cookies.get("accessToken");
@@ -33,6 +34,7 @@ const App = () => {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
         <Route element={<LoggedOutRoutes />}>
           <Route path="/login" element={<LoginPage />} />

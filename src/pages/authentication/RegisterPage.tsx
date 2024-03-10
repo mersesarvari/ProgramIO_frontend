@@ -71,7 +71,6 @@ const RegisterPage = () => {
   };
   return (
     <>
-      <div>Login Page</div>
       <div className="grid grid-cols-12">
         <div className="col-span-4"></div>
         <div className="col-span-4">
