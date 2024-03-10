@@ -1,7 +1,10 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import axios from "axios";
+//import axios from "axios";
+import api from "../../api";
+
+import Cookies from "js-cookie";
 
 interface LoginFormValues {
   email: string;
@@ -18,12 +21,13 @@ const LoginPage: React.FC = () => {
     password: Yup.string().required("Required"),
   });
 
+  //Login method
   const onSubmit = async (values: LoginFormValues) => {
     // Your form submission logic goes here
     console.log("Form values:", values);
     try {
       // Make a POST request using Axios
-      const response = await axios.post(
+      const response = await api.post(
         "http://localhost:5000/auth/login",
         values
       );
@@ -45,6 +49,48 @@ const LoginPage: React.FC = () => {
         // Something happened in setting up the request that triggered an Error
         console.error("Error message:", error.message);
       }
+    }
+  };
+
+  const TestRefreshToken = async () => {
+    try {
+      const refreshToken = Cookies.get("refreshToken");
+
+      if (!refreshToken) {
+        console.error("Refresh token not found.");
+        return;
+      }
+
+      const response = await api.post(
+        "http://localhost:5000/auth/token",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        }
+      );
+
+      console.log("TestRefreshToken response:", response);
+    } catch (error) {
+      console.log("TestRefreshToken error:", error);
+    }
+  };
+
+  const TestAccessToken = async () => {
+    try {
+      const accessToken = Cookies.get("accessToken");
+
+      if (!accessToken) {
+        console.error("Refresh token not found.");
+        return;
+      }
+
+      const response = await api.post("http://localhost:5000/auth/protected");
+
+      console.log("TestAccessToken response:", response);
+    } catch (error) {
+      console.log("TestAccessToken error:", error);
     }
   };
 
@@ -127,6 +173,22 @@ const LoginPage: React.FC = () => {
               </button>
             </Form>
           </Formik>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            style={{ width: "100%", marginTop: "20px" }}
+            onClick={() => TestRefreshToken()}
+          >
+            TestRefreshToken
+          </button>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            style={{ width: "100%", marginTop: "20px" }}
+            onClick={() => TestAccessToken()}
+          >
+            TestAccessToken
+          </button>
         </div>
         <div className="col-span-4"></div>
       </div>
