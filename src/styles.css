@@ -1,6 +1,12 @@
+/* src/styles.css */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 body,
 html,
 #root {
+  background-color: darkgrey;
   margin: 0;
   padding: 0;
 }
