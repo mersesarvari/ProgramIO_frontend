@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       Cookies.set("refreshToken", response.data.refreshToken);
       navigate("/home");
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error:", error);
     }
   };
 
