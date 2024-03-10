@@ -54,19 +54,7 @@ const RegisterPage = () => {
       navigate("/login");
     } catch (error) {
       // Check if the error has a response from the server
-      if (error.response) {
-        // The server responded with a non-2xx status code
-        console.error("Error status:", error.response.status);
-        console.error("Error message:", error.response.data.message);
-
-        // Display the server's error message or handle it as needed
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error message:", error.message);
-      }
+      console.log("Error:", error);
     }
   };
   return (
