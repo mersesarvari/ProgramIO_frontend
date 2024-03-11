@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import api from "../api";
-import Navbar from "./Navbar";
+import Navbar from "../components/NavbarTemplate";
 
 const AdminPage = () => {
   const TestRefreshToken = async () => {

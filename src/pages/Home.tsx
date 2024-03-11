@@ -1,10 +1,16 @@
-import Navbar from "./Navbar";
+import NavbarTemplate from "../components/NavbarTemplate";
+import SidebarTemplate from "../components/SidebarTemplate";
+import Map from "../components/Map";
+import GoogleMapReact from "../components/GoogleMapReact";
 
 const Home = () => {
   return (
     <>
-      <Navbar />
-      <div>Home Page</div>
+      <NavbarTemplate />
+      <div className="flex h-full">
+        <SidebarTemplate />
+        <GoogleMapReact />
+      </div>
     </>
   );
 };
