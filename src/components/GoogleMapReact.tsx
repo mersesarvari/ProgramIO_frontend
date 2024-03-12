@@ -30,6 +30,16 @@ const GoogleMapReact = () => {
     east: 180,
   };
 
+  const options = {
+    minZoom: 1.6,
+    restriction: {
+      latLngBounds: WORLD_BOUNDS,
+      strictBounds: false,
+    },
+    disableDefaultUI: true,
+    mapTypeId: "roadmap",
+  };
+
   const onLoad = React.useCallback(function callback(map) {
     const japanBounds = new window.google.maps.LatLngBounds(
       new window.google.maps.LatLng(20.0, 122.93457), // Southwest corner of Japan
@@ -38,14 +48,6 @@ const GoogleMapReact = () => {
     map.fitBounds(japanBounds);
     setMap(map);
   }, []);
-
-  const options = {
-    minZoom: 1.6,
-    restriction: {
-      latLngBounds: WORLD_BOUNDS,
-      strictBounds: false,
-    },
-  };
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
@@ -61,13 +63,9 @@ const GoogleMapReact = () => {
       options={options}
     >
       {/* Child components, such as markers, info windows, etc. */}
-      <>
-        <FloatingComponent />
-      </>
+      <></>
     </GoogleMap>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 
 export default GoogleMapReact;
