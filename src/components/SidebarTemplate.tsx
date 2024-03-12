@@ -82,7 +82,7 @@ const SidebarTemplate = () => {
     <Sidebar
       aria-label="Sidebar with content separator example"
       theme={sidebarTheme}
-      className="flex flex-col h-screen"
+      className="flex flex-col"
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>
