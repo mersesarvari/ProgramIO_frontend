@@ -1,10 +1,13 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import api from "../../api";
-import Cookies from "js-cookie";
-import { isAuthenticated } from "../../App";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
+import { useLoginMutation } from "../../features/auth/authAPISlice";
+import { selectCurrentUser } from "../../features/auth/authSlice";
+import { Checkbox, ToggleSwitch } from "flowbite-react";
+import Cookies from "js-cookie";
 
 interface LoginFormValues {
   email: string;
@@ -13,10 +16,9 @@ interface LoginFormValues {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    isAuthenticated() ? navigate("/home") : null;
-  }, []);
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const [isRemember, setRemember] = useState(false);
 
   const initialValues: LoginFormValues = {
     email: "",
@@ -30,13 +32,18 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      const response = await api.post(
-        "http://localhost:5000/auth/login",
-        values
-      );
-      console.log("[Login] Server response:", response);
-      Cookies.set("user", JSON.stringify(response.data.user));
-
+      const user = await login({
+        email: values.email,
+        password: values.password,
+      }).unwrap();
+      //Remember the user
+      if (isRemember) {
+        Cookies.set("user", JSON.stringify(user));
+      }
+      //Dont remember the user
+      else {
+        dispatch(setCredentials({ ...user }));
+      }
       navigate("/home");
 
       //navigate("/home");
@@ -93,19 +100,18 @@ const LoginPage: React.FC = () => {
             <div className="mb-5">
               <div className="flex items-start">
                 <div className="flex items-center h-5">
-                  <input
+                  {/* <Checkbox
                     id="remember"
-                    type="checkbox"
-                    value=""
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                  /> */}
+                  <ToggleSwitch
+                    checked={isRemember}
+                    label="Remember my account"
+                    onChange={() => {
+                      setRemember(!isRemember);
+                    }}
                   />
                 </div>
-                <label
-                  htmlFor="remember"
-                  className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >
-                  Remember me
-                </label>
               </div>
             </div>
             <div className="mb-5">

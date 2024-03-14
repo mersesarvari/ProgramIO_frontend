@@ -3,27 +3,33 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+//import { logout } from "../features/auth/userSlice";
+import { useLogoutMutation } from "../features/auth/authAPISlice";
+import { logout as LogoutApiCall } from "../../src/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
-  const logoutFunction = () => {
-    navigate("/login");
-    Cookies.remove("user");
+  const [logout, { isLoading }] = useLogoutMutation();
+  const dispatch = useDispatch();
+  const Logout = async () => {
+    try {
+      if (!isLoading) {
+        const logoutResponse = await logout({}).unwrap();
+        await dispatch(LogoutApiCall({}));
+        Cookies.remove("user");
+
+        console.log("Logout response:", logoutResponse);
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
   return (
     <Flowbite>
       <Navbar fluid>
-        {/* <Navbar.Brand href="https://flowbite-react.com">
-        <img
-          src="/favicon.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite React Logo"
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Flowbite React
-        </span>
-      </Navbar.Brand> */}
         <div className="flex md:order-2">
           <DarkThemeToggle />
           <Dropdown
@@ -43,13 +49,19 @@ const NavbarTemplate = () => {
                 name@flowbite.com
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/settings")}>
+              Settings
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/account")}>
+              Account
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item
               onClick={() => {
-                logoutFunction();
+                Logout();
               }}
             >
               Sign out
@@ -58,7 +70,7 @@ const NavbarTemplate = () => {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link href="#" active>
+          <Navbar.Link href="/" active>
             Home
           </Navbar.Link>
           <Navbar.Link href="#">About</Navbar.Link>

@@ -14,9 +14,6 @@ interface RegisterFormValues {
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    isAuthenticated() ? navigate("/home") : null;
-  }, []);
 
   const initialValues: RegisterFormValues = {
     email: "",
