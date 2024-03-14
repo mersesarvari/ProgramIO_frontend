@@ -5,17 +5,14 @@ import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/auth/userSlice";
+//import { logout } from "../features/auth/userSlice";
 import api from "../api";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
   const Logout = async () => {
     try {
-      const dispatch = useDispatch();
-      const response = await api.post("http://localhost:5000/auth/logout");
-      console.log("[Logout] Server response:", response);
-      dispatch(logout());
+      console.log("Logout method is not implemented");
     } catch (error) {
       console.error("Error:", error);
     }

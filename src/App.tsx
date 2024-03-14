@@ -13,13 +13,6 @@ import { LoggedInRoutes, LoggedOutRoutes } from "./SpecificRoutes";
 import AdminPage from "./pages/AdminPage";
 import { DarkThemeToggle, Flowbite, Sidebar } from "flowbite-react";
 
-export const isAuthenticated = () => {
-  const user = Cookies.get("user");
-  if (user) {
-    return true;
-  } else return false;
-};
-
 export const Logout = () => {
   console.log("[Client]:", "Succesfully logged out from the application");
   Cookies.remove("user");

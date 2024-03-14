@@ -6,7 +6,9 @@ import Cookies from "js-cookie";
 import { isAuthenticated } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../features/auth/userSlice";
+import { setCredentials } from "../../features/auth/authSlice";
+import { useLoginMutation } from "../../features/auth/authAPISlice";
+import { selectCurrentUser } from "../../features/auth/authSlice";
 
 interface LoginFormValues {
   email: string;
@@ -16,27 +18,7 @@ interface LoginFormValues {
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const Login = async (email: string, password: string) => {
-    try {
-      const values = { email, password };
-      const response = await api.post(
-        "http://localhost:5000/auth/login",
-        values
-      );
-      console.log("[Login] Server response:", response);
-      //Setting up redux data
-      dispatch(setUser(response.data.user));
-
-      //navigate("/home");
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  useEffect(() => {
-    isAuthenticated() ? navigate("/home") : null;
-  }, []);
+  const [login, { isLoading }] = useLoginMutation();
 
   const initialValues: LoginFormValues = {
     email: "",
@@ -50,15 +32,12 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      const response = await api.post(
-        "http://localhost:5000/auth/login",
-        values
-      );
-      console.log("[Login] Server response:", response);
-      //Setting up redux data
-
-      //Cookies.set("user", JSON.stringify(response.data.user));
-      Login(values.email, values.password);
+      const userData = await login({
+        email: values.email,
+        password: values.password,
+      }).unwrap();
+      console.log("userData", userData);
+      dispatch(setCredentials({ ...userData }));
       navigate("/home");
 
       //navigate("/home");
