@@ -14,17 +14,15 @@ import AdminPage from "./pages/AdminPage";
 import { DarkThemeToggle, Flowbite, Sidebar } from "flowbite-react";
 
 export const isAuthenticated = () => {
-  const accessToken = Cookies.get("accessToken");
-  const refreshToken = Cookies.get("refreshToken");
-  if (accessToken && refreshToken) {
+  const user = Cookies.get("user");
+  if (user) {
     return true;
   } else return false;
 };
 
 export const Logout = () => {
-  Cookies.remove("accessToken");
-  Cookies.remove("refreshToken");
   console.log("[Client]:", "Succesfully logged out from the application");
+  Cookies.remove("user");
 };
 
 const App = () => {

@@ -1,26 +1,13 @@
-import Cookies from "js-cookie";
 import api from "../api";
 import Navbar from "../components/NavbarTemplate";
+import Cookies from "js-cookie";
 
 const AdminPage = () => {
   const TestRefreshToken = async () => {
     try {
-      const refreshToken = Cookies.get("refreshToken");
-
-      if (!refreshToken) {
-        console.error("Refresh token not found.");
-        return;
-      }
-
-      const response = await api.post(
-        "http://localhost:5000/auth/token",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      );
+      //Removing previous access token
+      Cookies.remove("access_token");
+      const response = await api.post("http://localhost:5000/auth/token");
 
       console.log("TestRefreshToken response:", response);
     } catch (error) {
@@ -30,15 +17,7 @@ const AdminPage = () => {
 
   const TestAccessToken = async () => {
     try {
-      const accessToken = Cookies.get("accessToken");
-
-      if (!accessToken) {
-        console.error("Refresh token not found.");
-        return;
-      }
-
       const response = await api.post("http://localhost:5000/auth/protected");
-
       console.log("TestAccessToken response:", response);
     } catch (error) {
       console.log("TestAccessToken error:", error);

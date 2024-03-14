@@ -34,12 +34,12 @@ const LoginPage: React.FC = () => {
         "http://localhost:5000/auth/login",
         values
       );
+      console.log("[Login] Server response:", response);
+      Cookies.set("user", JSON.stringify(response.data.user));
 
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
-      Cookies.set("accessToken", response.data.accessToken);
-      Cookies.set("refreshToken", response.data.refreshToken);
       navigate("/home");
+
+      //navigate("/home");
     } catch (error) {
       console.error("Error:", error);
     }

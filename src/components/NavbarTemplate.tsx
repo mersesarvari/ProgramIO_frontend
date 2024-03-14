@@ -2,15 +2,14 @@
 
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
   const logoutFunction = () => {
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
     navigate("/login");
+    Cookies.remove("user");
   };
   return (
     <Flowbite>
