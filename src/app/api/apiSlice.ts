@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials } from "../../features/auth/authSlice";
+import { logout, setCredentials } from "../../features/auth/authSlice";
+import Cookies from "js-cookie";
 
 const baseURL = "http://localhost:5000";
 
@@ -10,8 +11,8 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  //If needs to send the refreshToken
-  if (result?.error?.status === 499) {
+  //If access token token was invalid
+  if (result?.error?.status === 430) {
     console.log("sending request token");
     //Send the refresh token to get new access token
     const refreshResult = await baseQuery("/auth/token", api, extraOptions);
@@ -27,6 +28,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       //api.dispatch(logout({}));
       console.error("[baseQueryWithReauth] : something really went wrong");
     }
+  }
+  //If refresh token was invalid
+  if (result?.error?.status === 431) {
+    console.error(
+      "[baseQueryWithReauth] : Refresh token was invalid... Logging out..."
+    );
+    Cookies.remove("user");
+    api.dispatch(logout({}));
   }
   return result;
 };
