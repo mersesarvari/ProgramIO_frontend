@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../features/auth/authAPISlice";
 import { logout as LogoutApiCall } from "../../src/features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const NavbarTemplate = () => {
       if (!isLoading) {
         const logoutResponse = await logout({}).unwrap();
         await dispatch(LogoutApiCall({}));
+        Cookies.remove("user");
+
         console.log("Logout response:", logoutResponse);
         navigate("/login");
       }
@@ -46,9 +49,15 @@ const NavbarTemplate = () => {
                 name@flowbite.com
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/settings")}>
+              Settings
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/account")}>
+              Account
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item
               onClick={() => {
@@ -61,7 +70,7 @@ const NavbarTemplate = () => {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link href="#" active>
+          <Navbar.Link href="/" active>
             Home
           </Navbar.Link>
           <Navbar.Link href="#">About</Navbar.Link>

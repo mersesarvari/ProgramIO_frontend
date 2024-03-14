@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/authentication/LoginPage";
 import RegisterPage from "./pages/authentication/RegisterPage";
 import Cookies from "js-cookie";
-import { LoggedInRoutes, LoggedOutRoutes } from "./SpecificRoutes";
+import { LoggedInRoutes, LoggedOutRoutes } from "./CustomRoutes";
 import AdminPage from "./pages/AdminPage";
 import { DarkThemeToggle, Flowbite, Sidebar } from "flowbite-react";
 
