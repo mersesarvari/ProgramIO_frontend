@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectCurrentUser } from "./features/auth/authSlice";
 
 const LoggedInRoutes = () => {
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = () => {
-    if (user === null) {
+    console.log("User data:", user);
+    if (user !== null) {
       return true;
     } else return false;
   };
@@ -17,7 +18,9 @@ const LoggedInRoutes = () => {
 const LoggedOutRoutes = () => {
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = () => {
-    if (user === null) {
+    console.log("User data:", user);
+    if (user !== null) {
+      console.log("Authenticated:", true);
       return true;
     } else return false;
   };

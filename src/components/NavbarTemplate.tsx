@@ -3,16 +3,23 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
 //import { logout } from "../features/auth/userSlice";
-import api from "../api";
+import { useLogoutMutation } from "../features/auth/authAPISlice";
+import { logout as LogoutApiCall } from "../../src/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
+  const [logout, { isLoading }] = useLogoutMutation();
+  const dispatch = useDispatch();
   const Logout = async () => {
     try {
-      console.log("Logout method is not implemented");
+      if (!isLoading) {
+        const logoutResponse = await logout({}).unwrap();
+        await dispatch(LogoutApiCall({}));
+        console.log("Logout response:", logoutResponse);
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -20,16 +27,6 @@ const NavbarTemplate = () => {
   return (
     <Flowbite>
       <Navbar fluid>
-        {/* <Navbar.Brand href="https://flowbite-react.com">
-        <img
-          src="/favicon.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite React Logo"
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Flowbite React
-        </span>
-      </Navbar.Brand> */}
         <div className="flex md:order-2">
           <DarkThemeToggle />
           <Dropdown

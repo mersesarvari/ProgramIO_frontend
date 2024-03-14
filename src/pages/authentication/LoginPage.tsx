@@ -1,9 +1,6 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import api from "../../api";
-import Cookies from "js-cookie";
-import { isAuthenticated } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
