@@ -5,6 +5,8 @@ import api from "../../api";
 import Cookies from "js-cookie";
 import { isAuthenticated } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../features/auth/userSlice";
 
 interface LoginFormValues {
   email: string;
@@ -13,6 +15,24 @@ interface LoginFormValues {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const Login = async (email: string, password: string) => {
+    try {
+      const values = { email, password };
+      const response = await api.post(
+        "http://localhost:5000/auth/login",
+        values
+      );
+      console.log("[Login] Server response:", response);
+      //Setting up redux data
+      dispatch(setUser(response.data.user));
+
+      //navigate("/home");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
     isAuthenticated() ? navigate("/home") : null;
@@ -35,8 +55,10 @@ const LoginPage: React.FC = () => {
         values
       );
       console.log("[Login] Server response:", response);
-      Cookies.set("user", JSON.stringify(response.data.user));
+      //Setting up redux data
 
+      //Cookies.set("user", JSON.stringify(response.data.user));
+      Login(values.email, values.password);
       navigate("/home");
 
       //navigate("/home");

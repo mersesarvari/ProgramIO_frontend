@@ -4,12 +4,21 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/userSlice";
+import api from "../api";
 
 const NavbarTemplate = () => {
   const navigate = useNavigate();
-  const logoutFunction = () => {
-    navigate("/login");
-    Cookies.remove("user");
+  const Logout = async () => {
+    try {
+      const dispatch = useDispatch();
+      const response = await api.post("http://localhost:5000/auth/logout");
+      console.log("[Logout] Server response:", response);
+      dispatch(logout());
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
   return (
     <Flowbite>
@@ -49,7 +58,7 @@ const NavbarTemplate = () => {
             <Dropdown.Divider />
             <Dropdown.Item
               onClick={() => {
-                logoutFunction();
+                Logout();
               }}
             >
               Sign out
