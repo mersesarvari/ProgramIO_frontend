@@ -1,5 +1,5 @@
 import api from "../api";
-import Navbar from "../components/NavbarTemplate";
+import Navbar from "../components/navigation/Navbar";
 import Cookies from "js-cookie";
 
 const AdminPage = () => {

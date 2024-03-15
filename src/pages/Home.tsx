@@ -1,13 +1,11 @@
-import NavbarTemplate from "../components/NavbarTemplate";
-import SidebarTemplate from "../components/SidebarTemplate";
-import Map from "../components/Map";
+import Navbar from "../components/navigation/Navbar";
+import SidebarTemplate from "../components/navigation/Sidebar";
 import GoogleMapReact from "../components/GoogleMapReact";
-import FloatingComponent from "../components/FloatingComponent";
 
 const Home = () => {
   return (
     <>
-      <NavbarTemplate />
+      <Navbar />
       <div className="flex h-full">
         <SidebarTemplate />
         <GoogleMapReact />

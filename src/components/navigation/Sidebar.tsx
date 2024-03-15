@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar } from "flowbite-react";
+import { Sidebar as SidebarFlowbite } from "flowbite-react";
 import { BiBuoy } from "react-icons/bi";
 import {
   HiArrowSmRight,
@@ -12,8 +12,8 @@ import {
   HiViewBoards,
 } from "react-icons/hi";
 
-const SidebarTemplate = () => {
-  const sidebarTheme = {
+const Sidebar = () => {
+  const SidebarFlowbiteTheme = {
     root: {
       base: "h-full",
       collapsed: {
@@ -79,49 +79,49 @@ const SidebarTemplate = () => {
   };
 
   return (
-    <Sidebar
-      aria-label="Sidebar with content separator example"
-      theme={sidebarTheme}
+    <SidebarFlowbite
+      aria-label="SidebarFlowbite with content separator example"
+      theme={SidebarFlowbiteTheme}
       className="flex flex-col"
     >
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
+      <SidebarFlowbite.Items>
+        <SidebarFlowbite.ItemGroup>
+          <SidebarFlowbite.Item href="#" icon={HiChartPie}>
             Dashboard
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiViewBoards}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiViewBoards}>
             Kanban
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiInbox}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiInbox}>
             Inbox
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiUser}>
             Users
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiShoppingBag}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiShoppingBag}>
             Products
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiArrowSmRight}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiArrowSmRight}>
             Sign In
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiTable}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiTable}>
             Sign Up
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
+          </SidebarFlowbite.Item>
+        </SidebarFlowbite.ItemGroup>
+        <SidebarFlowbite.ItemGroup>
+          <SidebarFlowbite.Item href="#" icon={HiChartPie}>
             Upgrade to Pro
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiViewBoards}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={HiViewBoards}>
             Documentation
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={BiBuoy}>
+          </SidebarFlowbite.Item>
+          <SidebarFlowbite.Item href="#" icon={BiBuoy}>
             Help
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-    </Sidebar>
+          </SidebarFlowbite.Item>
+        </SidebarFlowbite.ItemGroup>
+      </SidebarFlowbite.Items>
+    </SidebarFlowbite>
   );
 };
 
-export default SidebarTemplate;
+export default Sidebar;

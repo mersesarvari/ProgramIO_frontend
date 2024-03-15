@@ -1,15 +1,15 @@
 "use client";
 
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { Avatar, Dropdown, Navbar as NavbarFlowbite } from "flowbite-react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 //import { logout } from "../features/auth/userSlice";
-import { useLogoutMutation } from "../features/auth/authAPISlice";
-import { logout as LogoutApiCall } from "../../src/features/auth/authSlice";
+import { useLogoutMutation } from "../../features/auth/authAPISlice";
+import { logout as LogoutApiCall } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
-const NavbarTemplate = () => {
+const Navbar = () => {
   const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const NavbarTemplate = () => {
   };
   return (
     <Flowbite>
-      <Navbar fluid>
+      <NavbarFlowbite fluid>
         <div className="flex md:order-2">
           <DarkThemeToggle />
           <Dropdown
@@ -67,20 +67,20 @@ const NavbarTemplate = () => {
               Sign out
             </Dropdown.Item>
           </Dropdown>
-          <Navbar.Toggle />
+          <NavbarFlowbite.Toggle />
         </div>
-        <Navbar.Collapse>
-          <Navbar.Link href="/" active>
+        <NavbarFlowbite.Collapse>
+          <NavbarFlowbite.Link href="/" active>
             Home
-          </Navbar.Link>
-          <Navbar.Link href="#">About</Navbar.Link>
-          <Navbar.Link href="#">Services</Navbar.Link>
-          <Navbar.Link href="#">Pricing</Navbar.Link>
-          <Navbar.Link href="#">Contact</Navbar.Link>
-        </Navbar.Collapse>
-      </Navbar>
+          </NavbarFlowbite.Link>
+          <NavbarFlowbite.Link href="#">About</NavbarFlowbite.Link>
+          <NavbarFlowbite.Link href="#">Services</NavbarFlowbite.Link>
+          <NavbarFlowbite.Link href="#">Pricing</NavbarFlowbite.Link>
+          <NavbarFlowbite.Link href="#">Contact</NavbarFlowbite.Link>
+        </NavbarFlowbite.Collapse>
+      </NavbarFlowbite>
     </Flowbite>
   );
 };
 
-export default NavbarTemplate;
+export default Navbar;
