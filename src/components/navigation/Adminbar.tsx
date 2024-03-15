@@ -86,17 +86,17 @@ const Adminbar = () => {
     >
       <SidebarFlowbite.Items>
         <SidebarFlowbite.ItemGroup>
-          <SidebarFlowbite.Item href="#" icon={HiChartPie}>
+          <SidebarFlowbite.Item href="/admin" icon={HiChartPie}>
             Dashboard
           </SidebarFlowbite.Item>
-          <SidebarFlowbite.Item href="#" icon={HiViewBoards}>
-            Kanban
+          <SidebarFlowbite.Item href="/admin/users" icon={HiViewBoards}>
+            Users
           </SidebarFlowbite.Item>
           <SidebarFlowbite.Item href="#" icon={HiInbox}>
-            Inbox
+            Events
           </SidebarFlowbite.Item>
           <SidebarFlowbite.Item href="#" icon={HiUser}>
-            Users
+            Statistics
           </SidebarFlowbite.Item>
           <SidebarFlowbite.Item href="#" icon={HiShoppingBag}>
             Products

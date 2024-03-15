@@ -1,8 +1,9 @@
-import api from "../api";
-import Navbar from "../components/navigation/Navbar";
+import Navbar from "../../components/navigation/Navbar";
 import Cookies from "js-cookie";
+import Sidebar from "../../components/navigation/Sidebar";
+import Adminbar from "../../components/navigation/Adminbar";
 
-const AdminPage = () => {
+const DashboardAdminPage = () => {
   const TestRefreshToken = async () => {
     try {
       //Removing previous access token
@@ -26,6 +27,7 @@ const AdminPage = () => {
   return (
     <>
       <Navbar />
+
       <div className="grid grid-cols-12">
         <div className="row-span-12 col-span-12">
           <label>User access needed</label>
@@ -54,4 +56,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default DashboardAdminPage;
