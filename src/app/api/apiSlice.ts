@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout, setCredentials } from "../../features/auth/authSlice";
 import Cookies from "js-cookie";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "http://localhost:5000/";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,

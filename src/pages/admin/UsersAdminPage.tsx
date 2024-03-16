@@ -1,60 +1,43 @@
+import React, { useEffect, useMemo, useState } from "react";
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef, //if using TypeScript (optional, but recommended)
+  type MRT_ColumnDef,
 } from "material-react-table";
-import { useMemo } from "react";
+import { useGetAllUserQuery } from "../../features/users/usersApiSlice";
+import ExampleTable from "../../components/MaterialTable";
 
-//If using TypeScript, define the shape of your data (optional, but recommended)
-interface Person {
-  name: string;
-  age: number;
-}
-
-//mock data - strongly typed if you are using TypeScript (optional, but recommended)
-const data: Person[] = [
-  {
-    name: "John",
-    age: 30,
-  },
-  {
-    name: "Sara",
-    age: 25,
-  },
-];
+type User = {
+  username: string;
+  email: string;
+  creationDate: string;
+  activated: boolean;
+};
 
 const UsersAdminPage = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
-    () => [
-      {
-        accessorKey: "name", //simple recommended way to define a column
-        header: "Name",
-        muiTableHeadCellProps: { style: { color: "green" } }, //custom props
-        enableHiding: false, //disable a feature for this column
-      },
-      {
-        accessorFn: (originalRow) => parseInt(originalRow.age), //alternate way
-        id: "age", //id required if you use accessorFn instead of accessorKey
-        header: "Age",
-        Header: <i style={{ color: "red" }}>Age</i>, //optional custom markup
-        Cell: ({ cell }) => <i>{cell.getValue<number>().toLocaleString()}</i>, //optional custom cell render
-      },
-    ],
-    []
-  );
+  const { data, error, isLoading } = useGetAllUserQuery();
 
-  //pass table options to useMaterialReactTable
-  const table = useMaterialReactTable({
-    columns,
-    data, //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-    enableRowSelection: true, //enable some features
-    enableColumnOrdering: true, //enable a feature for all columns
-    enableGlobalFilter: false, //turn off a feature
-  });
+  useEffect(() => {
+    if (!isLoading && !error && data) {
+      console.log("Users:", data);
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [data, error, isLoading]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
-    <>
-      <MaterialReactTable table={table} />
-    </>
+    <div className="flex flex-col w-full">
+      {data && <ExampleTable data={data} />}
+    </div>
   );
 };
 
