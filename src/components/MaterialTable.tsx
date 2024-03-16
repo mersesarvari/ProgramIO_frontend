@@ -14,12 +14,12 @@ type User = {
 };
 
 type BasicTableProps = {
-  data: any[];
+  data: User[];
 };
-
 const ExampleTable: React.FC<BasicTableProps> = ({ data }) => {
   //should be memoized or stable
-  const columns = useMemo<MRT_ColumnDef<User>[]>(
+
+  const cols = useMemo<MRT_ColumnDef<User>[]>(
     () => [
       {
         accessorKey: "username", //access nested data with dot notation
@@ -46,7 +46,7 @@ const ExampleTable: React.FC<BasicTableProps> = ({ data }) => {
   );
 
   const table = useMaterialReactTable({
-    columns,
+    columns: cols,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
   });
 

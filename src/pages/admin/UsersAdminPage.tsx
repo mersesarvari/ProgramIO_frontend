@@ -16,7 +16,6 @@ type User = {
 
 const UsersAdminPage = () => {
   const { data, error, isLoading } = useGetAllUserQuery();
-
   useEffect(() => {
     if (!isLoading && !error && data) {
       console.log("Users:", data);
