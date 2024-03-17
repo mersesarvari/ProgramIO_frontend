@@ -47,7 +47,6 @@ const LoggedOutRoutes = () => {
   const isAuth = isAuthenticated();
   return !isAuth ? (
     <>
-      <Navbar />
       <Outlet />
     </>
   ) : (

@@ -1,58 +1,27 @@
-import { useMemo } from "react";
 import {
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
+  type MRT_RowData,
+  type MRT_TableOptions,
 } from "material-react-table";
 
-//example data type
-type User = {
-  username: string;
-  email: string;
-  creationDate: string;
-  activated: boolean;
-};
+interface Props<TData extends MRT_RowData> extends MRT_TableOptions<TData> {
+  columns: MRT_ColumnDef<TData>[];
+  data: TData[];
+}
 
-type BasicTableProps = {
-  data: User[];
-};
-const ExampleTable: React.FC<BasicTableProps> = ({ data }) => {
-  //should be memoized or stable
-
-  const cols = useMemo<MRT_ColumnDef<User>[]>(
-    () => [
-      {
-        accessorKey: "username", //access nested data with dot notation
-        header: "Username",
-        size: 150,
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-        size: 150,
-      },
-      {
-        accessorKey: "creationDate", //normal accessorKey
-        header: "creationDate",
-        size: 200,
-      },
-      {
-        accessorKey: "activated",
-        header: "activated",
-        size: 150,
-      },
-    ],
-    []
-  );
-
-  console.log("Github saving...");
-
+const Table = <TData extends MRT_RowData>({
+  columns,
+  data,
+  ...rest
+}: Props<TData>) => {
   const table = useMaterialReactTable({
-    columns: cols,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    columns,
+    data,
+    ...rest, //accept props to override default table options
   });
 
   return <MaterialReactTable table={table} />;
 };
-
-export default ExampleTable;
+export default Table;

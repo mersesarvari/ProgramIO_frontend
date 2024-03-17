@@ -8,8 +8,11 @@ import { useLogoutMutation } from "../../features/auth/authAPISlice";
 import { logout as LogoutApiCall } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import { GetUser } from "../../features/CookieManager";
 
 const Navbar = () => {
+  const user = GetUser();
+
   const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
@@ -44,9 +47,9 @@ const Navbar = () => {
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">Bonnie Green</span>
+              <span className="block text-sm">{user?.username}</span>
               <span className="block truncate text-sm font-medium">
-                name@flowbite.com
+                {user?.email}
               </span>
             </Dropdown.Header>
             <Dropdown.Item onClick={() => navigate("/dashboard")}>

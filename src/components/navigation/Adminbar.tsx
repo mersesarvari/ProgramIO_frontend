@@ -98,15 +98,6 @@ const Adminbar = () => {
           <SidebarFlowbite.Item href="#" icon={HiUser}>
             Statistics
           </SidebarFlowbite.Item>
-          <SidebarFlowbite.Item href="#" icon={HiShoppingBag}>
-            Products
-          </SidebarFlowbite.Item>
-          <SidebarFlowbite.Item href="#" icon={HiArrowSmRight}>
-            Sign In
-          </SidebarFlowbite.Item>
-          <SidebarFlowbite.Item href="#" icon={HiTable}>
-            Sign Up
-          </SidebarFlowbite.Item>
         </SidebarFlowbite.ItemGroup>
         <SidebarFlowbite.ItemGroup>
           <SidebarFlowbite.Item href="#" icon={HiChartPie}>
@@ -114,9 +105,6 @@ const Adminbar = () => {
           </SidebarFlowbite.Item>
           <SidebarFlowbite.Item href="#" icon={HiViewBoards}>
             Documentation
-          </SidebarFlowbite.Item>
-          <SidebarFlowbite.Item href="#" icon={BiBuoy}>
-            Help
           </SidebarFlowbite.Item>
         </SidebarFlowbite.ItemGroup>
       </SidebarFlowbite.Items>
