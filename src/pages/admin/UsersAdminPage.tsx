@@ -14,6 +14,8 @@ type User = {
   activated: boolean;
 };
 
+console.log("UserAdminPage:");
+
 const UsersAdminPage = () => {
   const { data, error, isLoading } = useGetAllUserQuery();
   useEffect(() => {

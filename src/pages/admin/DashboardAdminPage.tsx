@@ -15,6 +15,7 @@ const DashboardAdminPage = () => {
       console.log("TestRefreshToken error:", error);
     }
   };
+  console.log("DashboardAdminPage");
 
   const TestAccessToken = async () => {
     try {
