@@ -2,11 +2,18 @@ import React from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import FloatingComponent from "./FloatingComponent";
 
-const containerStyle = {
+/* const containerStyle = {
   width: "70%",
   height: "90%",
   margin: "auto",
   borderRadius: "25px",
+  border: "2px solid gray",
+}; */
+
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+  margin: "auto",
   border: "2px solid gray",
 };
 
@@ -31,7 +38,7 @@ const GoogleMapReact = () => {
   };
 
   const options = {
-    minZoom: 1.6,
+    minZoom: 1.93,
     restriction: {
       latLngBounds: WORLD_BOUNDS,
       strictBounds: false,
