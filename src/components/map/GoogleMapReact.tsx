@@ -1,83 +1,79 @@
-import React from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import FloatingComponent from "../../components/FloatingComponent";
+"use client";
 
-/* const containerStyle = {
-  width: "70%",
-  height: "90%",
-  margin: "auto",
-  borderRadius: "25px",
-  border: "2px solid gray",
-}; */
+import {
+  APIProvider,
+  Map,
+  useMap,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import type { Marker } from "@googlemaps/markerclusterer";
+import { useEffect, useState, useRef } from "react";
+import trees from "../../data/trees";
+// [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }]
 
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-  margin: "auto",
-  border: "2px solid gray",
-};
+export default function Intro() {
+  return (
+    <div style={{ height: "100%", width: "100%" }}>
+      <APIProvider apiKey={"AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0"}>
+        <Map
+          center={{ lat: 43.64, lng: -79.41 }}
+          defaultZoom={10}
+          mapId={"google-map-script"}
+        >
+          <Markers points={trees} />
+        </Map>
+      </APIProvider>
+    </div>
+  );
+}
 
-const customMarkerStyle = {
-  // CSS properties to customize the marker appearance
-  color: "red",
-  fontWeight: "bold",
-  fontSize: "16px",
-  background: "white", // Add background or border for visual distinction
-  borderRadius: "50%", // Make it a circle
-  padding: "5px", // Add padding around the content
-  boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.2)", // Add subtle shadow
-};
+type Point = google.maps.LatLngLiteral & { key: string };
+type Props = { points: Point[] };
 
-const GoogleMapReact = () => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0",
-  });
-  const [map, setMap] = React.useState(null);
+const Markers = ({ points }: Props) => {
+  const map = useMap();
+  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
+  const clusterer = useRef<MarkerClusterer | null>(null);
 
-  const WORLD_BOUNDS = {
-    north: 85,
-    south: -85,
-    west: -180,
-    east: 180,
+  useEffect(() => {
+    if (!map) return;
+    if (!clusterer.current) {
+      clusterer.current = new MarkerClusterer({ map });
+    }
+  }, [map]);
+
+  useEffect(() => {
+    clusterer.current?.clearMarkers();
+    clusterer.current?.addMarkers(Object.values(markers));
+  }, [markers]);
+
+  const setMarkerRef = (marker: Marker | null, key: string) => {
+    if (marker && markers[key]) return;
+    if (!marker && !markers[key]) return;
+
+    setMarkers((prev) => {
+      if (marker) {
+        return { ...prev, [key]: marker };
+      } else {
+        const newMarkers = { ...prev };
+        delete newMarkers[key];
+        return newMarkers;
+      }
+    });
   };
 
-  const options = {
-    minZoom: 1.93,
-    restriction: {
-      latLngBounds: WORLD_BOUNDS,
-      strictBounds: false,
-    },
-    disableDefaultUI: true,
-    mapTypeId: "roadmap",
-  };
-
-  const onLoad = React.useCallback(function callback(map) {
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
-
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={{ lat: 47.49802433712875, lng: 19.053081835335856 }}
-      zoom={20}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={options}
-    >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
-      <Marker
-        position={{ lat: 47.49802433712875, lng: 19.053081835335856 }}
-        title={"Deák buli"}
-        style={customMarkerStyle}
-      />
-    </GoogleMap>
-  ) : null;
+  return (
+    <>
+      {points.map((point) => (
+        <AdvancedMarker
+          position={point}
+          key={point.key}
+          ref={(marker) => setMarkerRef(marker, point.key)}
+        >
+          <span style={{ fontSize: "2rem" }}>🌳</span>
+        </AdvancedMarker>
+      ))}
+    </>
+  );
 };
-
-export default GoogleMapReact;
