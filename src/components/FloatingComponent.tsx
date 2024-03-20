@@ -6,17 +6,25 @@ const FloatingComponent = () => {
       style={{
         position: "fixed",
         bottom: 0,
-        width: "600px",
+        left: "50%",
+        top: "80%",
+        transform: "translateX(-50%)",
+        width: "800px",
         height: "150px",
-        backgroundColor: "blue",
+        backgroundColor: "#282a36", // Dracula background color
         padding: "10px",
         textAlign: "center",
         zIndex: 999, // Set a higher z-index
-        color: "white",
+        color: "#f8f8f2", // Dracula text color
         borderRadius: "20px",
       }}
     >
       <p>This is a floating component at the bottom of the screen</p>
+      <input
+        type="text"
+        placeholder="Type here"
+        className="input input-bordered w-full max-w-xs"
+      />
     </div>
   );
 };

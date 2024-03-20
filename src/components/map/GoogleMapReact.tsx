@@ -1,6 +1,6 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import FloatingComponent from "./FloatingComponent";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import FloatingComponent from "../../components/FloatingComponent";
 
 /* const containerStyle = {
   width: "70%",
@@ -17,10 +17,15 @@ const containerStyle = {
   border: "2px solid gray",
 };
 
-// Center the map on Japan
-const center = {
-  lat: 36.2048,
-  lng: 138.2529,
+const customMarkerStyle = {
+  // CSS properties to customize the marker appearance
+  color: "red",
+  fontWeight: "bold",
+  fontSize: "16px",
+  background: "white", // Add background or border for visual distinction
+  borderRadius: "50%", // Make it a circle
+  padding: "5px", // Add padding around the content
+  boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.2)", // Add subtle shadow
 };
 
 const GoogleMapReact = () => {
@@ -48,11 +53,6 @@ const GoogleMapReact = () => {
   };
 
   const onLoad = React.useCallback(function callback(map) {
-    const japanBounds = new window.google.maps.LatLngBounds(
-      new window.google.maps.LatLng(20.0, 122.93457), // Southwest corner of Japan
-      new window.google.maps.LatLng(45.551483, 153.986672) // Northeast corner of Japan
-    );
-    map.fitBounds(japanBounds);
     setMap(map);
   }, []);
 
@@ -63,14 +63,19 @@ const GoogleMapReact = () => {
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
+      center={{ lat: 47.49802433712875, lng: 19.053081835335856 }}
+      zoom={20}
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={options}
     >
       {/* Child components, such as markers, info windows, etc. */}
       <></>
+      <Marker
+        position={{ lat: 47.49802433712875, lng: 19.053081835335856 }}
+        title={"Deák buli"}
+        style={customMarkerStyle}
+      />
     </GoogleMap>
   ) : null;
 };
