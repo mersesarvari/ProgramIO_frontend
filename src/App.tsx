@@ -21,7 +21,7 @@ export const Logout = () => {
 
 const App = () => {
   return (
-    <div id="App" className="flex flex-col h-screen">
+    <div id="App">
       <Router>
         <Routes>
           {/* Protected routes */}

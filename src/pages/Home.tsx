@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <>
       <OptionBar value={activeView} setValue={setActiveView} />
-      <div className="flex h-full">{renderPage(activeView)}</div>
+      {renderPage(activeView)}
     </>
   );
 };

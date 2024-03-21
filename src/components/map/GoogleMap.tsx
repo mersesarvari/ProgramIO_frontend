@@ -86,21 +86,23 @@ const GoogleMap = () => {
   };
   return (
     <APIProvider apiKey="AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0">
-      <div style={{ height: "100%", width: "100%" }}>
-        <Map
-          defaultZoom={12}
-          defaultCenter={position}
-          minZoom={1.93}
-          mapId={"9298a4530532565e"}
-          restriction={{
-            latLngBounds: WORLD_BOUNDS,
-            strictBounds: false,
-          }}
-          disableDefaultUI={true}
-          mapTypeId={"roadmap"}
-        >
-          <Markers points={exampleData} />
-        </Map>
+      <div className="parent-container h-full flex">
+        <div className="child-div flex-1">
+          <Map
+            defaultZoom={12}
+            defaultCenter={position}
+            minZoom={1.93}
+            mapId={"9298a4530532565e"}
+            restriction={{
+              latLngBounds: WORLD_BOUNDS,
+              strictBounds: false,
+            }}
+            disableDefaultUI={true}
+            mapTypeId={"roadmap"}
+          >
+            <Markers points={exampleData} />
+          </Map>
+        </div>
       </div>
     </APIProvider>
   );

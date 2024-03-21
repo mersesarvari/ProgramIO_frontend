@@ -31,7 +31,10 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="h-10 navbar bg-base-100" style={{ height: "10px" }}>
+    <div
+      className="h-10 navbar bg-base-100"
+      style={{ height: "10px", zIndex: 999, position: "fixed" }}
+    >
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">eventIO</a>
       </div>
