@@ -33,22 +33,22 @@ const OptionBar = () => {
   return (
     <div
       style={{
-        paddingTop: "100px",
+        marginTop: "50%",
         zIndex: 999,
         position: "fixed",
         left: "50%",
         transform: "translateX(-50%)",
       }}
     >
-      <div role="tablist" className="tabs tabs-boxed" style={{}}>
-        <a role="tab" className="tab">
-          Tab 1
+      <div role="tablist" className="tabs tabs-boxed">
+        <a role="tab" className="tab" style={{ width: "150px" }}>
+          List view
         </a>
-        <a role="tab" className="tab tab-active">
-          Tab 2
+        <a role="tab" className="tab tab-active" style={{ width: "150px" }}>
+          Map view
         </a>
-        <a role="tab" className="tab">
-          Tab 3
+        <a role="tab" className="tab" style={{ width: "150px" }}>
+          AI
         </a>
       </div>
     </div>

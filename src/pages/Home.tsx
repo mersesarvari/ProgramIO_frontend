@@ -11,7 +11,7 @@ const Home = () => {
         {/* <Sidebar /> */}
 
         <GoogleMap />
-        <FloatingComponent />
+        {/* <FloatingComponent /> */}
       </div>
     </>
   );

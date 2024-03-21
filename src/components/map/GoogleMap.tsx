@@ -64,7 +64,11 @@ const Markers: React.FC<MarkerProps> = ({ points }) => {
     <>
       {points.map((point) => (
         <AdvancedMarker position={point} key={point.key}>
-          <span style={{ fontSize: "5rem" }}>🎉</span>
+          {/* <span style={{ fontSize: "5rem" }}>🎉</span> */}
+          <img
+            src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg"
+            style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+          ></img>
         </AdvancedMarker>
       ))}
     </>
@@ -87,7 +91,7 @@ const GoogleMap = () => {
           defaultZoom={12}
           defaultCenter={position}
           minZoom={1.93}
-          mapId={"google-map-script"}
+          mapId={"9298a4530532565e"}
           restriction={{
             latLngBounds: WORLD_BOUNDS,
             strictBounds: false,
