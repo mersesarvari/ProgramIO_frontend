@@ -10,9 +10,12 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { GetUser } from "../../features/CookieManager";
 
-const OptionBar = () => {
-  const user = GetUser();
+type OptionBarProps = {
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+};
 
+const OptionBar: React.FC<OptionBarProps> = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
@@ -33,7 +36,7 @@ const OptionBar = () => {
   return (
     <div
       style={{
-        marginTop: "50%",
+        marginTop: "88vh",
         zIndex: 999,
         position: "fixed",
         left: "50%",
@@ -41,13 +44,34 @@ const OptionBar = () => {
       }}
     >
       <div role="tablist" className="tabs tabs-boxed">
-        <a role="tab" className="tab" style={{ width: "150px" }}>
+        <a
+          role="tab"
+          onClick={() => {
+            setValue(0);
+          }}
+          className={`tab ${value === 0 ? "tab-active" : ""}`}
+          style={{ width: "150px" }}
+        >
           List view
         </a>
-        <a role="tab" className="tab tab-active" style={{ width: "150px" }}>
+        <a
+          role="tab"
+          onClick={() => {
+            setValue(1);
+          }}
+          className={`tab ${value === 1 ? "tab-active" : ""}`}
+          style={{ width: "150px" }}
+        >
           Map view
         </a>
-        <a role="tab" className="tab" style={{ width: "150px" }}>
+        <a
+          role="tab"
+          onClick={() => {
+            setValue(2);
+          }}
+          className={`tab ${value === 2 ? "tab-active" : ""}`}
+          style={{ width: "150px" }}
+        >
           AI
         </a>
       </div>
