@@ -1,13 +1,13 @@
 import Sidebar from "../components/navigation/Sidebar";
-import Intro from "../components/map/GoogleMapReact";
 import FloatingComponent from "../components/FloatingComponent";
+import GoogleMap from "../components/map/GoogleMap";
 
 const Home = () => {
   return (
     <>
       <div className="flex h-full">
         <Sidebar />
-        <Intro />
+        <GoogleMap />
         <FloatingComponent />
       </div>
     </>
