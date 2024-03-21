@@ -11,7 +11,7 @@ const FloatingComponent = () => {
         transform: "translateX(-50%)",
         width: "800px",
         height: "150px",
-        backgroundColor: "#282a36", // Dracula background color
+        backgroundColor: "rgba(40, 42, 54, 0.9)",
         padding: "10px",
         textAlign: "center",
         zIndex: 999, // Set a higher z-index
