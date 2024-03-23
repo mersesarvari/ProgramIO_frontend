@@ -1,9 +1,11 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Datepicker } from "flowbite-react";
 import { setKey, geocode, RequestType } from "react-geocode";
 import TextField from "../../components/fields/TextField";
 import SelectField from "../../components/fields/SelectField";
+import DatePickerField from "../../components/fields/DatePickerField";
+import TextAreaField from "../../components/fields/TextAreaField";
+import NumberField from "../../components/fields/NumberField";
 
 function GetGeocode(address: string) {
   setKey("AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0");
@@ -41,9 +43,8 @@ const CreateEvent = () => {
         onSubmit={handleSubmit}
       >
         <Form className="max-w-lg mx-auto">
-          {/* name */}
-          {/* description */}
           <div className="grid grid-cols-8 gap-4">
+            {/* name */}
             <div className="mb-5 col-span-3">
               <TextField
                 id="name"
@@ -67,121 +68,40 @@ const CreateEvent = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="md-5">
               <SelectField
-                id={"country"}
-                name="country"
-                label="Country"
-                options={["Arabia", "USA", "Hungary"]}
+                id={"type"}
+                name="pype"
+                label="Type"
+                options={["Party", "Concert", "Pub"]}
                 placeholder={""}
               />
             </div>
 
             <div className="mb-5">
-              <label
-                htmlFor="date"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Event date
-              </label>
-              {/* <div>
-                <Datepicker
-                  onSelectedDateChanged={(selectedDate) => {
-                    console.log("Cahnging?");
-                    console.log("SelectedDate:", selectedDate);
-                  }}
-                />
-              </div> */}
-              <Field name="date" id="date">
-                {({ field, form }) => (
-                  <Datepicker
-                    {...field}
-                    selected={field.value || null}
-                    onSelectedDateChanged={(selectedDate) =>
-                      form.setFieldValue(
-                        "date",
-                        selectedDate.toLocaleDateString()
-                      )
-                    }
-                  />
-                )}
-              </Field>
-              <ErrorMessage
-                name="date"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+              <DatePickerField name="date" id="date" label="Date" />
             </div>
           </div>
           {/* long description */}
           <div className="mb-5">
-            <label
-              htmlFor="long_description"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Long description
-            </label>
-            <Field name="long_description">
-              {({ field, form, meta }) => (
-                <div>
-                  <textarea
-                    {...field}
-                    rows={8}
-                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none"
-                    placeholder="Write down what your event is about"
-                  ></textarea>
-                  {meta.touched && meta.error && (
-                    <div className="error">{meta.error}</div>
-                  )}
-                </div>
-              )}
-            </Field>
-            <ErrorMessage
-              name="long_description"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
+            <TextAreaField name="long_description" label="Long Description" />
           </div>
-          {/* country */}
-          {/* state */}
+
           <div className="grid grid-cols-2 gap-4">
             <div className="mb-5">
-              <label
-                htmlFor="country"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Country
-              </label>
-              <Field
-                type="text"
+              {/* country */}
+              <SelectField
+                name="country"
                 id="country"
-                name="country"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="Enited States"
-              />
-              <ErrorMessage
-                name="country"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="Country"
+                options={["US", "CA"]}
               />
             </div>
             <div className="mb-5">
-              <label
-                htmlFor="state"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                State
-              </label>
-              <Field
-                type="text"
+              {/* state */}
+              <TextField
+                name="state"
                 id="state"
-                name="state"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="State"
-                required
-              />
-              <ErrorMessage
-                name="state"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="State"
+                placeholder="Pest"
               />
             </div>
           </div>
@@ -189,67 +109,29 @@ const CreateEvent = () => {
           {/* postal code */}
           <div className="grid grid-cols-2 gap-4">
             <div className="mb-5">
-              <label
-                htmlFor="city"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                City
-              </label>
-              <Field
-                type="text"
+              <TextField
+                name="city"
                 id="city"
-                name="city"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="Enited States"
-                required
-              />
-              <ErrorMessage
-                name="city"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="City"
+                placeholder="Budapest"
               />
             </div>
 
             <div className="mb-5">
-              <label
-                htmlFor="zipcode"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                ZIP/Postal code
-              </label>
-              <Field
-                type="number"
+              <NumberField
+                name="zipcode"
                 id="zipcode"
-                name="zipcode"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                required
-              />
-              <ErrorMessage
-                name="zipcode"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="Postal / Zip code"
               />
             </div>
           </div>
           {/* Street */}
           <div className="mb-5">
-            <label
-              htmlFor="street"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Street
-            </label>
-            <Field
-              type="text"
+            <TextField
+              name="street"
               id="street"
-              name="street"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-              required
-            />
-            <ErrorMessage
-              name="street"
-              component="div"
-              className="text-red-500 text-sm mt-1"
+              label="Street"
+              placeholder="Pest"
             />
           </div>
           <button

@@ -1,20 +1,20 @@
 import { ErrorMessage, Field } from "formik";
 
-export type TextFieldProps = {
-  name?: string;
+export type NumberFieldProps = {
+  name: string;
   id?: string;
-  placeholder?: string;
   label?: string;
+  placeholder?: string;
 };
 
-const TextField: React.FC<TextFieldProps> = ({
+const NumberField: React.FC<NumberFieldProps> = ({
   name,
   id,
-  placeholder,
   label,
+  placeholder,
 }) => {
   return (
-    <div>
+    <div className="md-5">
       {label ? (
         <label
           htmlFor={id ? id : ""}
@@ -24,15 +24,15 @@ const TextField: React.FC<TextFieldProps> = ({
         </label>
       ) : null}
       <Field
-        type="text"
+        type="number"
+        placeholder={placeholder ? placeholder : "null"}
         id={id ? id : ""}
         name={name ? name : ""}
         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-        placeholder={placeholder ? placeholder : ""}
       />
       {name ? (
         <ErrorMessage
-          name={name}
+          name={name ? name : ""}
           component="div"
           className="text-red-500 text-sm mt-1"
         />
@@ -41,4 +41,4 @@ const TextField: React.FC<TextFieldProps> = ({
   );
 };
 
-export default TextField;
+export default NumberField;
