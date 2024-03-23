@@ -9,7 +9,7 @@ export type SelectFieldProps = {
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({
-  name,
+  name = "",
   id,
   placeholder,
   label,

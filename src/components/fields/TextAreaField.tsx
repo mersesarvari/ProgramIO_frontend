@@ -9,7 +9,7 @@ export type TextFieldProps = {
 };
 
 const DatePickerField: React.FC<TextFieldProps> = ({
-  name,
+  name = "",
   id,
   label,
   size,

@@ -5,13 +5,15 @@ export type TextFieldProps = {
   id?: string;
   placeholder?: string;
   label?: string;
+  type?: string;
 };
 
 const TextField: React.FC<TextFieldProps> = ({
-  name,
+  name = "",
   id,
   placeholder,
   label,
+  type = "text",
 }) => {
   return (
     <div>
@@ -24,7 +26,7 @@ const TextField: React.FC<TextFieldProps> = ({
         </label>
       ) : null}
       <Field
-        type="text"
+        type={type}
         id={id ? id : ""}
         name={name ? name : ""}
         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -32,7 +34,7 @@ const TextField: React.FC<TextFieldProps> = ({
       />
       {name ? (
         <ErrorMessage
-          name={name}
+          name={name ? name : ""}
           component="div"
           className="text-red-500 text-sm mt-1"
         />

@@ -8,7 +8,7 @@ export type DatePickerFieldProps = {
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = ({
-  name,
+  name = "",
   id,
   label,
 }) => {

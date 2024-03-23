@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import { useLoginMutation } from "../../features/auth/authAPISlice";
 import Cookies from "js-cookie";
+import { ToggleSwitch } from "flowbite-react";
+import TextField from "../../components/fields/TextField";
 
 interface LoginFormValues {
   email: string;
@@ -65,45 +67,25 @@ const LoginPage: React.FC = () => {
         >
           <Form>
             <div className="mb-5">
-              <label
-                htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Your email
-              </label>
-              <Field
-                type="email"
-                id="email"
-                placeholder="email@gmail.com"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
+              <TextField
                 name="email"
+                id="email"
+                placeholder="email"
+                label="Email"
               />
-              <ErrorMessage name="email" component="div" />
             </div>
             <div className="mb-5">
-              <label
-                htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Your password
-              </label>
-              <Field
-                type="password"
-                id="password"
+              <TextField
                 name="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
+                id="password"
+                placeholder="password"
+                label="Password"
+                type="password"
               />
-              <ErrorMessage name="password" component="div" />
             </div>
             <div className="mb-5">
               <div className="flex items-start">
                 <div className="flex items-center h-5">
-                  {/* <Checkbox
-                    id="remember"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                  /> */}
                   <ToggleSwitch
                     checked={isRemember}
                     label="Remember my account"

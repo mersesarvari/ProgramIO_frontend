@@ -8,7 +8,7 @@ export type NumberFieldProps = {
 };
 
 const NumberField: React.FC<NumberFieldProps> = ({
-  name,
+  name = "",
   id,
   label,
   placeholder,
