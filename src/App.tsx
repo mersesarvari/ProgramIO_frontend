@@ -14,6 +14,7 @@ import Sidebar from "./components/navigation/Sidebar";
 import DashboardAdminPage from "./pages/admin/DashboardAdminPage";
 import UsersAdminPage from "./pages/admin/UsersAdminPage";
 import NewEventPage from "./pages/event/NewEventPage";
+import EventSinglePage from "./pages/event/EventSinglePage";
 
 export const Logout = () => {
   console.log("[Client]:", "Succesfully logged out from the application");
@@ -29,6 +30,7 @@ const App = () => {
           <Route element={<LoggedInRoutes />}>
             <Route path="/" element={<Home />} />
             <Route path="/new-event" element={<NewEventPage />} />
+            <Route path="/event/:id" element={<EventSinglePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/side" element={<Sidebar />} />
           </Route>

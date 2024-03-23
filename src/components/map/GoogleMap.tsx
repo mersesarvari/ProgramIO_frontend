@@ -46,7 +46,7 @@ const GoogleMap = () => {
   };
   return data && !isLoading ? (
     <APIProvider apiKey="AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0">
-      <div style={{ height: "100vh", width: "100vw" }}>
+      <div style={{ height: "103vh" }}>
         <Map
           defaultZoom={12}
           defaultCenter={position}

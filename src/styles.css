@@ -12,6 +12,9 @@ html,
   height: 100%;
 }
 
-/* .App {
-  height: 100vh;
-} */
+.scroll-container {
+  width: 100%; /* Set your desired width */
+  height: 100%; /* Set your desired height */
+  overflow-y: scroll; /* Always show scrollbar, even when not needed */
+  scrollbar-color: #aaa #eee; /* Color of the scrollbar thumb and track */
+}

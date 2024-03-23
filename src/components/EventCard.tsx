@@ -1,48 +1,41 @@
 import { Rating } from "flowbite-react";
 import { isWithinInterval, subDays, addDays } from "date-fns";
-
-export type EventCard = {
-  name: string;
-  title: string;
-  description: string;
-  new?: boolean;
-  rating?: number;
-  imageURL: string;
-  id: string;
-};
+import AlertIcon from "./icons/AlertIcon";
+import { useNavigate } from "react-router-dom";
+import { EventType } from "../features/events/eventAPISlice";
 
 export interface EventCardProps {
-  eventItem: EventCardProps;
+  eventItem: EventType;
 }
 
 const isEventNew = (_eventDate) => {
   const eventDate = new Date(_eventDate);
   const fiveDaysAgo = subDays(new Date(), 5);
-  console.log("Five days ago", fiveDaysAgo);
   if (
     isWithinInterval(eventDate, {
       start: fiveDaysAgo,
       end: addDays(new Date(), 5),
     })
   ) {
-    console.log("Az esemény az elmúlt 5 napban történt.");
     return true;
   } else {
-    console.log("Az esemény nem az elmúlt 5 napban történt.");
     return false;
   }
 };
 
 const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
-  {
-    console.log(eventItem);
-  }
+  const navigate = useNavigate();
   return (
     <div
-      className="card-compact w-90 px-8 sm:px-2 xl:px-4
-    "
+      className="card-compact w-90 px-8 sm:px-2 xl:px-4"
+      style={{ position: "relative" }}
+      onClick={() => {
+        console.log(`Navigating to: /home/${eventItem._id}`);
+        navigate(`/event/${eventItem._id}`);
+      }}
     >
       <figure className="pt-10 h-200">
+        {/* NEW BADGE */}
         {isEventNew(eventItem.create_date) ? (
           <div
             className="badge badge-success gap-2"
@@ -50,13 +43,17 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
               zIndex: 1000,
               position: "absolute",
               marginTop: "10px",
-              marginLeft: "10px",
+              marginLeft: "12px",
               fontWeight: "bold",
+              color: "white",
+              border: "1px solid white",
             }}
           >
             NEW
           </div>
         ) : null}
+
+        <AlertIcon />
         <img
           src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg"
           alt="Shoes"

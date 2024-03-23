@@ -36,8 +36,8 @@ const OptionBar: React.FC<OptionBarProps> = ({ value, setValue }) => {
   return (
     <div
       style={{
-        marginTop: "88vh",
         zIndex: 999,
+        bottom: "20px",
         position: "fixed",
         left: "50%",
         transform: "translateX(-50%)",
@@ -50,9 +50,9 @@ const OptionBar: React.FC<OptionBarProps> = ({ value, setValue }) => {
             setValue(0);
           }}
           className={`tab ${value === 0 ? "tab-active" : ""}`}
-          style={{ width: "150px" }}
+          style={{ width: "100px" }}
         >
-          List view
+          LIST
         </a>
         <a
           role="tab"
@@ -60,19 +60,9 @@ const OptionBar: React.FC<OptionBarProps> = ({ value, setValue }) => {
             setValue(1);
           }}
           className={`tab ${value === 1 ? "tab-active" : ""}`}
-          style={{ width: "150px" }}
+          style={{ width: "100px" }}
         >
-          Map view
-        </a>
-        <a
-          role="tab"
-          onClick={() => {
-            setValue(2);
-          }}
-          className={`tab ${value === 2 ? "tab-active" : ""}`}
-          style={{ width: "150px" }}
-        >
-          AI
+          MAP
         </a>
       </div>
     </div>
