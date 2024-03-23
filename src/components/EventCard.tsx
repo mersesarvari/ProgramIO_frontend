@@ -29,10 +29,6 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
     <div
       className="card-compact w-90 px-8 sm:px-2 xl:px-4"
       style={{ position: "relative" }}
-      onClick={() => {
-        console.log(`Navigating to: /home/${eventItem._id}`);
-        navigate(`/event/${eventItem._id}`);
-      }}
     >
       <figure className="pt-10 h-200">
         {/* NEW BADGE */}
@@ -58,6 +54,10 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
           src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg"
           alt="Shoes"
           className="rounded-xl"
+          onClick={() => {
+            console.log(`Navigating to: /home/${eventItem._id}`);
+            navigate(`/event/${eventItem._id}`);
+          }}
         />
       </figure>
       <div className="card-body items-left text-left">
