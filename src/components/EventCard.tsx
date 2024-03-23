@@ -1,5 +1,5 @@
 import { Rating } from "flowbite-react";
-import { isWithinInterval, subDays } from "date-fns";
+import { isWithinInterval, subDays, addDays } from "date-fns";
 
 export type EventCard = {
   name: string;
@@ -15,10 +15,16 @@ export interface EventCardProps {
   eventItem: EventCardProps;
 }
 
-const isEventNew = (event) => {
-  const eventDate = new Date(event.create_date);
+const isEventNew = (_eventDate) => {
+  const eventDate = new Date(_eventDate);
   const fiveDaysAgo = subDays(new Date(), 5);
-  if (isWithinInterval(eventDate, { start: fiveDaysAgo, end: new Date() })) {
+  console.log("Five days ago", fiveDaysAgo);
+  if (
+    isWithinInterval(eventDate, {
+      start: fiveDaysAgo,
+      end: addDays(new Date(), 5),
+    })
+  ) {
     console.log("Az esemény az elmúlt 5 napban történt.");
     return true;
   } else {
