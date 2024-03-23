@@ -36,7 +36,9 @@ const Navbar = () => {
       style={{ height: "10px", zIndex: 999, position: "fixed" }}
     >
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">eventIO</a>
+        <a href="/" className="btn btn-ghost text-xl">
+          eventIO
+        </a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">

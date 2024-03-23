@@ -13,6 +13,7 @@ import { AdminRoutes, LoggedInRoutes, LoggedOutRoutes } from "./CustomRoutes";
 import Sidebar from "./components/navigation/Sidebar";
 import DashboardAdminPage from "./pages/admin/DashboardAdminPage";
 import UsersAdminPage from "./pages/admin/UsersAdminPage";
+import CreateEvent from "./pages/event/CreateEvent";
 
 export const Logout = () => {
   console.log("[Client]:", "Succesfully logged out from the application");
@@ -27,6 +28,7 @@ const App = () => {
           {/* Protected routes */}
           <Route element={<LoggedInRoutes />}>
             <Route path="/" element={<Home />} />
+            <Route path="/new-event" element={<CreateEvent />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/side" element={<Sidebar />} />
           </Route>
