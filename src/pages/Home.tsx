@@ -1,12 +1,12 @@
 import { useState } from "react";
 import OptionBar from "../components/navigation/OptionBar";
 import MapPage from "./MapPage";
-import ListPage from "./ListPage";
+import EventListPage from "./event/EventListPage";
 
 const renderPage = (activeView: number) => {
   switch (activeView) {
     case 0:
-      return <ListPage />;
+      return <EventListPage />;
     case 1:
       return <MapPage />;
     case 2:

@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ interface LoginFormValues {
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
   const [isRemember, setRemember] = useState(false);
 
   const initialValues: LoginFormValues = {

@@ -1,38 +1,49 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { setKey, geocode, RequestType } from "react-geocode";
 import TextField from "../../components/fields/TextField";
 import SelectField from "../../components/fields/SelectField";
 import DatePickerField from "../../components/fields/DatePickerField";
 import TextAreaField from "../../components/fields/TextAreaField";
 import NumberField from "../../components/fields/NumberField";
+import {
+  EventType,
+  useCreateEventMutation,
+} from "../../features/events/eventAPISlice";
+import { GetGeocode } from "../../features/google-map/google-map-functions";
 
-function GetGeocode(address: string) {
-  setKey("AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0");
-  geocode(RequestType.ADDRESS, address)
-    .then(({ results }) => {
-      const { lat, lng } = results[0].geometry.location;
-      console.log("Geolocation results: ", results[0]);
-      console.log(lat, lng);
-    })
-    .catch(console.error);
-}
-
-const CreateEvent = () => {
+const NewEventPage = () => {
+  const [create] = useCreateEventMutation();
   const initialValues = {
     city: "",
     zipcode: 0,
     street: "",
     date: "",
+    country: "",
   };
 
   const validationSchema = Yup.object({});
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     console.log("[CreateEvent]: event creation", values);
-    GetGeocode(
+    const result = await GetGeocode(
       `${values.country} ${values.state} ${values.zipcode} ${values.city} ${values.street}`
     );
+    if (!result) console.log("Error address cannot be found");
+    //TODO: Sending data to the server
+    values.address = result;
+    const CreateEventRequestObject: EventType = {
+      name: values.name,
+      description: values.description,
+      long_description: values.long_description,
+      type: values.type,
+      date: values.date,
+      address: values.address,
+    };
+    console.log("Event setup completed:", CreateEventRequestObject);
+    const createResult = await create(CreateEventRequestObject);
+    console.log(createResult);
+
+    //console.log("Address:", address);
   };
 
   return (
@@ -63,19 +74,17 @@ const CreateEvent = () => {
               />
             </div>
           </div>
-          {/* type */}
-          {/* date */}
           <div className="grid grid-cols-2 gap-4">
+            {/* type */}
             <div className="md-5">
               <SelectField
-                id={"type"}
-                name="pype"
+                id="type"
+                name="type"
                 label="Type"
                 options={["Party", "Concert", "Pub"]}
-                placeholder={""}
               />
             </div>
-
+            {/* date */}
             <div className="mb-5">
               <DatePickerField name="date" id="date" label="Date" />
             </div>
@@ -145,4 +154,4 @@ const CreateEvent = () => {
     </div>
   );
 };
-export default CreateEvent;
+export default NewEventPage;

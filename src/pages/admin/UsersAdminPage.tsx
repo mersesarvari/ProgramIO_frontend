@@ -1,12 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef,
-} from "material-react-table";
+import React, { useEffect } from "react";
 import { useGetAllUserQuery } from "../../features/users/usersApiSlice";
-import ExampleTable from "../../components/MaterialTable";
-import Table from "../../components/MaterialTable";
+import Table from "../../components/table/MaterialTable";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
