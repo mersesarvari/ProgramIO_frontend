@@ -98,7 +98,11 @@ const Navbar = () => {
             <li>
               <a>Settings</a>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                Logout();
+              }}
+            >
               <a>Logout</a>
             </li>
           </ul>

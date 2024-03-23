@@ -55,7 +55,7 @@ const RegisterPage = () => {
     }
   };
   return (
-    <div className="mt-40" style={{ paddingLeft: "40%", paddingRight: "40%" }}>
+    <div className="pt-40" style={{ paddingLeft: "40%", paddingRight: "40%" }}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

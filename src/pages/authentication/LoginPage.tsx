@@ -36,12 +36,14 @@ const LoginPage: React.FC = () => {
         email: values.email,
         password: values.password,
       }).unwrap();
+      console.log("User logged in:", user);
       //Remember the user
       if (isRemember) {
         Cookies.set("user", JSON.stringify(user));
       }
       //Dont remember the user
       else {
+        console.log("Dispatch called:, ", user);
         dispatch(setCredentials({ ...user }));
       }
       navigate("/home");
@@ -55,7 +57,7 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <div
-        className="mt-40"
+        className="pt-40"
         style={{ paddingLeft: "40%", paddingRight: "40%" }}
       >
         <Formik

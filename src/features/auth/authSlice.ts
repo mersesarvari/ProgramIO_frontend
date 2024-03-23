@@ -8,13 +8,15 @@ const authSlice = createSlice({
   },
   reducers: {
     setCredentials: (state, action) => {
-      const { user } = action.payload;
+      const user = action.payload;
+
       state.user = {
         username: user.username,
         email: user.email,
         id: user._id,
         role: user.role,
       };
+      console.log("[setCredentials]: ", state.user);
       //state.token = refreshToken;
     },
 
