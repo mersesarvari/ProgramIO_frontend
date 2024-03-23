@@ -1,7 +1,3 @@
-"use client";
-
-import { Avatar, Dropdown, Navbar as NavbarFlowbite } from "flowbite-react";
-import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 //import { logout } from "../features/auth/userSlice";
 import { useLogoutMutation } from "../../features/auth/authAPISlice";

@@ -1,12 +1,10 @@
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import { useLoginMutation } from "../../features/auth/authAPISlice";
-import { selectCurrentUser } from "../../features/auth/authSlice";
-import { Checkbox, ToggleSwitch } from "flowbite-react";
 import Cookies from "js-cookie";
 
 interface LoginFormValues {

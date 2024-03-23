@@ -2,6 +2,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Datepicker } from "flowbite-react";
 import { setKey, geocode, RequestType } from "react-geocode";
+import TextField from "../../components/fields/TextField";
+import SelectField from "../../components/fields/SelectField";
 
 function GetGeocode(address: string) {
   setKey("AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0");
@@ -19,17 +21,8 @@ const CreateEvent = () => {
     city: "",
     zipcode: 0,
     street: "",
+    date: "",
   };
-
-  const CustomTextArea = () => (
-    <textarea
-      id="long_description"
-      name="long_description"
-      rows={8}
-      className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none"
-      placeholder="Write down what your event is about"
-    ></textarea>
-  );
 
   const validationSchema = Yup.object({});
 
@@ -51,46 +44,21 @@ const CreateEvent = () => {
           {/* name */}
           {/* description */}
           <div className="grid grid-cols-8 gap-4">
-            {/* Event name */}
             <div className="mb-5 col-span-3">
-              <label
-                htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Event title
-              </label>
-              <Field
-                type="text"
+              <TextField
                 id="name"
                 name="name"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                 placeholder="event.IO"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="Name"
               />
             </div>
             {/* Event description */}
             <div className="mb-5 col-span-5">
-              <label
-                htmlFor="description"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Event description
-              </label>
-              <input
-                type="text"
+              <TextField
                 id="description"
                 name="description"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="this is the short description of my event"
-              />
-              <ErrorMessage
-                name="description"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                placeholder="describe your event"
+                label="Description"
               />
             </div>
           </div>
@@ -98,27 +66,12 @@ const CreateEvent = () => {
           {/* date */}
           <div className="grid grid-cols-2 gap-4">
             <div className="md-5">
-              <label
-                htmlFor="country"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Select the event type
-              </label>
-              <Field
-                as="select"
-                id="country"
+              <SelectField
+                id={"country"}
                 name="country"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option>United States</option>
-                <option>Canada</option>
-                <option>France</option>
-                <option>Germany</option>
-              </Field>
-              <ErrorMessage
-                name="country"
-                component="div"
-                className="text-red-500 text-sm mt-1"
+                label="Country"
+                options={["Arabia", "USA", "Hungary"]}
+                placeholder={""}
               />
             </div>
 
@@ -129,7 +82,28 @@ const CreateEvent = () => {
               >
                 Event date
               </label>
-              <Datepicker name="date" id="date" />
+              {/* <div>
+                <Datepicker
+                  onSelectedDateChanged={(selectedDate) => {
+                    console.log("Cahnging?");
+                    console.log("SelectedDate:", selectedDate);
+                  }}
+                />
+              </div> */}
+              <Field name="date" id="date">
+                {({ field, form }) => (
+                  <Datepicker
+                    {...field}
+                    selected={field.value || null}
+                    onSelectedDateChanged={(selectedDate) =>
+                      form.setFieldValue(
+                        "date",
+                        selectedDate.toLocaleDateString()
+                      )
+                    }
+                  />
+                )}
+              </Field>
               <ErrorMessage
                 name="date"
                 component="div"
@@ -140,12 +114,26 @@ const CreateEvent = () => {
           {/* long description */}
           <div className="mb-5">
             <label
-              htmlFor="message"
+              htmlFor="long_description"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Long description
             </label>
-            <Field as={CustomTextArea}></Field>
+            <Field name="long_description">
+              {({ field, form, meta }) => (
+                <div>
+                  <textarea
+                    {...field}
+                    rows={8}
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none"
+                    placeholder="Write down what your event is about"
+                  ></textarea>
+                  {meta.touched && meta.error && (
+                    <div className="error">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             <ErrorMessage
               name="long_description"
               component="div"
