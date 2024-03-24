@@ -31,26 +31,28 @@ export const Logout = () => {
 const App = () => {
   return (
     <div id="App">
-      <Router>
-        <Routes>
-          {/* Protected routes */}
-          <Route element={<LoggedInRoutes />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/new-event" element={<NewEventPage />} />
-            <Route path="/event/:id" element={<EventSinglePage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-            <Route path="/side" element={<Sidebar />} />
-          </Route>
-          <Route element={<LoggedOutRoutes />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-          </Route>
-          <Route element={<AdminRoutes />}>
-            <Route path="/admin" element={<DashboardAdminPage />} />
-            <Route path="/admin/users" element={<UsersAdminPage />} />
-          </Route>
-        </Routes>
-      </Router>
+      <React.Suspense>
+        <Router>
+          <Routes>
+            {/* Protected routes */}
+            <Route element={<LoggedInRoutes />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/new-event" element={<NewEventPage />} />
+              <Route path="/event/:id" element={<EventSinglePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="/side" element={<Sidebar />} />
+            </Route>
+            <Route element={<LoggedOutRoutes />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
+            <Route element={<AdminRoutes />}>
+              <Route path="/admin" element={<DashboardAdminPage />} />
+              <Route path="/admin/users" element={<UsersAdminPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </React.Suspense>
     </div>
   );
 };
