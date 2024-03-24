@@ -6,13 +6,13 @@ const AlertIcon = () => {
   return (
     <button
       style={{
-        zIndex: 1000,
+        zIndex: 300,
         position: "absolute",
         color: "white",
         fontSize: "50px",
         width: "30px",
-        top: "12%",
-        left: "80%",
+        top: "2%",
+        left: "85%",
       }}
       onMouseEnter={() => {
         setHovered(true);

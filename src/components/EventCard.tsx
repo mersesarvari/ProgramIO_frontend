@@ -48,7 +48,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
         <div
           className="badge badge-success gap-2"
           style={{
-            zIndex: 1000,
+            zIndex: 500,
             position: "absolute",
             marginTop: "10px",
             marginLeft: "12px",
