@@ -12,7 +12,7 @@ const AlertIcon = () => {
         fontSize: "50px",
         width: "30px",
         top: "12%",
-        left: "85%",
+        left: "80%",
       }}
       onMouseEnter={() => {
         setHovered(true);

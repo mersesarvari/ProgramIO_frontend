@@ -1,4 +1,4 @@
-import Carousel from "../../components/Carousel";
+import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
 import { useGetEventQuery } from "../../features/events/eventAPISlice";
 import { useEffect } from "react";
@@ -41,7 +41,7 @@ const EventSinglePage = () => {
             alt=""
           />
           <div className="col-span-4 row-span-2 h-72 w-full block md:hidden">
-            <Carousel
+            <ImageSlide
               imageURLS={[
                 "https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg",
                 "https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg",

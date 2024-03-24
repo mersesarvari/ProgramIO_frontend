@@ -3,6 +3,8 @@ import { isWithinInterval, subDays, addDays } from "date-fns";
 import AlertIcon from "./icons/AlertIcon";
 import { useNavigate } from "react-router-dom";
 import { EventType } from "../features/events/eventAPISlice";
+import MiniImageSlide from "./MiniImageSlide";
+import { useState } from "react";
 
 export interface EventCardProps {
   eventItem: EventType;
@@ -24,58 +26,66 @@ const isEventNew = (_eventDate) => {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
+  const [isHovered, setHovered] = useState(false);
   const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/event/${eventItem._id}`);
+  };
   return (
     <div
-      className="card-compact w-90 px-8 sm:px-2 xl:px-4"
+      className="card-compact"
       style={{ position: "relative" }}
+      onMouseEnter={() => {
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}
+      onClick={handleClick}
     >
-      <figure className="pt-10 h-200">
-        {/* NEW BADGE */}
-        {isEventNew(eventItem.create_date) ? (
-          <div
-            className="badge badge-success gap-2"
-            style={{
-              zIndex: 1000,
-              position: "absolute",
-              marginTop: "10px",
-              marginLeft: "12px",
-              fontWeight: "bold",
-              color: "white",
-              border: "1px solid white",
-            }}
-          >
-            NEW
-          </div>
-        ) : null}
+      {/* NEW BADGE */}
+      {isEventNew(eventItem.create_date) ? (
+        <div
+          className="badge badge-success gap-2"
+          style={{
+            zIndex: 1000,
+            position: "absolute",
+            marginTop: "10px",
+            marginLeft: "12px",
+            fontWeight: "bold",
+            color: "white",
+            border: "1px solid white",
+          }}
+        >
+          NEW
+        </div>
+      ) : null}
 
-        <AlertIcon />
-        <img
-          src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg"
-          alt="Shoes"
-          className="rounded-xl"
-          onClick={() => {
-            console.log(`Navigating to: /home/${eventItem._id}`);
+      <AlertIcon />
+      <div className="h-60">
+        <MiniImageSlide
+          handleClick={() => {
             navigate(`/event/${eventItem._id}`);
           }}
+          isHovered={isHovered}
+          setHovered={setHovered}
+          imageURLS={[
+            "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg",
+          ]}
         />
-      </figure>
-      <div className="card-body items-left text-left">
-        <div className="px-0 py-0 mt-0">
-          <h2 className="card-title">
-            <div className="items-center w-full font-bold text-gray-900 dark:text-white">
-              {eventItem.name}
-            </div>
-            <Rating className="">
-              <Rating.Star />
-              <p className="mx-1 text-sm font-bold text-gray-900 dark:text-white text-left items-center">
-                {eventItem.rating.toString()}
-              </p>
-            </Rating>
-          </h2>
-          <p>Proba header</p>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-        </div>
+      </div>
+      <div className="card-body items-left text-left px-0 py-0 mt-0">
+        <h2 className="card-title items-center w-full font-bold text-gray-900 dark:text-white">
+          {eventItem.name}
+          <Rating className="">
+            <Rating.Star />
+            <p className="mx-1 text-sm font-bold text-gray-900 dark:text-white text-left items-center">
+              {eventItem.rating.toString()}
+            </p>
+          </Rating>
+        </h2>
+        <p>Proba header</p>
+        <p>If a dog chews shoes whose shoes does he choose?</p>
       </div>
     </div>
   );
