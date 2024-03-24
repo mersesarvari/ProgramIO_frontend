@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useGetEventQuery } from "../../features/events/eventAPISlice";
 import { useEffect } from "react";
-import DatePickerField from "../../components/fields/DatePickerField";
 import { Datepicker } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
-import React from "react";
 import RatingReact from "../../components/RatingReact";
+import GoogleMapSingleMarker from "../../components/map/GoogleMapSingleMarker";
 
 const EventSinglePage = () => {
   const eventId = useParams().id;
@@ -151,6 +150,14 @@ const EventSinglePage = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="col-span-5">
+            <GoogleMapSingleMarker
+              width={"100%"}
+              height={"500px"}
+              defaultZoom={14}
+              event={data}
+            />
           </div>
         </div>
       </div>

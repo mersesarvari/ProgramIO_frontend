@@ -1,4 +1,4 @@
-import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import {
   EventType,
   useGetEventsQuery,
@@ -27,7 +27,21 @@ const Markers: React.FC<MarkerProps> = ({ events }) => {
   );
 };
 
-const GoogleMap = () => {
+type GoogleMapProps = {
+  width?: string;
+  height?: string;
+  defaultZoom?: number;
+  defaultCenter?: { lat: number; lng: number };
+  minZoom?: number;
+};
+
+const GoogleMap: React.FC<GoogleMapProps> = ({
+  width = "auto",
+  height = "103vh",
+  defaultZoom = 2,
+  defaultCenter = { lat: 47.5079, lng: 19.0454 },
+  minZoom = 1.93,
+}) => {
   const { data, error, isLoading } = useGetEventsQuery();
 
   useEffect(() => {
@@ -36,8 +50,6 @@ const GoogleMap = () => {
       console.log("Events loaded:", data);
     }
   }, [data, error]);
-
-  const position = { lat: 47.5079, lng: 19.0454 };
   const WORLD_BOUNDS = {
     north: 85,
     south: -85,
@@ -45,24 +57,22 @@ const GoogleMap = () => {
     east: 180,
   };
   return data && !isLoading ? (
-    <APIProvider apiKey="AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0">
-      <div style={{ height: "103vh" }}>
-        <Map
-          defaultZoom={12}
-          defaultCenter={position}
-          minZoom={1.93}
-          mapId={"9298a4530532565e"}
-          restriction={{
-            latLngBounds: WORLD_BOUNDS,
-            strictBounds: false,
-          }}
-          disableDefaultUI={true}
-          mapTypeId={"roadmap"}
-        >
-          <Markers events={data} />
-        </Map>
-      </div>
-    </APIProvider>
+    <div style={{ height: height, width: width }}>
+      <Map
+        defaultZoom={defaultZoom}
+        defaultCenter={defaultCenter}
+        minZoom={minZoom}
+        mapId={"9298a4530532565e"}
+        restriction={{
+          latLngBounds: WORLD_BOUNDS,
+          strictBounds: false,
+        }}
+        disableDefaultUI={true}
+        mapTypeId={"roadmap"}
+      >
+        <Markers events={data} />
+      </Map>
+    </div>
   ) : null;
 };
 

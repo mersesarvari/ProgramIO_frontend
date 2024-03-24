@@ -2,7 +2,7 @@ import { apiSlice } from "../../app/api/apiSlice";
 import { AddressType } from "../google-map/google-map-functions";
 
 export type EventType = {
-  _id?: string;
+  _id: string;
   name: string;
   description: string;
   long_description: string;
