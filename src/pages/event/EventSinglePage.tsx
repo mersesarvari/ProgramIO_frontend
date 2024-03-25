@@ -6,6 +6,7 @@ import { Datepicker } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
 import RatingReact from "../../components/RatingReact";
 import GoogleMapSingleMarker from "../../components/map/GoogleMapSingleMarker";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 const EventSinglePage = () => {
   const eventId = useParams().id;
@@ -218,12 +219,14 @@ const EventSinglePage = () => {
           </div>
           {/* Google maps Row */}
           <div className="col-span-5">
-            <GoogleMapSingleMarker
-              width={"100%"}
-              height={"500px"}
-              defaultZoom={14}
-              event={data}
-            />
+            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
+              <GoogleMapSingleMarker
+                width={"100%"}
+                height={"500px"}
+                defaultZoom={14}
+                markerPosition={data.address}
+              />
+            </APIProvider>
           </div>
         </div>
       </div>

@@ -1,8 +1,14 @@
+import { APIProvider } from "@vis.gl/react-google-maps";
 import GoogleMap from "../components/map/GoogleMap";
-import OptionBar from "../components/navigation/OptionBar";
 
 const MapPage = () => {
-  return <GoogleMap />;
+  return (
+    <>
+      <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
+        <GoogleMap />
+      </APIProvider>
+    </>
+  );
 };
 
 export default MapPage;

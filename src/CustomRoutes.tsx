@@ -14,7 +14,6 @@ const LoggedInRoutes = () => {
       userCookie = JSON.parse(userCookieString);
     }
     if (user !== null || userCookie !== null) {
-      console.log("Authenticated:", true);
       return true;
     } else return false;
   };
@@ -39,7 +38,6 @@ const LoggedOutRoutes = () => {
       userCookie = JSON.parse(userCookieString);
     }
     if (user !== null || userCookie !== null) {
-      console.log("Authenticated:", true);
       return true;
     } else return false;
   };

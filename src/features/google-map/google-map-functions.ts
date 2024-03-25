@@ -15,12 +15,14 @@ export type AddressType = {
 };
 
 const GetGeocode = async (address: string) => {
-  setKey("AIzaSyBIgQHkge1pDUTdHp_HFzb2QKLiw_8UTG0");
+  await setKey(import.meta.env.VITE_GOOGLE_MAP_API_KEY);
+  console.log("GetGeocode recieved parameter:", address);
   const result = await geocode(RequestType.ADDRESS, address);
-  if (result.status !== 200)
-    console.log("Cannot geolocate the address what you requested");
-  console.log("Results:", result.results[0]);
-  let eventAddress = {} as AddressType;
+  if (result.status !== "OK")
+    console.log("Cannot geolocate the address what you requested", result);
+  if (!result.results[0]) throw new Error("Cannot get address from google map");
+
+  const eventAddress = {} as AddressType;
   eventAddress.formatted_address = result.results[0].formatted_address;
   result.results[0].address_components.map((addressComponent) => {
     addressComponent.types.map((type) => {
@@ -48,7 +50,6 @@ const GetGeocode = async (address: string) => {
     lat: result.results[0].geometry.location.lat,
     lng: result.results[0].geometry.location.lng,
   };
-  console.log("Address found:", eventAddress);
   return eventAddress;
 };
 
