@@ -17,7 +17,6 @@ const authSlice = createSlice({
         role: user.role,
       };
       console.log("[setCredentials]: ", state.user);
-      //state.token = refreshToken;
     },
 
     logout: (state, action) => {
