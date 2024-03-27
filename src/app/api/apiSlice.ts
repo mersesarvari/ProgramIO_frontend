@@ -35,6 +35,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     console.error(
       "[baseQueryWithReauth] : Refresh token was invalid... Logging out..."
     );
+    //removin login data when refresh token is not valid
     Cookies.remove("user");
     api.dispatch(logout({}));
   }
