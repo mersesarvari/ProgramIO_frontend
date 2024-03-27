@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout, setCredentials } from "../../features/auth/authSlice";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const baseURL = "http://localhost:5000/";
 
@@ -13,27 +14,46 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   //If access token token was invalid
   if (result?.error?.status === 430) {
-    console.log("sending request token");
     //Send the refresh token to get new access token
     const refreshResult = await baseQuery("/auth/token", api, extraOptions);
-    console.log("refreshResult", refreshResult);
 
     if (refreshResult?.data) {
       const user = await api.getState().auth.user;
-      //Store the new token //TODO: lehet itt nem kell a USER a
+      //Store the new token
       //api.dispatch(setCredentials({ ...refreshResult.data, user }));
       api.dispatch(setCredentials({ ...user }));
       //retry the original query with new accccess token
       result = await baseQuery(args, api, extraOptions);
     } else {
       //api.dispatch(logout({}));
-      console.error("[baseQueryWithReauth] : something really went wrong");
+      toast.error("🦄 Something really went wrong!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   }
   //If refresh token was invalid
   if (result?.error?.status === 431) {
-    console.error(
-      "[baseQueryWithReauth] : Refresh token was invalid... Logging out..."
+    toast.error(
+      "🦄 Your login session was invalid. The system will log you out!",
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      }
     );
     //removin login data when refresh token is not valid
     Cookies.remove("user");
