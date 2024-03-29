@@ -8,11 +8,16 @@ import {
 import Cookies from "js-cookie";
 import { AdminRoutes, LoggedInRoutes, LoggedOutRoutes } from "./CustomRoutes";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { ToastContainer } from "react-toastify";
 
 const EventSinglePage = React.lazy(
   () => import("./pages/event/EventSinglePage")
 );
 const NewEventPage = React.lazy(() => import("./pages/event/NewEventPage"));
+const EventEditor = React.lazy(() => import("./pages/event/EventEditor"));
+const EventManagerPage = React.lazy(
+  () => import("./pages/event/EventManagerPage")
+);
 const UsersAdminPage = React.lazy(() => import("./pages/admin/UsersAdminPage"));
 const DashboardAdminPage = React.lazy(
   () => import("./pages/admin/DashboardAdminPage")
@@ -32,6 +37,7 @@ export const Logout = () => {
 const App = () => {
   return (
     <div id="App" className="bg-gray-100 p-0 min-h-[100vh]">
+      <ToastContainer position="top-center" />
       <React.Suspense>
         <Router>
           <Routes>
@@ -39,6 +45,8 @@ const App = () => {
             <Route element={<LoggedInRoutes />}>
               <Route path="/" element={<Home />} />
               <Route path="/new-event" element={<NewEventPage />} />
+              <Route path="/event/:id/editor" element={<EventEditor />} />
+              <Route path="/event/dashboard" element={<EventManagerPage />} />
               <Route path="/event/:id" element={<EventSinglePage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/side" element={<Sidebar />} />
@@ -54,6 +62,7 @@ const App = () => {
           </Routes>
         </Router>
       </React.Suspense>
+      <ToastContainer />
     </div>
   );
 };

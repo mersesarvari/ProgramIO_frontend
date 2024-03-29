@@ -26,11 +26,9 @@ const GoogleMapSingleMarker: React.FC<GoogleMapProps> = ({
 
   useEffect(() => {
     if (!map) return;
-    console.log("Trying to set new center");
     map.setCenter(markerPosition);
   }, [markerPosition]);
 
-  console.log("Google map marker coordinate", markerPosition);
   const WORLD_BOUNDS = {
     north: 85,
     south: -85,

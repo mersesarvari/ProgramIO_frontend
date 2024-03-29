@@ -96,6 +96,9 @@ const Navbar = () => {
             <li>
               <a>Settings</a>
             </li>
+            <li>
+              <a href="/event/dashboard">Dashboard</a>
+            </li>
             <li
               onClick={() => {
                 Logout();
