@@ -15,7 +15,8 @@ const LoggedInRoutes = () => {
     }
     if (user !== null || userCookie !== null) {
       return true;
-    } else return false;
+    }
+    return false;
   };
   // Define location type explicitly
   const isAuth = isAuthenticated();
@@ -39,7 +40,8 @@ const LoggedOutRoutes = () => {
     }
     if (user !== null || userCookie !== null) {
       return true;
-    } else return false;
+    }
+    return false;
   };
   // Define location type explicitly
   const isAuth = isAuthenticated();

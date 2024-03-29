@@ -31,7 +31,7 @@ export const Logout = () => {
 
 const App = () => {
   return (
-    <div id="App" className="bg-gray-100 p-0">
+    <div id="App" className="bg-gray-100 p-0 min-h-[100vh]">
       <React.Suspense>
         <Router>
           <Routes>

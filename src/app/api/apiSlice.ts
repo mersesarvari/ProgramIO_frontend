@@ -35,14 +35,13 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        transition: Bounce,
       });
     }
   }
   //If refresh token was invalid
-  if (result?.error?.status === 431) {
+  else if (result?.error?.status === 431) {
     toast.error(
-      "🦄 Your login session was invalid. The system will log you out!",
+      "Your login session was invalid. The system will log you out!",
       {
         position: "top-right",
         autoClose: 5000,
@@ -52,12 +51,25 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        transition: Bounce,
       }
     );
     //removin login data when refresh token is not valid
     Cookies.remove("user");
     api.dispatch(logout({}));
+  }
+  //Default server error handling
+  else {
+    toast.error("🦄 Something really went wrong. Please try again later!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    console.log(result?.error);
   }
   return result;
 };

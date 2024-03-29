@@ -43,7 +43,7 @@ const ImageSlide: React.FC<CarouselProps> = ({ imageURLS }) => {
   return (
     <ReactCarausel slide={false} theme={carouselTheme}>
       {imageURLS.map((url, index) => (
-        <img src={url} alt="..." />
+        <img src={url} alt="..." key={index} />
       ))}
     </ReactCarausel>
   );

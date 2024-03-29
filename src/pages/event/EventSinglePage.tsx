@@ -224,7 +224,7 @@ const EventSinglePage = () => {
                 width={"100%"}
                 height={"500px"}
                 defaultZoom={14}
-                markerPosition={data.address}
+                markerPosition={data.address.coordinate}
               />
             </APIProvider>
           </div>

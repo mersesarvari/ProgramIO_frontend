@@ -3,7 +3,7 @@ import EventCard from "../../components/EventCard";
 import { useGetEventsQuery } from "../../features/events/eventAPISlice";
 
 const renderCards = (data: any[]) => {
-  return data.map((item, index) => <EventCard eventItem={item} />);
+  return data.map((item, index) => <EventCard eventItem={item} key={index} />);
 };
 
 const EventListPage = () => {
