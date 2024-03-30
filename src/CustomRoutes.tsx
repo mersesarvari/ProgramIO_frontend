@@ -1,19 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "./features/auth/authSlice";
 import Cookies from "js-cookie";
 import Navbar from "./components/navigation/Navbar";
 import Adminbar from "./components/navigation/Adminbar";
+import { GetUser } from "./features/CookieManager";
 
 const LoggedInRoutes = () => {
-  const user = useSelector(selectCurrentUser);
+  const user = GetUser();
   const isAuthenticated = () => {
-    const userCookieString = Cookies.get("user");
-    let userCookie = null;
-    if (userCookieString) {
-      userCookie = JSON.parse(userCookieString);
-    }
-    if (user !== null || userCookie !== null) {
+    if (user) {
       return true;
     }
     return false;
@@ -31,14 +25,9 @@ const LoggedInRoutes = () => {
 };
 
 const LoggedOutRoutes = () => {
-  const user = useSelector(selectCurrentUser);
+  const user = GetUser();
   const isAuthenticated = () => {
-    const userCookieString = Cookies.get("user");
-    let userCookie = null;
-    if (userCookieString) {
-      userCookie = JSON.parse(userCookieString);
-    }
-    if (user !== null || userCookie !== null) {
+    if (user) {
       return true;
     }
     return false;
