@@ -23,6 +23,16 @@ export const eventApiSlice = apiSlice.injectEndpoints({
         body: { ...event },
       }),
     }),
+    uploadEventImage: builder.mutation<any, FormData>({
+      query: (formData) => ({
+        url: "/event/new-image",
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
+    }),
     getEvents: builder.query<any, void>({
       query: () => ({
         url: "/event",
@@ -45,7 +55,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useCreateEventMutation,
+  useUploadEventImageMutation,
   useGetEventsQuery,
   useGetEventQuery,
   useGetEventsByUserQuery,

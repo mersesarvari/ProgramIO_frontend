@@ -26,7 +26,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       result = await baseQuery(args, api, extraOptions);
     } else {
       //api.dispatch(logout({}));
-      toast.error("🦄 Something really went wrong!", {
+      toast.error("Something went wrong. Logging out...!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -39,7 +39,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     }
   }
   //If refresh token was invalid
-  else if (result?.error?.status === 431) {
+  if (result?.error?.status === 431) {
     toast.error(
       "Your login session was invalid. The system will log you out!",
       {
@@ -58,8 +58,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     api.dispatch(logout({}));
   }
   //Default server error handling
-  else {
-    toast.error("🦄 Something really went wrong. Please try again later!", {
+  if (result?.error?.status === 400 || result?.error?.status === 404) {
+    toast.error("Something really went wrong. Please try again later!", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

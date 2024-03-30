@@ -1,7 +1,10 @@
 2024.03.27
 
+
+6. PRIO: Lecserélni a redux toolkitet.
 1. Képfeltöltés és tárolás integrációja.
-2. Toast hibaüzenetek beállítása mindenhol.
+2. Toast hibaüzenetek beállítása mindenhol. 
 3. React hookok lecserélése signalra
 4.Fizetés beállítása.
 5. Google maps iconok kezelése.
+

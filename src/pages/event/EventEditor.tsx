@@ -1,6 +1,9 @@
 import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
-import { useGetEventQuery } from "../../features/events/eventAPISlice";
+import {
+  useGetEventQuery,
+  useUploadEventImageMutation,
+} from "../../features/events/eventAPISlice";
 import { useEffect, useRef, useState } from "react";
 import { Datepicker, FileInput, Label } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
@@ -11,11 +14,14 @@ import { Form, Formik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import { convertToWebp } from "image-conversion";
+import axios from "axios";
 
 const EventEditor = () => {
   const eventId = useParams().id;
   const { data, error, isLoading } = useGetEventQuery(eventId);
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [uploadEventImage] = useUploadEventImageMutation();
   const fileInputRef = useRef(null);
 
   //Fetching event data
@@ -33,6 +39,21 @@ const EventEditor = () => {
     // Check if a file was selected
     if (file) {
       const reader = new FileReader();
+      const maxSizeInBytes = 3145728; // 3MB
+      if (file.size > maxSizeInBytes) {
+        toast.error("File size exceeds the maximum allowed size (3MB)");
+        return;
+      }
+
+      // Check file extension
+      const allowedExtensions = ["jpg", "jpeg", "png"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      if (!allowedExtensions.includes(fileExtension)) {
+        toast.error(
+          "Invalid file extension. Allowed extensions: jpg, jpeg, png"
+        );
+        return;
+      }
 
       reader.onload = () => {
         // Append the new preview to the list of previews
@@ -48,6 +69,23 @@ const EventEditor = () => {
           return;
         }
         setUploadedImages((prevImages) => [...prevImages, reader.result]);
+        //Upload file to the server.
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("id", eventId);
+        //const uploadImageResponse = uploadEventImage(formData);
+        const uploadImageResponse = axios.post(
+          "http://localhost:5000/event/new-image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              // Add any other headers if needed
+            },
+            withCredentials: true,
+          }
+        );
+        console.log("Upload:", uploadImageResponse);
       };
 
       // Read the file as a data URL
@@ -68,17 +106,17 @@ const EventEditor = () => {
             {/* IMAGE GRID */}
             <div className="grid gap-3 grid-rows-2 grid-cols-4">
               <img
-                src="https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg"
+                src={uploadedImages[0] ? uploadedImages[0] : data.image}
                 className="h-52 w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
                 alt=""
               />
               <img
-                src="https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg"
+                src={uploadedImages[1] ? uploadedImages[1] : data.image}
                 className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
                 alt=""
               />
               <img
-                src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D"
+                src={uploadedImages[2] ? uploadedImages[2] : data.image}
                 className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
                 alt=""
               />
@@ -146,7 +184,7 @@ const EventEditor = () => {
                       <span className="font-semibold">Click to upload</span>
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                      SVG, PNG, JPG (MAX. 800x400px)
+                      JPEG, PNG, JPG (MAX. 1920x1080px)
                     </p>
                   </div>
                   <FileInput
