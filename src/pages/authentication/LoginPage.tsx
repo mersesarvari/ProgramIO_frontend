@@ -1,11 +1,7 @@
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../../features/auth/authSlice";
-import { useLoginMutation } from "../../features/auth/authAPISlice";
-import Cookies from "js-cookie";
+import { useLoginMutation } from "../../app/api/authApi";
 import { ToggleSwitch } from "flowbite-react";
 import TextField from "../../components/fields/TextField";
 
@@ -15,9 +11,7 @@ interface LoginFormValues {
 }
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  const loginMutation = useLoginMutation();
   const [isRemember, setRemember] = useState(false);
 
   const initialValues: LoginFormValues = {
@@ -32,23 +26,13 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      const user = await login({
+      await loginMutation.mutateAsync({
         email: values.email,
         password: values.password,
-      }).unwrap();
-      console.log("User logged in:", user);
-      //Remember the user
-      if (isRemember) {
-        Cookies.set("user", JSON.stringify(user));
-      }
-      //Dont remember the user
-      else {
-        console.log("Dispatch called:, ", user);
-        dispatch(setCredentials({ ...user }));
-      }
-      navigate("/home");
+        remember: isRemember,
+      });
 
-      //navigate("/home");
+      //
     } catch (error) {
       console.error("Error:", error);
     }

@@ -1,27 +1,18 @@
 import { useNavigate } from "react-router-dom";
-//import { logout } from "../features/auth/userSlice";
-import { useLogoutMutation } from "../../features/auth/authAPISlice";
-import { logout as LogoutApiCall } from "../../features/auth/authSlice";
-import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
-import { GetUser } from "../../features/CookieManager";
+import { useLogoutMutation } from "../../app/api/authApi";
 
 const Navbar = () => {
-  const user = GetUser();
-
   const navigate = useNavigate();
-  const [logout, { isLoading }] = useLogoutMutation();
-  const dispatch = useDispatch();
+  const { mutate } = useLogoutMutation();
+
   const Logout = async () => {
     try {
-      if (!isLoading) {
-        const logoutResponse = await logout({}).unwrap();
-        await dispatch(LogoutApiCall({}));
-        Cookies.remove("user");
-
-        console.log("Logout response:", logoutResponse);
-        navigate("/login");
-      }
+      //const { data, error, isLoading } = logout();
+      mutate();
+      //TODO: removing user data
+      Cookies.remove("user");
+      navigate("/login");
     } catch (error) {
       console.error("Error:", error);
     }
