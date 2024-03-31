@@ -2,6 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import api from "./api";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
 
 type LoginProps = {
   email: string;
@@ -12,6 +14,7 @@ type LoginProps = {
 //LOGIN
 export const useLoginMutation = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useMutation({
     mutationFn: async ({ email, password, remember }: LoginProps) => {
       const axiosResponse = await api.post(
@@ -32,7 +35,9 @@ export const useLoginMutation = () => {
         Cookies.set("user", JSON.stringify(data));
       } else {
         console.log("We don't save login data");
+        console.log("Data:", data);
         //TODO: Save user data to session storage
+        dispatch(setCredentials({ user: data }));
       }
       //Handling user login
       navigate("/home");
