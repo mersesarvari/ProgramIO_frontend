@@ -66,7 +66,7 @@ const EventEditor = () => {
         setUploadedImages((prevImages) => [...prevImages, reader.result]);
         //Upload file to the server.
         const formData = new FormData();
-        formData.append("image", file);
+        formData.append("file", file);
         formData.append("id", eventId);
         //const uploadImageResponse = uploadEventImage(formData);
         await addImage(formData);
