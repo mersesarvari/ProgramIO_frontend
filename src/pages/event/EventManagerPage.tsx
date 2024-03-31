@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import EventCard from "../../components/EventCard";
-import { useGetEventsByUserQuery } from "../../features/events/eventAPISlice";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { useGetAllEventsByUserQuery } from "../../app/api/eventApi";
 
 const renderCards = (data: any[]) => {
   return data.map((item, index) => (
@@ -16,7 +15,7 @@ const renderCards = (data: any[]) => {
 };
 
 const EventManagerPage = () => {
-  const { data, error, isLoading } = useGetEventsByUserQuery();
+  const { data, error, isLoading } = useGetAllEventsByUserQuery();
 
   useEffect(() => {
     if (error) return console.log("Error:", error);

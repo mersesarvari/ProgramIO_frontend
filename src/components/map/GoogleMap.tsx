@@ -1,5 +1,5 @@
 import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
-import { useEventsQuery } from "../../app/api/eventApi";
+import { useGetAllEventsQuery } from "../../app/api/eventApi";
 
 type MarkerProps = {
   events: EventType[];
@@ -39,7 +39,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   minZoom = 1.93,
 }) => {
   //TODO: await implementation
-  const { data, isLoading, error } = useEventsQuery();
+  const { data, isLoading, error } = useGetAllEventsQuery();
 
   const WORLD_BOUNDS = {
     north: 85,

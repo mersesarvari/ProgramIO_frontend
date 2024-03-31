@@ -6,11 +6,11 @@ import Footer from "../../components/navigation/Footer";
 import RatingReact from "../../components/RatingReact";
 import GoogleMapSingleMarker from "../../components/map/GoogleMapSingleMarker";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import { useEventQuery } from "../../app/api/eventApi";
+import { useGetEventQuery } from "../../app/api/eventApi";
 
 const EventSinglePage = () => {
   const eventId = useParams().id;
-  const { data, error, isLoading } = useEventQuery(eventId);
+  const { data, error, isLoading } = useGetEventQuery(eventId);
 
   //Fetching event data
   useEffect(() => {

@@ -4,7 +4,7 @@ import { queryClient } from "../../App";
 import { useNavigate } from "react-router";
 
 //GET-ALL events
-export const useEventsQuery = () => {
+export const useGetAllEventsQuery = () => {
   return useQuery({
     queryKey: ["get-events"],
     queryFn: async () => {
@@ -14,11 +14,21 @@ export const useEventsQuery = () => {
   });
 };
 //GET-ONE event
-export const useEventQuery = (id: string) => {
+export const useGetEventQuery = (id: string) => {
   return useQuery({
     queryKey: ["get-event"],
     queryFn: async () => {
       const axiosResponse = await api.get(`/event/${id}`);
+      return axiosResponse.data;
+    },
+  });
+};
+//GET-ALL-BY-USER
+export const useGetAllEventsByUserQuery = () => {
+  return useQuery({
+    queryKey: ["my-events"],
+    queryFn: async () => {
+      const axiosResponse = await api.get("/event/my-events");
       return axiosResponse.data;
     },
   });
@@ -35,6 +45,23 @@ export const useCreateEventMutation = () => {
       //Reloading the data on successfull creation
       queryClient.invalidateQueries("get-events");
       navigate("/event");
+    },
+  });
+};
+//POST-ONE-IMAGE
+export const useAddImageMutation = () => {
+  return useMutation({
+    mutationFn: async (eventData: FormData) => {
+      const axiosResponse = await api.post("/event/new-image", eventData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for sending form data
+        },
+      });
+      return axiosResponse.data;
+    },
+    onSuccess: async (data) => {
+      //Reloading the data on successfull creation
+      console.log(data);
     },
   });
 };

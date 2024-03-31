@@ -1,9 +1,5 @@
 import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
-import {
-  useGetEventQuery,
-  useUploadEventImageMutation,
-} from "../../features/events/eventAPISlice";
 import { useEffect, useRef, useState } from "react";
 import { Datepicker, FileInput, Label } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
@@ -14,14 +10,13 @@ import { Form, Formik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { convertToWebp } from "image-conversion";
-import axios from "axios";
+import { useAddImageMutation, useGetEventQuery } from "../../app/api/eventApi";
 
 const EventEditor = () => {
   const eventId = useParams().id;
   const { data, error, isLoading } = useGetEventQuery(eventId);
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [uploadEventImage] = useUploadEventImageMutation();
+  const { mutateAsync: addImage } = useAddImageMutation();
   const fileInputRef = useRef(null);
 
   //Fetching event data
@@ -33,7 +28,7 @@ const EventEditor = () => {
     }
   }, [data, error, isLoading]);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0]; // Get the first file from the selected files
 
     // Check if a file was selected
@@ -55,7 +50,7 @@ const EventEditor = () => {
         return;
       }
 
-      reader.onload = () => {
+      reader.onload = async () => {
         // Append the new preview to the list of previews
         if (uploadedImages.length >= 10) {
           console.error("You cannot upload more than 10 images");
@@ -74,18 +69,7 @@ const EventEditor = () => {
         formData.append("image", file);
         formData.append("id", eventId);
         //const uploadImageResponse = uploadEventImage(formData);
-        const uploadImageResponse = axios.post(
-          "http://localhost:5000/event/new-image",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              // Add any other headers if needed
-            },
-            withCredentials: true,
-          }
-        );
-        console.log("Upload:", uploadImageResponse);
+        await addImage(formData);
       };
 
       // Read the file as a data URL
