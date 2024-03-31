@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { logout } from "../../app/api/authApi";
+import { useLogoutMutation } from "../../app/api/authApi";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { mutate } = useLogoutMutation();
 
   const Logout = async () => {
     try {
-      const { data, error, isLoading } = logout();
-
+      //const { data, error, isLoading } = logout();
+      mutate();
       //TODO: removing user data
       Cookies.remove("user");
       navigate("/login");

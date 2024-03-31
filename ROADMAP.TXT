@@ -1,6 +1,6 @@
 2024.03.27
 
-
+!!! REACT_QUERY: https://www.youtube.com/watch?v=r8Dg0KVnfMA
 6. PRIO: Lecserélni a redux toolkitet.
 1. Képfeltöltés és tárolás integrációja.
 2. Toast hibaüzenetek beállítása mindenhol. 

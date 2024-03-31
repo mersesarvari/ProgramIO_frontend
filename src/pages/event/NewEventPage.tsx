@@ -4,13 +4,16 @@ import TextField from "../../components/fields/TextField";
 import SelectField from "../../components/fields/SelectField";
 import DatePickerField from "../../components/fields/DatePickerField";
 import TextAreaField from "../../components/fields/TextAreaField";
-import { useCreateEventMutation } from "../../features/events/eventAPISlice";
 import GoogleMapAutocompleteField from "../../components/fields/GoogleMapAutocompleteField";
 import { useState } from "react";
 import { AddressType } from "../../features/google-map/google-map-functions";
+import { useCreateEventMutation } from "../../app/api/eventApi";
+
+//TODO: Checking what data is nessecary for creating an event on the backend.
+//TODo: If I want to save an address what does not have a state(Tatabánya) the app crashes.
 
 const NewEventPage = () => {
-  const [create] = useCreateEventMutation();
+  const createMutation = useCreateEventMutation();
   const [address, setAddress] = useState<AddressType>();
   const initialValues = {
     address,
@@ -27,7 +30,7 @@ const NewEventPage = () => {
 
   const handleSubmit = async (values: any) => {
     console.log("Values for handling:", values);
-    const createResult = await create(values);
+    await createMutation.mutateAsync(values);
   };
 
   return (

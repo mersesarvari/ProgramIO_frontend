@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
@@ -57,26 +56,4 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-const useApi = (config) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      const response = await api(config);
-      setData(response.data);
-      setError(null);
-    } catch (err) {
-      setError(err);
-      setData(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
-  return { data, error, isLoading };
-};
-export { useApi };
 export default api;

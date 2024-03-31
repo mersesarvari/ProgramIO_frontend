@@ -1,16 +1,16 @@
 import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
-import { useGetEventQuery } from "../../features/events/eventAPISlice";
 import { useEffect } from "react";
 import { Datepicker } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
 import RatingReact from "../../components/RatingReact";
 import GoogleMapSingleMarker from "../../components/map/GoogleMapSingleMarker";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { useEventQuery } from "../../app/api/eventApi";
 
 const EventSinglePage = () => {
   const eventId = useParams().id;
-  const { data, error, isLoading } = useGetEventQuery(eventId);
+  const { data, error, isLoading } = useEventQuery(eventId);
 
   //Fetching event data
   useEffect(() => {
