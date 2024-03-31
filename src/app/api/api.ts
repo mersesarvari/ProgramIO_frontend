@@ -32,6 +32,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshResponse = await api.post("/auth/token", {});
+        console.log("RefreshResponse:", refreshResponse.data);
         return api(originalRequest);
       } catch (refreshError) {
         console.log(
