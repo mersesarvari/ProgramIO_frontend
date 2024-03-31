@@ -2,8 +2,9 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useLoginMutation } from "../../app/api/authApi";
-import { ToggleSwitch } from "flowbite-react";
+import { Checkbox, Label, ToggleSwitch } from "flowbite-react";
 import TextField from "../../components/fields/TextField";
+import { Link } from "react-router-dom";
 
 interface LoginFormValues {
   email: string;
@@ -11,7 +12,7 @@ interface LoginFormValues {
 }
 
 const LoginPage: React.FC = () => {
-  const loginMutation = useLoginMutation();
+  const { mutateAsync: login } = useLoginMutation();
   const [isRemember, setRemember] = useState(false);
 
   const initialValues: LoginFormValues = {
@@ -26,7 +27,7 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      await loginMutation.mutateAsync({
+      await login({
         email: values.email,
         password: values.password,
         remember: isRemember,
@@ -70,13 +71,15 @@ const LoginPage: React.FC = () => {
             <div className="mb-5">
               <div className="flex items-start">
                 <div className="flex items-center h-5">
-                  <ToggleSwitch
-                    checked={isRemember}
-                    label="Remember my account"
-                    onChange={() => {
-                      setRemember(!isRemember);
-                    }}
-                  />
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="agree"
+                      onChange={() => setRemember(!isRemember)}
+                    />
+                    <Label htmlFor="agree" className="flex">
+                      Remember me
+                    </Label>
+                  </div>
                 </div>
               </div>
             </div>

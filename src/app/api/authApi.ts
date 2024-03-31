@@ -3,7 +3,7 @@ import api from "./api";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../slices/authSlice";
+import { logOut, setCredentials } from "../slices/authSlice";
 
 type LoginProps = {
   email: string;
@@ -47,12 +47,18 @@ export const useLoginMutation = () => {
 };
 //LOGOUT
 export const useLogoutMutation = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: async () => {
       const axiosResponse = await api.post("/auth/logout");
       return axiosResponse.data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      console.log("Logging out...");
+      Cookies.remove("user");
+      dispatch(logOut());
+      navigate("/login");
       return data;
     },
   });

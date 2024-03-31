@@ -5,10 +5,9 @@ export function GetUser() {
   const userRedux = useSelector((state) => state?.auth?.user);
   const userCookie = Cookies.get("user");
   try {
-    if (!userRedux && !userCookie)
-      throw new Error("Cannot get user informations from cookie or redux");
-    if (userCookie) {
-      const userObject = JSON.parse(user);
+    if (!userRedux && !userCookie) null;
+    else if (userCookie) {
+      const userObject = JSON.parse(userCookie);
       return userObject;
     } else {
       return userRedux;

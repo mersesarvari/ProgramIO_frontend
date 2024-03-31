@@ -30,11 +30,6 @@ const RegisterPage = React.lazy(
 const LoginPage = React.lazy(() => import("./pages/authentication/LoginPage"));
 const Home = React.lazy(() => import("./pages/Home"));
 
-export const Logout = () => {
-  console.log("[Client]:", "Succesfully logged out from the application");
-  Cookies.remove("user");
-};
-
 export const queryClient = new QueryClient();
 const App = () => {
   return (
