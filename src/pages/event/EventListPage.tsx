@@ -1,32 +1,34 @@
 import EventCard from "../../components/EventCard";
-import { requestApi } from "../../app/api/api";
-import { effect } from "@preact/signals-react";
+import { useApi } from "../../app/api/api";
+import { effect, signal } from "@preact/signals-react";
+import { useState } from "react";
 
-const renderCards = (data: any[]) => {
-  console.log("Card data", data);
-  return data.map((item, index) => <EventCard eventItem={item} key={index} />);
+const renderCards = (events) => {
+  console.log("renderCards called");
+  console.log("Card data", events.value);
+
+  return events.value.map((item, index) => (
+    <EventCard eventItem={item} key={index} />
+  ));
 };
 
 const EventListPage = () => {
-  const { data, error, isLoading } = requestApi({
+  const { data, error, isLoading } = useApi({
     method: "GET",
     url: "http://localhost:5000/event",
   });
 
   effect(() => {
-    if (data.value && !error.value && !isLoading.value) {
-      console.log("Events loaded:", data.value);
-      console.log("IsLoading:", isLoading.value);
-    }
+    console.log("IsLoaDING:", data);
+    return isLoading === false ? (
+      <div className="grid grid-flow-row-dense gap-5 grid-cols-1 auto-rows-max xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 pt-40 xl:px-20 lg:px-10">
+        {renderCards(data)}
+      </div>
+    ) : (
+      <div className="pt-40">Loading</div>
+    );
   });
-
-  return data.value ? (
-    <div className="grid grid-flow-row-dense gap-5 grid-cols-1 auto-rows-max xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 pt-40 xl:px-20 lg:px-10">
-      {renderCards(data.value)}
-    </div>
-  ) : (
-    <div className="pt-40">Loading</div>
-  );
+  //Ez nem igazán frissül, de a szerver vissza adja a data-t elvileg. Valami async probléma van
 };
 
 export default EventListPage;

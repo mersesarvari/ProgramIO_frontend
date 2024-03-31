@@ -1,7 +1,7 @@
-import { requestApi } from "./api";
+import { useApi } from "./api";
 
 const login = (credentials) => {
-  const { data, error, isLoading } = requestApi({
+  const { data, error, isLoading } = useApi({
     method: "POST",
     url: "http://localhost:5000/auth/login",
     data: credentials,
@@ -11,7 +11,7 @@ const login = (credentials) => {
 };
 
 const logout = () => {
-  const { data, error, isLoading } = requestApi({
+  const { data, error, isLoading } = useApi({
     method: "POST",
     url: "http://localhost:5000/auth/logout",
   });

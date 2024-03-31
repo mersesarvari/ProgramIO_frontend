@@ -1,5 +1,5 @@
 import axios from "axios";
-import { effect, signal } from "@preact/signals-react";
+import { useState } from "react";
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
@@ -58,36 +58,25 @@ api.interceptors.response.use(
   }
 );
 
-const requestApi = (config) => {
-  const data = signal(null);
-  const error = signal(null);
-  const isLoading = signal(true);
+const useApi = (config) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
-  effect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios(config);
-        console.log(response.data);
-        data.value = response.data;
-        error.value = null;
-      } catch (error) {
-        error.value = error;
-        data.value = null;
-      } finally {
-        console.log("Isloading set to false");
-        isLoading.value = false;
-      }
-    };
-
-    fetchData();
-
-    // Cleanup function
-    return () => {
-      // Optionally perform cleanup actions
-    };
-  });
-
+  const fetchData = async () => {
+    try {
+      const response = await api(config);
+      setData(response.data);
+      setError(null);
+    } catch (err) {
+      setError(err);
+      setData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
   return { data, error, isLoading };
 };
-export { requestApi };
+export { useApi };
 export default api;
