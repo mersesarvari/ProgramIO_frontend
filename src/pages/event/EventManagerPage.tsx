@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import { useGetAllEventsByUserQuery } from "../../app/api/eventApi";
 
 const renderCards = (data: any[]) => {
+  console.log("card data:", data);
   return data.map((item, index) => (
-    <div>
-      <span>{item.name}</span>
-      <Link to={`/event/${item._id}/editor`}>
+    <div key={item._id + "div"}>
+      <span key={item._id + "span"}>{item.name}</span>
+      <Link to={`/event/${item._id}/editor`} key={item._id}>
         <Button>Edit</Button>
       </Link>
     </div>

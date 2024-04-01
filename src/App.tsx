@@ -5,7 +5,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Cookies from "js-cookie";
 import { AdminRoutes, LoggedInRoutes, LoggedOutRoutes } from "./CustomRoutes";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -43,9 +42,12 @@ const App = () => {
               <Route element={<LoggedInRoutes />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/new-event" element={<NewEventPage />} />
-                <Route path="/event/:id/editor" element={<EventEditor />} />
+                <Route
+                  path="/event/:eventId/editor"
+                  element={<EventEditor />}
+                />
                 <Route path="/event/dashboard" element={<EventManagerPage />} />
-                <Route path="/event/:id" element={<EventSinglePage />} />
+                <Route path="/event/:eventId" element={<EventSinglePage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
                 <Route path="/side" element={<Sidebar />} />
               </Route>

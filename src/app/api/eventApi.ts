@@ -2,6 +2,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "./api";
 import { queryClient } from "../../App";
 import { useNavigate } from "react-router";
+import { AddressType } from "../../features/google-map/google-map-functions";
+
+export type EventType = {
+  _id: string;
+  name: string;
+  description: string;
+  long_description: string;
+  type: string;
+  date: Date;
+  address: AddressType;
+  rating?: number;
+  create_date?: Date;
+  userId?: string;
+  images?: any[];
+};
 
 //GET-ALL events
 export const useGetAllEventsQuery = () => {
@@ -14,11 +29,13 @@ export const useGetAllEventsQuery = () => {
   });
 };
 //GET-ONE event
-export const useGetEventQuery = (id: string) => {
+export const useGetEventQuery = (eventId: string) => {
+  console.log("useGetEventQuery");
+  console.log("useGetEventQuery eventId: ", eventId);
   return useQuery({
     queryKey: ["get-event"],
     queryFn: async () => {
-      const axiosResponse = await api.get(`/event/${id}`);
+      const axiosResponse = await api.get(`/event/${eventId}`);
       return axiosResponse.data;
     },
   });
@@ -45,23 +62,6 @@ export const useCreateEventMutation = () => {
       //Reloading the data on successfull creation
       queryClient.invalidateQueries("get-events");
       navigate("/event");
-    },
-  });
-};
-//POST-ONE-IMAGE
-export const useAddImageMutation = () => {
-  return useMutation({
-    mutationFn: async (eventData: FormData) => {
-      const axiosResponse = await api.post("/event/new-image", eventData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Important for sending form data
-        },
-      });
-      return axiosResponse.data;
-    },
-    onSuccess: async (data) => {
-      //Reloading the data on successfull creation
-      console.log(data);
     },
   });
 };

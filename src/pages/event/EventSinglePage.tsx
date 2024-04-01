@@ -9,7 +9,7 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { useGetEventQuery } from "../../app/api/eventApi";
 
 const EventSinglePage = () => {
-  const eventId = useParams().id;
+  const eventId = useParams().eventId;
   const { data, error, isLoading } = useGetEventQuery(eventId);
 
   //Fetching event data

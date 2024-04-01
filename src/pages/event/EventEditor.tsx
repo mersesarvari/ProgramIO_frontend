@@ -1,6 +1,6 @@
 import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Datepicker, FileInput, Label } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
 import RatingReact from "../../components/RatingReact";
@@ -10,14 +10,18 @@ import { Form, Formik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { useAddImageMutation, useGetEventQuery } from "../../app/api/eventApi";
-import { useGetAllEventImagesQuery } from "../../app/api/imageApi";
+import { useGetEventQuery } from "../../app/api/eventApi";
+import {
+  useAddImageMutation,
+  useDeleteImageMutation,
+  useGetAllEventImagesQuery,
+} from "../../app/api/imageApi";
 
 const EventEditor = () => {
-  const eventId = useParams().id;
+  const eventId = useParams().eventId;
   const eventQuery = useGetEventQuery(eventId);
-  const [uploadedImages, setUploadedImages] = useState([]);
   const { mutateAsync: addImage } = useAddImageMutation();
+  const { mutateAsync: deleteImage } = useDeleteImageMutation();
   const imageQuery = useGetAllEventImagesQuery(eventId);
   const fileInputRef = useRef(null);
 
@@ -64,34 +68,34 @@ const EventEditor = () => {
 
       reader.onload = async () => {
         // Append the new preview to the list of previews
-        if (uploadedImages.length >= 10) {
+        if (imageQuery.data.length >= 10) {
           console.error("You cannot upload more than 10 images");
           toast.error("You cannot upload more than 10 images");
           return;
         }
-        if (
-          uploadedImages.filter((image) => image === reader.result).length > 0
-        ) {
-          toast.error("You cannot upload the same file twice");
-          return;
-        }
-        setUploadedImages((prevImages) => [...prevImages, reader.result]);
+        //TODO: cannot let the user upload the same file twice
         //Upload file to the server.
         const formData = new FormData();
         formData.append("file", file);
         formData.append("id", eventId);
         //const uploadImageResponse = uploadEventImage(formData);
-        await addImage(formData);
+        const eventObject = {
+          eventId: eventId,
+          eventData: formData,
+        };
+        await addImage(eventObject);
       };
-
       // Read the file as a data URL
       reader.readAsDataURL(file);
       fileInputRef.current.value = null;
     }
   };
 
-  const removeImage = (index) => {
-    setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  const removeImage = async (imageName: string) => {
+    //TODO
+    console.log("Image:", imageName);
+    const deleteImageObject: any = { imageName, eventId };
+    await deleteImage(deleteImageObject);
   };
 
   return eventQuery.data && !eventQuery.isLoading ? (
@@ -103,45 +107,41 @@ const EventEditor = () => {
         <Form>
           <div className="container pt-20 relative xl:px-56 mx-auto bg-gray-100">
             {/* IMAGE GRID */}
-            <div className="grid gap-3 grid-rows-2 grid-cols-4">
-              <img
-                src={
-                  uploadedImages[0] ? uploadedImages[0] : eventQuery.data.image
-                }
-                className="h-52 w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
-                alt=""
-              />
-              <img
-                src={
-                  uploadedImages[1] ? uploadedImages[1] : eventQuery.data.image
-                }
-                className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
-                alt=""
-              />
-              <img
-                src={
-                  uploadedImages[2] ? uploadedImages[2] : eventQuery.data.image
-                }
-                className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
-                alt=""
-              />
-              <div className="col-span-4 row-span-2 h-72 w-full block md:hidden">
-                <ImageSlide
-                  imageURLS={[
-                    "https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg",
-                    "https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg",
-                    "https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D",
-                  ]}
+            {imageQuery.data && !imageQuery.isLoading ? (
+              <div className="grid gap-3 grid-rows-2 grid-cols-4">
+                <img
+                  src={`data:image/webp;base64,${imageQuery?.data[0]?.imageData}`}
+                  className="h-52 w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
+                  alt=""
                 />
+                <img
+                  src={`data:image/webp;base64,${imageQuery?.data[1]?.imageData}`}
+                  className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
+                  alt=""
+                />
+                <img
+                  src={`data:image/webp;base64,${imageQuery?.data[2]?.imageData}`}
+                  className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
+                  alt=""
+                />
+                <div className="col-span-4 row-span-2 h-72 w-full block md:hidden">
+                  <ImageSlide
+                    imageURLS={[
+                      "https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg",
+                      "https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg",
+                      "https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D",
+                    ]}
+                  />
+                </div>
               </div>
-            </div>
+            ) : null}
             {/* Image upload */}
             <span>Upload your images</span>
             <div className="grid gap-1 grid-rows-2 grid-cols-6">
               {imageQuery.data && !imageQuery.isLoading ? (
                 <>
                   {/* Rendering image list contitionally */}
-                  {imageQuery.data.map((image, index) => (
+                  {imageQuery.data.map((imageObject, index) => (
                     <div
                       className="flex w-full items-center justify-center col-span-1 row-span-1"
                       key={`uploaded-copontainer-${index}`}
@@ -152,13 +152,13 @@ const EventEditor = () => {
                         key={`trash-icon-${index}`}
                         onClick={() => {
                           //TODO: image removement
-                          removeImage(index);
+                          removeImage(imageObject.name);
                         }}
                       />
                       <div key={index}>
                         <img
                           key={index}
-                          src={`data:image/webp;base64,${image}`}
+                          src={`data:image/webp;base64,${imageObject.imageData}`}
                           alt={`Image ${index}`}
                         />
                       </div>

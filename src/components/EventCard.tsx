@@ -2,9 +2,9 @@ import { Rating } from "flowbite-react";
 import { isWithinInterval, subDays, addDays } from "date-fns";
 import AlertIcon from "./icons/AlertIcon";
 import { useNavigate } from "react-router-dom";
-import { EventType } from "../features/events/eventAPISlice";
 import MiniImageSlide from "./MiniImageSlide";
 import { useState } from "react";
+import { EventType } from "../app/api/eventApi";
 
 export interface EventCardProps {
   eventItem: EventType;
