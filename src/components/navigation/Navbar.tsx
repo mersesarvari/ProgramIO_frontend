@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLogoutMutation } from "../../app/api/authApi";
 
 const Navbar = () => {
@@ -16,9 +17,9 @@ const Navbar = () => {
       style={{ height: "10px", zIndex: 999, position: "fixed" }}
     >
       <div className="flex-1">
-        <a href="/" className="btn btn-ghost text-xl">
+        <Link to="/home" className="btn btn-ghost text-xl">
           eventIO
-        </a>
+        </Link>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -72,23 +73,23 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
+              <Link to="#" className="justify-between">
                 Profile
                 <span className="badge">New</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to="#">Settings</Link>
             </li>
             <li>
-              <a href="/event/dashboard">Dashboard</a>
+              <Link to="/event/dashboard">Dashboard</Link>
             </li>
             <li
               onClick={() => {
                 Logout();
               }}
             >
-              <a>Logout</a>
+              <Link to="#">Logout</Link>
             </li>
           </ul>
         </div>

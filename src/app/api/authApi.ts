@@ -16,10 +16,10 @@ export const useLoginMutation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return useMutation({
-    mutationFn: async ({ email, password, remember }: LoginProps) => {
+    mutationFn: async (loginData: LoginProps) => {
       const axiosResponse = await api.post(
         "/auth/login",
-        { email, password },
+        { email: loginData.email, password: loginData.password },
         {
           headers: {
             "Content-Type": "application/json",
@@ -34,8 +34,6 @@ export const useLoginMutation = () => {
       if (variables.remember) {
         Cookies.set("user", JSON.stringify(data));
       } else {
-        console.log("We don't save login data");
-        console.log("Data:", data);
         //TODO: Save user data to session storage
         dispatch(setCredentials({ user: data }));
       }

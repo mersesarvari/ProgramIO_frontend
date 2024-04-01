@@ -28,7 +28,7 @@ const EventEditor = () => {
   const imageQuery = useGetAllEventImagesQuery(eventId);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const fileInputRef = useRef(null);
-  const [imageToDelete, setImageToDelete] = useState<string>(null);
+  const [imageToDelete, setImageToDelete] = useState<string>("");
 
   //Fetching event data
   useEffect(() => {
@@ -41,7 +41,7 @@ const EventEditor = () => {
 
   //Handling set delete:
   useEffect(() => {
-    if (imageToDelete !== null) {
+    if (imageToDelete !== "") {
       setDeleteOpen(true);
     }
   }, [imageToDelete]);
@@ -105,11 +105,12 @@ const EventEditor = () => {
 
   const removeImage = async () => {
     //TODO
-    if (imageToDelete !== null && imageToDelete !== "") {
+    if (imageToDelete !== "") {
       console.log("Image:", imageToDelete);
       const imageName = imageToDelete;
       const deleteImageObject: any = { imageName, eventId };
       await deleteImage(deleteImageObject);
+      setImageToDelete("");
     } else {
       toast.error("Image cannot be deleted because you didnt selected any..");
     }
