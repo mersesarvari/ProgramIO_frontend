@@ -151,7 +151,6 @@ const EventEditor = () => {
                         className="z-500 text-red-800 w-8 h-8 bg-black bg-opacity-80 rounded-lg absolute"
                         key={`trash-icon-${index}`}
                         onClick={() => {
-                          //TODO: image removement
                           removeImage(imageObject.name);
                         }}
                       />
@@ -269,7 +268,7 @@ const EventEditor = () => {
                   </button>
                 </div>
                 {/* Long description */}
-                <p className="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
+                <p className="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 break-words">
                   {eventQuery.data.long_description}
                 </p>
                 {/* Divider */}
