@@ -170,17 +170,14 @@ const EventEditor = () => {
                         key={`trash-icon-${index}`}
                         onClick={() => {
                           setImageToDelete(imageObject.name);
-                          //setDeleteOpen(true);
-                          //removeImage(imageObject.name);
                         }}
                       />
-                      <div key={index}>
-                        <img
-                          key={index}
-                          src={`data:image/webp;base64,${imageObject.imageData}`}
-                          alt={`Image ${index}`}
-                        />
-                      </div>
+                      <img
+                        key={index}
+                        src={`data:image/webp;base64,${imageObject.imageData}`}
+                        alt={`Image ${index}`}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
                     </div>
                   ))}
                 </>
