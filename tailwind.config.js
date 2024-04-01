@@ -1,14 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-export const content = [
-  "./index.html",
-  "./src/**/*.{js,ts,jsx,tsx}",
-  "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
-];
-export const theme = {
-  extend: {},
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/flowbite-react/lib/esm/**/*.js",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [require("flowbite/plugin"), require("daisyui")],
 };
-export const plugins = [
-  require("flowbite"),
-  require("flowbite/plugin"),
-  require("daisyui"),
-];

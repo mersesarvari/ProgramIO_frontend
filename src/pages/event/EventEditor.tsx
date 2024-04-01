@@ -11,22 +11,34 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useAddImageMutation, useGetEventQuery } from "../../app/api/eventApi";
+import { useGetAllEventImagesQuery } from "../../app/api/imageApi";
 
 const EventEditor = () => {
   const eventId = useParams().id;
-  const { data, error, isLoading } = useGetEventQuery(eventId);
+  const eventQuery = useGetEventQuery(eventId);
   const [uploadedImages, setUploadedImages] = useState([]);
   const { mutateAsync: addImage } = useAddImageMutation();
+  const imageQuery = useGetAllEventImagesQuery(eventId);
   const fileInputRef = useRef(null);
 
   //Fetching event data
   useEffect(() => {
     console.log("Event id:", eventId);
-    if (error) return console.error("Error:", error);
-    if (data) {
-      console.log("Data fetched", data);
+    if (eventQuery.error) return console.error("Error:", error);
+    if (eventQuery.data) {
+      console.log("Data fetched", eventQuery.data);
     }
-  }, [data, error, isLoading]);
+  }, [eventQuery.data, eventQuery.error, eventQuery.isLoading, eventId]);
+
+  //Getting images:
+  useEffect(() => {
+    console.log("Image useEffect called.");
+    console.log("Event id:", eventId);
+    if (imageQuery.error) return console.error("Error:", error);
+    if (imageQuery.data) {
+      console.log("Image data fetched", imageQuery.data);
+    }
+  }, [imageQuery.data, imageQuery.error, imageQuery.isLoading, eventId]);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0]; // Get the first file from the selected files
@@ -82,25 +94,34 @@ const EventEditor = () => {
     setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  return data && !isLoading ? (
+  return eventQuery.data && !eventQuery.isLoading ? (
     <>
-      <Formik initialValues={data} onSubmit={(values) => console.log(values)}>
+      <Formik
+        initialValues={eventQuery.data}
+        onSubmit={(values) => console.log(values)}
+      >
         <Form>
           <div className="container pt-20 relative xl:px-56 mx-auto bg-gray-100">
             {/* IMAGE GRID */}
             <div className="grid gap-3 grid-rows-2 grid-cols-4">
               <img
-                src={uploadedImages[0] ? uploadedImages[0] : data.image}
+                src={
+                  uploadedImages[0] ? uploadedImages[0] : eventQuery.data.image
+                }
                 className="h-52 w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
                 alt=""
               />
               <img
-                src={uploadedImages[1] ? uploadedImages[1] : data.image}
+                src={
+                  uploadedImages[1] ? uploadedImages[1] : eventQuery.data.image
+                }
                 className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
                 alt=""
               />
               <img
-                src={uploadedImages[2] ? uploadedImages[2] : data.image}
+                src={
+                  uploadedImages[2] ? uploadedImages[2] : eventQuery.data.image
+                }
                 className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
                 alt=""
               />
@@ -117,30 +138,34 @@ const EventEditor = () => {
             {/* Image upload */}
             <span>Upload your images</span>
             <div className="grid gap-1 grid-rows-2 grid-cols-6">
-              {/* Rendering image list contitionally */}
-              {uploadedImages.map((image, index) => (
-                <div
-                  className="flex w-full items-center justify-center col-span-1 row-span-1"
-                  key={`uploaded-copontainer-${index}`}
-                >
-                  {/* Display previews of uploaded images */}
-                  <TrashIcon
-                    className="z-500 text-red-800 w-8 h-8 bg-black bg-opacity-80 rounded-lg absolute"
-                    key={`trash-icon-${index}`}
-                    onClick={() => {
-                      removeImage(index);
-                    }}
-                  />
-                  <div key={index}>
-                    <img
-                      className="w-full h-32 object-cover rounded-lg"
-                      src={image}
-                      alt={`Uploaded ${index + 1}`}
-                      key={`uploaded-image-${index}`}
-                    />
-                  </div>
-                </div>
-              ))}
+              {imageQuery.data && !imageQuery.isLoading ? (
+                <>
+                  {/* Rendering image list contitionally */}
+                  {imageQuery.data.map((image, index) => (
+                    <div
+                      className="flex w-full items-center justify-center col-span-1 row-span-1"
+                      key={`uploaded-copontainer-${index}`}
+                    >
+                      {/* Display previews of uploaded images */}
+                      <TrashIcon
+                        className="z-500 text-red-800 w-8 h-8 bg-black bg-opacity-80 rounded-lg absolute"
+                        key={`trash-icon-${index}`}
+                        onClick={() => {
+                          //TODO: image removement
+                          removeImage(index);
+                        }}
+                      />
+                      <div key={index}>
+                        <img
+                          key={index}
+                          src={`data:image/webp;base64,${image}`}
+                          alt={`Image ${index}`}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : null}
               {/* Rendering image upload button after the images */}
 
               <div className="flex w-full items-center justify-center col-span-1">
@@ -188,10 +213,10 @@ const EventEditor = () => {
                 {/* Header datas */}
                 <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
                   <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-3xl dark:sm:text-white">
-                    {data.name}
+                    {eventQuery.data.name}
                   </h1>
                   <p className="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">
-                    {data.type}
+                    {eventQuery.data.type}
                   </p>
                 </div>
                 {/* Rating / Location */}
@@ -199,7 +224,11 @@ const EventEditor = () => {
                   <dt className="sr-only">Type</dt>
                   <dt className="sr-only">Reviews</dt>
                   <dd className="text-yellow-400 flex items-center dark:text-yellow-400">
-                    <RatingReact value={data.rating} name="" readonly={true} />
+                    <RatingReact
+                      value={eventQuery.data.rating}
+                      name=""
+                      readonly={true}
+                    />
                   </dd>
                   <dt className="sr-only">Location</dt>
                   <dd className="flex items-center">
@@ -226,7 +255,8 @@ const EventEditor = () => {
                       <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
                       <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                     </svg>
-                    {data.address.city} , {data.address.country}
+                    {eventQuery.data.address.city} ,{" "}
+                    {eventQuery.data.address.country}
                   </dd>
                 </dl>
                 {/* Button */}
@@ -240,7 +270,7 @@ const EventEditor = () => {
                 </div>
                 {/* Long description */}
                 <p className="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
-                  {data.long_description}
+                  {eventQuery.data.long_description}
                 </p>
                 {/* Divider */}
                 <div className="flex flex-col w-full">
@@ -335,7 +365,7 @@ const EventEditor = () => {
                     width={"100%"}
                     height={"500px"}
                     defaultZoom={14}
-                    markerPosition={data.address.coordinate}
+                    markerPosition={eventQuery.data.address.coordinate}
                   />
                 </APIProvider>
               </div>
