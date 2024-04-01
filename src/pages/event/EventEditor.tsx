@@ -1,6 +1,6 @@
 import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Datepicker, FileInput, Label } from "flowbite-react";
 import Footer from "../../components/navigation/Footer";
 import RatingReact from "../../components/RatingReact";
@@ -16,6 +16,9 @@ import {
   useDeleteImageMutation,
   useGetAllEventImagesQuery,
 } from "../../app/api/imageApi";
+import DeleteModal from "../../components/modal/DeleteModal";
+
+//TODO: Adding load animation when the image is uploaded or deleted
 
 const EventEditor = () => {
   const eventId = useParams().eventId;
@@ -23,7 +26,9 @@ const EventEditor = () => {
   const { mutateAsync: addImage } = useAddImageMutation();
   const { mutateAsync: deleteImage } = useDeleteImageMutation();
   const imageQuery = useGetAllEventImagesQuery(eventId);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const fileInputRef = useRef(null);
+  const [imageToDelete, setImageToDelete] = useState<string>(null);
 
   //Fetching event data
   useEffect(() => {
@@ -33,6 +38,13 @@ const EventEditor = () => {
       console.log("Data fetched", eventQuery.data);
     }
   }, [eventQuery.data, eventQuery.error, eventQuery.isLoading, eventId]);
+
+  //Handling set delete:
+  useEffect(() => {
+    if (imageToDelete !== null) {
+      setDeleteOpen(true);
+    }
+  }, [imageToDelete]);
 
   //Getting images:
   useEffect(() => {
@@ -91,11 +103,16 @@ const EventEditor = () => {
     }
   };
 
-  const removeImage = async (imageName: string) => {
+  const removeImage = async () => {
     //TODO
-    console.log("Image:", imageName);
-    const deleteImageObject: any = { imageName, eventId };
-    await deleteImage(deleteImageObject);
+    if (imageToDelete !== null && imageToDelete !== "") {
+      console.log("Image:", imageToDelete);
+      const imageName = imageToDelete;
+      const deleteImageObject: any = { imageName, eventId };
+      await deleteImage(deleteImageObject);
+    } else {
+      toast.error("Image cannot be deleted because you didnt selected any..");
+    }
   };
 
   return eventQuery.data && !eventQuery.isLoading ? (
@@ -151,7 +168,9 @@ const EventEditor = () => {
                         className="z-500 text-red-800 w-8 h-8 bg-black bg-opacity-80 rounded-lg absolute"
                         key={`trash-icon-${index}`}
                         onClick={() => {
-                          removeImage(imageObject.name);
+                          setImageToDelete(imageObject.name);
+                          //setDeleteOpen(true);
+                          //removeImage(imageObject.name);
                         }}
                       />
                       <div key={index}>
@@ -372,6 +391,11 @@ const EventEditor = () => {
           </div>
         </Form>
       </Formik>
+      <DeleteModal
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        deleteFunction={removeImage}
+      />
       <Footer />
     </>
   ) : null;

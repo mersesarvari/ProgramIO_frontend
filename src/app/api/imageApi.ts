@@ -42,14 +42,18 @@ export const useAddImageMutation = () => {
   });
 };
 
+type ImageDeleteType = {
+  imageName: string;
+  eventId: string;
+};
+
 //DELETE-ONE-EVENT-IMAGE
 export const useDeleteImageMutation = () => {
   return useMutation({
     retry: 0,
-    mutationFn: async ({ imageName, eventId }) => {
-      console.log("Parameters for delete:", imageName, eventId);
-      const axiosResponse = await api.delete(`/image/${eventId}`, {
-        data: { imageName },
+    mutationFn: async (deleteData: ImageDeleteType) => {
+      const axiosResponse = await api.delete(`/image/${deleteData.eventId}`, {
+        data: { imageName: deleteData.imageName },
       });
       return axiosResponse.data;
     },
