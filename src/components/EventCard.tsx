@@ -77,6 +77,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
       <div className="h-60">
         <MyCarcasuel
           imageData={imageQuery.data.map((image) => image.imageData)}
+          isHovered={isHovered}
         ></MyCarcasuel>
       </div>
       <div className="card-body items-left text-left px-0 py-0 mt-0">

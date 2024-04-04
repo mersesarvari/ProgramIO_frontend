@@ -3,9 +3,13 @@ import { useState } from "react";
 type CustomImageSlideProps = {
   imageData?: string[];
   className?: string;
+  isHovered: boolean;
 };
 
-const CustomImageSlide: React.FC<CustomImageSlideProps> = ({ imageData }) => {
+const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
+  imageData,
+  isHovered,
+}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const setNextActive = () => {
     if (activeIndex < imageData.length - 1) {
@@ -76,8 +80,8 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({ imageData }) => {
       {/* Left controller */}
       <button
         type="button"
-        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full 
-        px-4 cursor-pointer group"
+        className={`absolute top-0 start-0 z-30 flex items-center justify-center h-full 
+        px-4 cursor-pointer group ${isHovered ? "" : "hidden"}`}
         data-carousel-prev
         onClick={handlePreviousClick}
       >
@@ -106,8 +110,8 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({ imageData }) => {
       {/* Right controller */}
       <button
         type="button"
-        className="absolute top-0 end-0 z-30 flex items-center justify-center 
-        h-full px-4 cursor-pointer "
+        className={`absolute top-0 end-0 z-30 flex items-center justify-center 
+        h-full px-4 cursor-pointer ${isHovered ? "" : "hidden"}`}
         data-carousel-next
         onClick={handleNextClick}
       >
