@@ -1,13 +1,21 @@
 import { Carousel as ReactCarausel } from "flowbite-react";
 
 type CarouselProps = {
-  imageURLS: string[];
+  imageURLS?: string[];
+  imageData?: [];
   isHovered: boolean;
   setHovered: React.Dispatch<React.SetStateAction<boolean>>;
   handleClick?: () => void;
 };
 
-const MiniImageSlide: React.FC<CarouselProps> = ({ imageURLS, isHovered }) => {
+const MiniImageSlide: React.FC<CarouselProps> = ({
+  imageURLS,
+  isHovered,
+  imageData,
+}) => {
+  const images = imageData?.map((x) => x.imageData);
+  console.log("Images:", images);
+
   const carouselMiniTheme = {
     root: {
       base: "relative h-full w-full rounded-md",
@@ -43,12 +51,25 @@ const MiniImageSlide: React.FC<CarouselProps> = ({ imageURLS, isHovered }) => {
     },
   };
 
-  return (
-    <ReactCarausel slide={false} theme={carouselMiniTheme}>
-      {imageURLS.map((url, index) => (
-        <img src={url} alt="..." key={index} />
-      ))}
-    </ReactCarausel>
-  );
+  return imageURLS || imageData ? (
+    <>
+      {imageData ? (
+        <ReactCarausel slide={false} theme={carouselMiniTheme}>
+          {images &&
+            images.map((data, index) => (
+              <img src={`data:image/webp;base64,${data}`} alt="" key={index} />
+            ))}
+        </ReactCarausel>
+      ) : null}
+      {imageURLS ? (
+        <ReactCarausel slide={false} theme={carouselMiniTheme}>
+          {images &&
+            images.map((data, index) => (
+              <img src={`data:image/webp;base64,${data}`} alt="" key={index} />
+            ))}
+        </ReactCarausel>
+      ) : null}
+    </>
+  ) : null;
 };
 export default MiniImageSlide;

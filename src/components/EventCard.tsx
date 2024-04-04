@@ -3,8 +3,9 @@ import { isWithinInterval, subDays, addDays } from "date-fns";
 import AlertIcon from "./icons/AlertIcon";
 import { useNavigate } from "react-router-dom";
 import MiniImageSlide from "./MiniImageSlide";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EventType } from "../app/api/eventApi";
+import { useGetAllEventImagesQuery } from "../app/api/imageApi";
 
 export interface EventCardProps {
   eventItem: EventType;
@@ -26,12 +27,22 @@ const isEventNew = (_eventDate) => {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
+  //Fetching event images
+  const imageQuery = useGetAllEventImagesQuery(eventItem._id);
   const [isHovered, setHovered] = useState(false);
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate(`/event/${eventItem._id}`);
   };
-  return (
+
+  useEffect(() => {
+    if (imageQuery.data) {
+      console.log(imageQuery.data);
+    }
+  }, [imageQuery.data]);
+
+  return imageQuery.data && !imageQuery.isLoading && eventItem ? (
     <div
       className="card-compact"
       style={{ position: "relative" }}
@@ -69,9 +80,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
           }}
           isHovered={isHovered}
           setHovered={setHovered}
-          imageURLS={[
-            "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg",
-          ]}
+          imageData={imageQuery.data}
         />
       </div>
       <div className="card-body items-left text-left px-0 py-0 mt-0">
@@ -88,7 +97,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
         <p>If a dog chews shoes whose shoes does he choose?</p>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default EventCard;
