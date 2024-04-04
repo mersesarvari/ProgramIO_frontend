@@ -90,8 +90,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
             </p>
           </Rating>
         </h2>
-        <p>Proba header</p>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <p>{eventItem.description}</p>
       </div>
     </div>
   ) : null;
