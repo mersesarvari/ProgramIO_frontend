@@ -29,7 +29,7 @@ const isEventNew = (_eventDate) => {
 const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
   //Fetching event images
   const imageQuery = useGetAllEventImagesQuery(eventItem._id);
-  const [isHovered, setHovered] = useState(true);
+  const [isHovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {

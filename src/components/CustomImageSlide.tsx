@@ -8,7 +8,7 @@ type CustomImageSlideProps = {
 
 const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
   imageData,
-  isHovered = true,
+  isHovered,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const setNextActive = () => {

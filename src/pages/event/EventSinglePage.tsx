@@ -12,6 +12,7 @@ import HostPageElement from "../../components/event-components/HostPageElement";
 import PaymentCard from "../../components/event-components/PaymentCard";
 import Divider from "../../components/Divider";
 import DateCard from "../../components/event-components/DateCard";
+import HeaderImageCard from "../../components/event-components/HeaderImageCard";
 
 const EventSinglePage = () => {
   const eventId = useParams().eventId;
@@ -35,29 +36,7 @@ const EventSinglePage = () => {
     <>
       <div className="container pt-20 relative px-5 xl:px-32 mx-auto bg-gray-100">
         {/* IMAGE GRID */}
-        <div className="grid gap-3 grid-rows-2 grid-cols-4 h-[35vh] lg:h-[42vh] hidden md:grid">
-          <img
-            src={`data:image/webp;base64,${
-              imageQuery.data.map((image) => image.imageData)[0]
-            }`}
-            className="w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
-            alt=""
-          />
-          <img
-            src={`data:image/webp;base64,${
-              imageQuery.data.map((image) => image.imageData)[1]
-            }`}
-            className="h-full w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
-            alt=""
-          />
-          <img
-            className="h-full w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
-            src={`data:image/webp;base64,${
-              imageQuery.data.map((image) => image.imageData)[2]
-            }`}
-            alt=""
-          />
-        </div>
+        <HeaderImageCard imageQuery={imageQuery} />
         <div className="col-span-4 row-span-1 w-full block md:hidden">
           <CustomImageSlide
             imageData={imageQuery.data.map((image) => image.imageData)}

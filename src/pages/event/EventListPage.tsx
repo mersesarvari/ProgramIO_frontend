@@ -1,6 +1,7 @@
 import EventCard from "../../components/event-components/EventCard";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
 import { useEffect } from "react";
+import SearchBar from "../../components/navigation/SearchBar";
 
 const EventListPage = () => {
   const { data, isLoading, error } = useGetAllEventsQuery();
@@ -10,7 +11,8 @@ const EventListPage = () => {
 
   return !isLoading ? (
     <>
-      <div className="grid grid-flow-row-dense gap-5 grid-cols-1 auto-rows-max xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 pt-40 xl:px-20 lg:px-10">
+      <SearchBar />
+      <div className="grid grid-flow-row-dense gap-5 grid-cols-1 auto-rows-max xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 pt-20 xl:px-20 lg:px-10">
         {data &&
           data.map((item, index) => <EventCard eventItem={item} key={index} />)}
       </div>
