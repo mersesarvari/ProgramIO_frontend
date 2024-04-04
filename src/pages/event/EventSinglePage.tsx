@@ -8,6 +8,9 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { useGetEventQuery } from "../../app/api/eventApi";
 import { useGetAllEventImagesQuery } from "../../app/api/imageApi";
 import CustomImageSlide from "../../components/CustomImageSlide";
+import HostPageElement from "../../components/event-components/HostPageElement";
+import PaymentCard from "../../components/event-components/PaymentCard";
+import Divider from "../../components/Divider";
 
 const EventSinglePage = () => {
   const eventId = useParams().eventId;
@@ -123,9 +126,10 @@ const EventSinglePage = () => {
               {data.long_description}
             </p>
             {/* Divider */}
-            <div className="flex flex-col w-full">
-              <hr className="w-full h-0.5 mx-auto my-4 bg-gray-200 border-0 rounded md:my-10 dark:bg-gray-700" />
-            </div>
+            <Divider />
+            <HostPageElement />
+            {/* Divider */}
+            <Divider />
             {/* Statistics */}
             <div className="stats shadow w-full">
               <div className="stat">
@@ -213,19 +217,7 @@ const EventSinglePage = () => {
               </div>
             </div>
             {/* Payment card */}
-            <div className="card w-full bg-white text-primary-content border">
-              <div className="card-body">
-                <h2 className="card-title font-bold">Buy your ticket</h2>
-                <Datepicker disabled />
-                <p>Price</p>
-                <p>Ticket price: 124.000 Ft</p>
-                <p>EventIO fee: 12.400 Ft</p>
-                <p>Total: 136.400 Ft</p>
-                <div className="card-actions justify-end">
-                  <button className="btn w-full my-5">Buy Now</button>
-                </div>
-              </div>
-            </div>
+            <PaymentCard />
           </div>
           {/* Google maps Row */}
           <div className="col-span-5">

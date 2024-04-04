@@ -40,7 +40,7 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
   return imageData ? (
     <div
       id="indicators-carousel"
-      className="relative min-w-80 w-full h-full"
+      className="relative w-full h-full"
       data-carousel="static"
     >
       <div className="relative overflow-hidden rounded-lg h-64">

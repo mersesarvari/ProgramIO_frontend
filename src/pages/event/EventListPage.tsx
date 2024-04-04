@@ -1,7 +1,6 @@
-import EventCard from "../../components/EventCard";
+import EventCard from "../../components/event-components/EventCard";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
 import { useEffect } from "react";
-import MyCarcasuel from "../../components/CustomImageSlide";
 
 const EventListPage = () => {
   const { data, isLoading, error } = useGetAllEventsQuery();

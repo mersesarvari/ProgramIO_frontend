@@ -1,12 +1,11 @@
 import { Rating } from "flowbite-react";
 import { isWithinInterval, subDays, addDays } from "date-fns";
-import AlertIcon from "./icons/AlertIcon";
+import AlertIcon from "../icons/AlertIcon";
 import { useNavigate } from "react-router-dom";
-import MiniImageSlide from "./MiniImageSlide";
 import { useEffect, useState } from "react";
-import { EventType } from "../app/api/eventApi";
-import { useGetAllEventImagesQuery } from "../app/api/imageApi";
-import MyCarcasuel from "./CustomImageSlide";
+import { EventType } from "../../app/api/eventApi";
+import { useGetAllEventImagesQuery } from "../../app/api/imageApi";
+import MyCarcasuel from "../CustomImageSlide";
 
 export interface EventCardProps {
   eventItem: EventType;
