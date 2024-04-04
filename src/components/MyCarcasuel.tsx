@@ -45,42 +45,40 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
       data-carousel="static"
     >
       <div className="relative overflow-hidden rounded-lg md:h-64">
-        {imageData &&
-          imageData.map((image, index) => (
-            <div
-              className={`${
-                index === activeIndex ? "" : "hidden"
-              } duration-700 ease-in-out`}
-              key={"ImageSlide-" + index}
-              data-carousel-item={index === activeIndex ? "active" : ""}
-            >
-              <img
-                src={`data:image/webp;base64,${image}`}
-                alt=""
-                key={index}
-                className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  w-full h-full"
-                alt="..."
-                key={"Image-" + index}
-              />
-            </div>
-          ))}
+        {imageData?.map((image, index) => (
+          <div
+            className={`${
+              index === activeIndex ? "" : "hidden"
+            } duration-700 ease-in-out`}
+            key={`ImageSlide-${index}`}
+            data-carousel-item={index === activeIndex ? "active" : ""}
+          >
+            <img
+              src={`data:image/webp;base64,${image}`}
+              className="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 "
+              alt={`Image-${index}`}
+              key={`Image-${index}`}
+            />
+          </div>
+        ))}
       </div>
       {/* Bottom controllers */}
-      <div className="absolute z-30 flex -translate-x-1/2 space-x-4 rtl:space-x-reverse bottom-5 left-1/2">
+      <div className="absolute z-30 flex justify-center bottom-5 left-0 right-0 mx-auto bottom-0">
         {imageData.map((image, index) => (
           <button
-            key={"SlideButton-" + index}
+            key={`SlideButton-${index}`}
             type="button"
-            className={`absolute w-3 h-3 rounded-full ${
-              activeIndex === index ? "bg-red-400" : " bg-white"
-            } shadow-sm`}
+            className={`w-3 h-3 rounded-full ${
+              activeIndex === index ? "bg-red-400" : "bg-white"
+            } shadow-sm mx-1`}
             aria-current="true"
             aria-label={`Slide ${index}`}
             data-carousel-slide-to={index}
             onClick={(event) => handleSliderClick(event, index)}
-          ></button>
+          />
         ))}
       </div>
+
       {/* Right controller */}
       <button
         type="button"
