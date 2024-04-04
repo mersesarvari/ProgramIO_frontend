@@ -6,7 +6,7 @@ import MiniImageSlide from "./MiniImageSlide";
 import { useEffect, useState } from "react";
 import { EventType } from "../app/api/eventApi";
 import { useGetAllEventImagesQuery } from "../app/api/imageApi";
-import MyCarcasuel from "./MyCarcasuel";
+import MyCarcasuel from "./CustomImageSlide";
 
 export interface EventCardProps {
   eventItem: EventType;

@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-type MyCarcasuelProps = {
+type CustomImageSlideProps = {
   imageData?: string[];
   className?: string;
 };
 
-const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
+const CustomImageSlide: React.FC<CustomImageSlideProps> = ({ imageData }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const setNextActive = () => {
     if (activeIndex < imageData.length - 1) {
@@ -21,11 +21,6 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
     } else {
       setActiveIndex(imageData.length - 1);
     }
-  };
-
-  const handleSliderClick = (event, index) => {
-    event.stopPropagation();
-    setActiveIndex(index);
   };
 
   const handleNextClick = (event: Event) => {
@@ -44,7 +39,7 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
       className="relative min-w-80 w-full h-full"
       data-carousel="static"
     >
-      <div className="relative overflow-hidden rounded-lg md:h-64">
+      <div className="relative overflow-hidden rounded-lg h-64">
         {imageData?.map((image, index) => (
           <div
             className={`${
@@ -63,32 +58,35 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
         ))}
       </div>
       {/* Bottom controllers */}
-      <div className="absolute z-30 flex justify-center bottom-5 left-0 right-0 mx-auto bottom-0">
-        {imageData.map((image, index) => (
+      <div className="absolute z-30 flex justify-center left-0 right-0 mx-auto bottom-0">
+        {imageData.map((_, index) => (
           <button
             key={`SlideButton-${index}`}
             type="button"
-            className={`w-3 h-3 rounded-full ${
-              activeIndex === index ? "bg-red-400" : "bg-white"
+            className={`size-2 rounded-full ${
+              activeIndex === index ? "bg-white" : "bg-gray-400"
             } shadow-sm mx-1`}
             aria-current="true"
             aria-label={`Slide ${index}`}
             data-carousel-slide-to={index}
-            onClick={(event) => handleSliderClick(event, index)}
           />
         ))}
       </div>
 
-      {/* Right controller */}
+      {/* Left controller */}
       <button
         type="button"
-        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full 
+        px-4 cursor-pointer group"
         data-carousel-prev
         onClick={handlePreviousClick}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <span
+          className="inline-flex items-center justify-center w-7 h-7 rounded-full
+         bg-white/90 group-focus-bg-red-400 hover:bg-white hover:scale-110"
+        >
           <svg
-            className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            className="w-4 h-4 text-black rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -98,23 +96,27 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="1.5"
               d="M5 1 1 5l4 4"
             />
           </svg>
           <span className="sr-only">Previous</span>
         </span>
       </button>
-      {/* Left controller */}
+      {/* Right controller */}
       <button
         type="button"
-        className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="absolute top-0 end-0 z-30 flex items-center justify-center 
+        h-full px-4 cursor-pointer "
         data-carousel-next
         onClick={handleNextClick}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+        <span
+          className="inline-flex items-center justify-center w-7 h-7 rounded-full
+         bg-white/90 group-focus-bg-red-400 hover:bg-white hover:scale-110"
+        >
           <svg
-            className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            className="w-4 h-4 text-black rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -124,7 +126,7 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="1.5"
               d="m1 9 4-4-4-4"
             />
           </svg>
@@ -135,4 +137,4 @@ const MyCarcasuel: React.FC<MyCarcasuelProps> = ({ imageData }) => {
   ) : null;
 };
 
-export default MyCarcasuel;
+export default CustomImageSlide;
