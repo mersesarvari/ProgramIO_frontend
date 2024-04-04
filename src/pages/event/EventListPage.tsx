@@ -8,10 +8,6 @@ const EventListPage = () => {
   useEffect(() => {
     if (data) console.log(data.length);
   }, [data, isLoading, error]);
-  const imageData = [
-    "https://img.freepik.com/premium-photo/abstract-rainbow-colorful-bright-feather-closeup-up-macro-view-background-plumage-texture-with-dew-drops_753134-644.jpg",
-    "https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg",
-  ];
 
   return !isLoading ? (
     <>

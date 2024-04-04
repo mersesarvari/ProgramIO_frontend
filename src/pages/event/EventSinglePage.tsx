@@ -1,4 +1,3 @@
-import ImageSlide from "../../components/ImageSlide";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Datepicker } from "flowbite-react";
@@ -7,10 +6,13 @@ import RatingReact from "../../components/RatingReact";
 import GoogleMapSingleMarker from "../../components/map/GoogleMapSingleMarker";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { useGetEventQuery } from "../../app/api/eventApi";
+import { useGetAllEventImagesQuery } from "../../app/api/imageApi";
+import CustomImageSlide from "../../components/CustomImageSlide";
 
 const EventSinglePage = () => {
   const eventId = useParams().eventId;
   const { data, error, isLoading } = useGetEventQuery(eventId);
+  const imageQuery = useGetAllEventImagesQuery(eventId);
 
   //Fetching event data
   useEffect(() => {
@@ -21,46 +23,54 @@ const EventSinglePage = () => {
     }
   }, [data, error, isLoading]);
 
-  return data && !isLoading ? (
+  useEffect(() => {
+    console.log("Image:", imageQuery.data);
+  }, [imageQuery.data]);
+
+  return data && !isLoading && imageQuery.data ? (
     <>
-      <div className="container pt-20 relative xl:px-56 mx-auto bg-gray-100">
+      <div className="container pt-20 relative px-5 xl:px-32 mx-auto bg-gray-100">
         {/* IMAGE GRID */}
-        <div className="grid gap-3 grid-rows-2 grid-cols-4">
+        <div className="grid gap-3 grid-rows-2 grid-cols-4 h-[35vh] lg:h-[42vh] hidden md:grid">
           <img
-            src="https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg"
-            className="h-52 w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
+            src={`data:image/webp;base64,${
+              imageQuery.data.map((image) => image.imageData)[0]
+            }`}
+            className="w-full object-cover rounded-lg col-span-4 sm:col-span-2 row-span-1 sm:row-span-2 sm:h-full hidden md:block"
             alt=""
           />
           <img
-            src="https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg"
-            className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
+            src={`data:image/webp;base64,${
+              imageQuery.data.map((image) => image.imageData)[1]
+            }`}
+            className="h-full w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
             alt=""
           />
           <img
-            src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D"
-            className="h-52 w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
+            className="h-full w-full object-cover rounded-lg row-span-1 col-span-4 sm:col-span-2 hidden md:block"
+            src={`data:image/webp;base64,${
+              imageQuery.data.map((image) => image.imageData)[2]
+            }`}
             alt=""
           />
-          <div className="col-span-4 row-span-2 h-72 w-full block md:hidden">
-            <ImageSlide
-              imageURLS={[
-                "https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/01/29141004/beach-party-1.jpeg",
-                "https://cdn.pixabay.com/photo/2017/06/23/04/49/beach-2433476_1280.jpg",
-                "https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D",
-              ]}
-            />
-          </div>
         </div>
+        <div className="col-span-4 row-span-1 w-full block md:hidden">
+          <CustomImageSlide
+            imageData={imageQuery.data.map((image) => image.imageData)}
+            isHovered={true}
+          />
+        </div>
+
         {/* Event details grid */}
         <div className="grid grid-cols-5 gap-4 pt-10">
           {/* Details column */}
           <div className="col-span-5 md:col-span-3">
             {/* Header datas */}
-            <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
-              <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-3xl dark:sm:text-white">
+            <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gray-100 sm:row-start-2 sm:p-0 lg:row-start-1">
+              <h1 className="mt-1 text-lg font-semibold text-slate-900 md:text-3xl">
                 {data.name}
               </h1>
-              <p className="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">
+              <p className="text-sm leading-4 font-mediumtext-slate-50">
                 {data.type}
               </p>
             </div>

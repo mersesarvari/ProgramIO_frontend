@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 
 type CustomImageSlideProps = {
   imageData?: string[];
@@ -8,7 +8,7 @@ type CustomImageSlideProps = {
 
 const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
   imageData,
-  isHovered,
+  isHovered = true,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const setNextActive = () => {
@@ -27,12 +27,12 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
     }
   };
 
-  const handleNextClick = (event: Event) => {
+  const handleNextClick = (event: MouseEvent) => {
     event.stopPropagation();
     setNextActive();
   };
 
-  const handlePreviousClick = (event: Event) => {
+  const handlePreviousClick = (event: MouseEvent) => {
     event.stopPropagation();
     setPreviousActive();
   };
@@ -62,7 +62,7 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
         ))}
       </div>
       {/* Bottom controllers */}
-      <div className="absolute z-30 flex justify-center left-0 right-0 mx-auto bottom-0">
+      <div className="absolute z-30 flex justify-center left-0 right-0 mx-auto bottom-2">
         {imageData.map((_, index) => (
           <button
             key={`SlideButton-${index}`}
@@ -80,8 +80,8 @@ const CustomImageSlide: React.FC<CustomImageSlideProps> = ({
       {/* Left controller */}
       <button
         type="button"
-        className={`absolute top-0 start-0 z-30 flex items-center justify-center h-full 
-        px-4 cursor-pointer group ${isHovered ? "" : "hidden"}`}
+        className={`absolute top-0 z-30 flex items-center justify-center
+        h-full px-4 cursor-pointer ${isHovered ? "" : "hidden"}`}
         data-carousel-prev
         onClick={handlePreviousClick}
       >

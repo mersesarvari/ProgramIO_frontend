@@ -30,7 +30,7 @@ const isEventNew = (_eventDate) => {
 const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
   //Fetching event images
   const imageQuery = useGetAllEventImagesQuery(eventItem._id);
-  const [isHovered, setHovered] = useState(false);
+  const [isHovered, setHovered] = useState(true);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -45,7 +45,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
 
   return imageQuery.data && !imageQuery.isLoading && eventItem ? (
     <div
-      className="card-compact"
+      className="card-compact grid grid-cols-1 grid-rows-2"
       style={{ position: "relative" }}
       onMouseEnter={() => {
         setHovered(true);
@@ -74,13 +74,13 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
       ) : null}
 
       <AlertIcon />
-      <div className="h-60">
+      <div className="row-span-1">
         <MyCarcasuel
           imageData={imageQuery.data.map((image) => image.imageData)}
           isHovered={isHovered}
         ></MyCarcasuel>
       </div>
-      <div className="card-body items-left text-left px-0 py-0 mt-0">
+      <div className="card-body items-left text-left px-0 py-0 mt-0 col-span-1">
         <h2 className="card-title items-center w-full font-bold text-gray-900 dark:text-white">
           {eventItem.name}
           <Rating className="">
