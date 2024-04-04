@@ -6,6 +6,7 @@ import MiniImageSlide from "./MiniImageSlide";
 import { useEffect, useState } from "react";
 import { EventType } from "../app/api/eventApi";
 import { useGetAllEventImagesQuery } from "../app/api/imageApi";
+import MyCarcasuel from "./MyCarcasuel";
 
 export interface EventCardProps {
   eventItem: EventType;
@@ -74,14 +75,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
 
       <AlertIcon />
       <div className="h-60">
-        <MiniImageSlide
-          handleClick={() => {
-            navigate(`/event/${eventItem._id}`);
-          }}
-          isHovered={isHovered}
-          setHovered={setHovered}
-          imageData={imageQuery.data}
-        />
+        <MyCarcasuel
+          imageData={imageQuery.data.map((image) => image.imageData)}
+        ></MyCarcasuel>
       </div>
       <div className="card-body items-left text-left px-0 py-0 mt-0">
         <h2 className="card-title items-center w-full font-bold text-gray-900 dark:text-white">
