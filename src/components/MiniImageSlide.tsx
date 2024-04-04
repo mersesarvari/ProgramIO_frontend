@@ -39,11 +39,16 @@ const MiniImageSlide: React.FC<CarouselProps> = ({
         on: "w-full flex-shrink-0 transform cursor-grab snap-center",
       },
     },
+    //Right and left buttons
     control: {
       base: `inline-flex ${
         isHovered ? "base" : "hidden"
-      } h-5 w-5 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-5 sm:w-5`,
-      icon: "h-2 w-2 text-white dark:text-gray-800 sm:h-6 sm:w-6",
+      } h-10 w-10 items-center 
+      justify-center rounded-full bg-white/30 group-hover:bg-white/50 
+      group-focus:outline-none group-focus:ring-4 group-focus:ring-white 
+      dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 
+      dark:group-focus:ring-gray-800/70 sm:h-50 sm:w-50 z-500`,
+      icon: "h-10 w-10 text-white dark:text-gray-800 sm:h-6 sm:w-6",
     },
     scrollContainer: {
       base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-xl",
@@ -54,7 +59,7 @@ const MiniImageSlide: React.FC<CarouselProps> = ({
   return imageURLS || imageData ? (
     <>
       {imageData ? (
-        <ReactCarausel slide={false} theme={carouselMiniTheme}>
+        <ReactCarausel slide={false} theme={carouselMiniTheme} leftControl>
           {images &&
             images.map((data, index) => (
               <img src={`data:image/webp;base64,${data}`} alt="" key={index} />
