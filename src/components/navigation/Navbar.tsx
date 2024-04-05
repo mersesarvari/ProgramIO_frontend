@@ -13,7 +13,7 @@ const Navbar = () => {
   };
   return (
     <div
-      className="h-10 navbar bg-base-100 bg-gray-100"
+      className="h-10 navbar bg-gray-50"
       style={{ height: "10px", zIndex: 999, position: "fixed" }}
     >
       <div className="flex-1">

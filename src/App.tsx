@@ -32,7 +32,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 export const queryClient = new QueryClient();
 const App = () => {
   return (
-    <div id="App" className="bg-gray-100 p-0 min-h-[100vh]">
+    <div id="App" className="bg-gray-50 p-0 min-h-[100vh]">
       <ToastContainer position="top-center" />
       <QueryClientProvider client={queryClient}>
         <React.Suspense>

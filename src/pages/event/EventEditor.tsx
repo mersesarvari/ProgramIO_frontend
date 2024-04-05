@@ -123,7 +123,7 @@ const EventEditor = () => {
         onSubmit={(values) => console.log(values)}
       >
         <Form>
-          <div className="container pt-20 relative xl:px-56 mx-auto bg-gray-100">
+          <div className="container pt-20 relative xl:px-56 mx-auto bg-gray-50">
             {/* IMAGE GRID */}
             {imageQuery.data && !imageQuery.isLoading ? (
               <div className="grid gap-3 grid-rows-2 grid-cols-4">

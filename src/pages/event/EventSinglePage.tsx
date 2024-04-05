@@ -34,7 +34,7 @@ const EventSinglePage = () => {
 
   return data && !isLoading && imageQuery.data ? (
     <>
-      <div className="container pt-20 relative px-5 xl:px-32 mx-auto bg-gray-100">
+      <div className="container pt-20 relative px-5 xl:px-32 mx-auto bg-gray-50">
         {/* IMAGE GRID */}
         <HeaderImageCard imageQuery={imageQuery} />
         <div className="col-span-4 row-span-1 w-full block md:hidden">
@@ -49,7 +49,7 @@ const EventSinglePage = () => {
           {/* Details column */}
           <div className="col-span-5 md:col-span-3">
             {/* Header datas */}
-            <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gray-100 sm:row-start-2 sm:p-0 lg:row-start-1">
+            <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gray-50 sm:row-start-2 sm:p-0 lg:row-start-1">
               <h1 className="mt-1 text-lg font-semibold text-slate-900 md:text-3xl">
                 {data.name}
               </h1>
