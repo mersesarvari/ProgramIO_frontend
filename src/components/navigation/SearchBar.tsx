@@ -1,9 +1,11 @@
+import { TextInput } from "flowbite-react";
 import { useEffect, useState, useRef } from "react";
 
 const Searchbard = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const ref = useRef(null);
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -29,15 +31,15 @@ const Searchbard = () => {
     //When one menu is active but not this one
     if (openedIndex !== index && openedIndex !== null) {
       styles +=
-        "rounded-full bg-gray-200 border-gray-200 hover:bg-gray-300 hover:border-gray-300 ";
+        " rounded-full bg-gray-200 border-gray-200 hover:bg-gray-300 hover:border-gray-300 ";
     }
     //When menu is active
     if (openedIndex === index) {
-      styles += `rounded-full border-gray-400 bg-white`;
+      styles += ` rounded-full border-gray-400 bg-white `;
     }
     //When all menu is inactive
     if (openedIndex === null) {
-      styles += `rounded-full bg-gray-200 hover:bg-gray-200 hover:border-gray-300 border-white `;
+      styles += ` rounded-full bg-white hover:bg-gray-200 hover:border-gray-300 border-white `;
     }
 
     if (
@@ -78,7 +80,10 @@ const Searchbard = () => {
           >
             <button
               className={`border-x-2 ${getButtonStyles(1)}`}
-              onClick={() => setOpenedIndex(1)}
+              onClick={() => {
+                setOpenedIndex(1);
+                searchInputRef.current.focus();
+              }}
               onMouseEnter={() => {
                 setHoveredIndex(1);
               }}
@@ -87,11 +92,13 @@ const Searchbard = () => {
               }}
               tabIndex={1}
             >
-              <div className="m-auto text-left ml-6 py-auto">
+              <div className="m-auto text-left mx-6 py-auto">
                 <div className="text-sm font-bold text-black">Where</div>
-                <div className="text-sm font-normal text-gray">
-                  Search locations
-                </div>
+                <input
+                  ref={searchInputRef}
+                  className="bg-transparent border-none focus:border-none text-black outline-none w-full"
+                  placeholder="Search events"
+                />
               </div>
             </button>
           </div>
@@ -130,7 +137,7 @@ const Searchbard = () => {
               }}
               tabIndex={2}
             >
-              <div className="m-auto text-left ml-6 py-auto">
+              <div className="m-auto text-left mx-6 py-auto">
                 <div className="text-sm font-bold text-black">Where</div>
                 <div className="text-sm font-normal text-gray">
                   Search locations
@@ -175,7 +182,7 @@ const Searchbard = () => {
               }}
               tabIndex={3}
             >
-              <div className="m-auto text-left ml-6 py-auto">
+              <div className="m-auto text-left mx-6 py-auto">
                 <div className="text-sm font-bold text-black">Where</div>
                 <div className="text-sm font-normal text-gray">
                   Search locations
@@ -215,7 +222,7 @@ const Searchbard = () => {
               }}
               tabIndex={4}
             >
-              <div className="m-auto text-left ml-6 py-auto">
+              <div className="m-auto text-left mx-6 py-auto">
                 <div className="text-sm font-bold text-black">Where</div>
                 <div className="text-sm font-normal text-gray">
                   Search locations
