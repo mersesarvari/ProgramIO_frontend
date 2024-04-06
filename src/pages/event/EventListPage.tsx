@@ -1,7 +1,7 @@
 import EventCard from "../../components/event-components/EventCard";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
 import { useEffect } from "react";
-import SearchBar from "../../components/navigation/SearchBar";
+import SearchBar from "../../components/navigation/searchbar/SearchBar";
 
 const EventListPage = () => {
   const { data, isLoading, error } = useGetAllEventsQuery();

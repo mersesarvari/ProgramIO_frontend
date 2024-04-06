@@ -1,9 +1,8 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useRef } from "react";
 import SearchBarMenu from "./SearchBarMenu";
-import GoogleMapSearch from "../map/GoogleMapSearch";
-import { APIProvider } from "@vis.gl/react-google-maps";
-import GoogleLocationSearchInput from "../fields/GoogleLocationSearchInput";
+import GoogleMap from "../../map/GoogleMap";
+import GoogleLocationSearchInput from "../../fields/GoogleLocationSearchInput";
 
 const Searchbard = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
@@ -71,10 +70,10 @@ const Searchbard = () => {
       <div className="flex pt-16 bg-gray-50 h-84 w-full border-b-2 border-gray-200 items-center justify-center text-center">
         {/* SearchBar */}
         <div
-          ref={ref}
           className={`w-8/12 xl:w-6/12 h-[72px] z-400 my-10 ${
             openedIndex === null ? " bg-white" : "bg-gray-200"
           } rounded-full flex flex-row border-gray-300 border-2 size-full group`}
+          ref={ref}
         >
           {/* Button 1 */}
           <div
@@ -254,7 +253,7 @@ const Searchbard = () => {
           </div>
           {/* Search menu */}
           <SearchBarMenu isOpened={openedIndex === null ? false : true}>
-            <GoogleMapSearch
+            <GoogleMap
               width="100%"
               height="100%"
               //Setting new york as default coordinate
@@ -263,7 +262,7 @@ const Searchbard = () => {
                 lng: addressData?.lng ? addressData?.lng : -74.00597,
               }}
               zoom={9}
-            ></GoogleMapSearch>
+            ></GoogleMap>
           </SearchBarMenu>
         </div>
       </div>

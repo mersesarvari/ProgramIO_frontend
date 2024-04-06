@@ -11,7 +11,7 @@ type GoogleMapProps = {
   coordinate?: { lat: number; lng: number };
 };
 
-const GoogleMapSearch: React.FC<GoogleMapProps> = ({
+const GoogleMap: React.FC<GoogleMapProps> = ({
   width = "auto",
   height = "103vh",
   defaultZoom = 12,
@@ -20,7 +20,6 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
   coordinate,
 }) => {
   const [mapCenter, setMapCenter] = useState(defaultCenter);
-  const [mapZoom, setMapZoom] = useState(defaultZoom); // State for zoom level
   const { data, isLoading, error } = useGetAllEventsQuery();
 
   useEffect(() => {
@@ -57,10 +56,9 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
         disableDefaultUI={true}
         mapTypeId={"roadmap"}
         center={mapCenter}
-        zoom={mapZoom} // Set zoom level
       ></Map>
     </div>
   ) : null;
 };
 
-export default GoogleMapSearch;
+export default GoogleMap;
