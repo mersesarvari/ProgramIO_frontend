@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Map } from "@vis.gl/react-google-maps";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
-import { useEffect } from "react";
 
 type GoogleMapProps = {
   width?: string;
@@ -8,22 +8,26 @@ type GoogleMapProps = {
   defaultZoom?: number;
   defaultCenter?: { lat: number; lng: number };
   minZoom?: number;
-  city?: { lat: number; lng: number }; // New prop for the city
+  coordinate?: { lat: number; lng: number }; // New prop for coordinate
 };
 
 const GoogleMapSearch: React.FC<GoogleMapProps> = ({
   width = "auto",
   height = "103vh",
-  defaultZoom = 2,
+  defaultZoom = 9,
   defaultCenter = { lat: 47.5079, lng: 19.0454 },
   minZoom = 1.93,
-  city, // Receive the city prop
+  coordinate,
 }) => {
-  useEffect(() => {
-    console.log("Google map center changed:", defaultCenter, defaultCenter);
-  }, [defaultCenter]);
+  const [mapCenter, setMapCenter] = useState(defaultCenter);
 
-  //TODO: await implementation
+  useEffect(() => {
+    // Update map center when coordinate prop changes
+    if (coordinate) {
+      setMapCenter(coordinate);
+    }
+  }, [coordinate]);
+
   const { data, isLoading, error } = useGetAllEventsQuery();
 
   const WORLD_BOUNDS = {
@@ -32,9 +36,6 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
     west: -180,
     east: 180,
   };
-
-  // Update defaultCenter if city prop is provided
-  const center = city ? city : defaultCenter;
 
   return data && !isLoading ? (
     <div
@@ -46,7 +47,7 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
       <Map
         style={{ borderRadius: "20px" }}
         defaultZoom={defaultZoom}
-        defaultCenter={center} // Use center variable
+        defaultCenter={{ lng: 0, lat: 0 }}
         minZoom={minZoom}
         mapId={"9298a4530532565e"}
         restriction={{
@@ -55,6 +56,8 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
         }}
         disableDefaultUI={true}
         mapTypeId={"roadmap"}
+        // Set center to mapCenter state
+        center={mapCenter}
       ></Map>
     </div>
   ) : null;

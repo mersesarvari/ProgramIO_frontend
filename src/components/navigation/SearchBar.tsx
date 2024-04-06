@@ -3,8 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import SearchBarMenu from "./SearchBarMenu";
 import GoogleMapSearch from "../map/GoogleMapSearch";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import Autocomplete from "react-google-autocomplete";
-import GoogleMapAutocompleteCity from "../fields/GoogleMapAutocompleteCity";
+import GoogleLocationSearchInput from "../fields/GoogleLocationSearchInput";
 
 const Searchbard = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
@@ -36,11 +35,6 @@ const Searchbard = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log("Hovered index:", hoveredIndex);
-    console.log("Opened index:", openedIndex);
-  }, [hoveredIndex, openedIndex]);
-
   const getButtonStyles = (index: number) => {
     let styles = "";
     //When one menu is active but not this one
@@ -67,10 +61,6 @@ const Searchbard = () => {
 
     return `${styles} w-full`;
   };
-
-  useEffect(() => {
-    console.log("Address data:", addressData);
-  }, [addressData]);
 
   return (
     <>
@@ -99,7 +89,7 @@ const Searchbard = () => {
               className={`border-x-2 ${getButtonStyles(1)}`}
               onClick={() => {
                 setOpenedIndex(1);
-                searchInputRef.current.focus();
+                searchInputRef?.current?.focus();
               }}
               onMouseEnter={() => {
                 setHoveredIndex(1);
@@ -111,10 +101,12 @@ const Searchbard = () => {
             >
               <div className="m-auto text-left mx-6 py-auto">
                 <div className="text-sm font-bold text-black">Where</div>
-                <input
-                  ref={searchInputRef}
-                  className="bg-transparent border-none focus:border-none text-black outline-none w-full"
-                  placeholder="Search events"
+                <GoogleLocationSearchInput
+                  inputRef={searchInputRef}
+                  data={addressData}
+                  setData={setAddressData}
+                  placeholder="Search your location"
+                  className="bg-transparent border-none focus:border-none focus:border-0 focus:ring-0 m-0 p-0"
                 />
               </div>
             </button>
@@ -259,11 +251,14 @@ const Searchbard = () => {
           </div>
           {/* Search menu */}
           <SearchBarMenu isOpened={openedIndex === null ? false : true}>
-            <APIProvider apiKey={apiKey.toString()}>
-              <GoogleMapAutocompleteCity />
-
-              <GoogleMapSearch width="100%" height="100%"></GoogleMapSearch>
-            </APIProvider>
+            <GoogleMapSearch
+              width="100%"
+              height="100%"
+              coordinate={{
+                lat: addressData?.lat ? addressData?.lat : 0,
+                lng: addressData?.lng ? addressData?.lng : 0,
+              }}
+            ></GoogleMapSearch>
           </SearchBarMenu>
         </div>
       </div>
