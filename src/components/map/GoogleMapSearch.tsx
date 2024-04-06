@@ -8,18 +8,20 @@ type GoogleMapProps = {
   defaultZoom?: number;
   defaultCenter?: { lat: number; lng: number };
   minZoom?: number;
-  coordinate?: { lat: number; lng: number }; // New prop for coordinate
+  coordinate?: { lat: number; lng: number };
 };
 
 const GoogleMapSearch: React.FC<GoogleMapProps> = ({
   width = "auto",
   height = "103vh",
-  defaultZoom = 9,
-  defaultCenter = { lat: 47.5079, lng: 19.0454 },
+  defaultZoom = 12,
+  defaultCenter = { lat: 40.71427, lng: -74.00597 },
   minZoom = 1.93,
   coordinate,
 }) => {
   const [mapCenter, setMapCenter] = useState(defaultCenter);
+  const [mapZoom, setMapZoom] = useState(defaultZoom); // State for zoom level
+  const { data, isLoading, error } = useGetAllEventsQuery();
 
   useEffect(() => {
     // Update map center when coordinate prop changes
@@ -27,8 +29,6 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
       setMapCenter(coordinate);
     }
   }, [coordinate]);
-
-  const { data, isLoading, error } = useGetAllEventsQuery();
 
   const WORLD_BOUNDS = {
     north: 85,
@@ -56,8 +56,8 @@ const GoogleMapSearch: React.FC<GoogleMapProps> = ({
         }}
         disableDefaultUI={true}
         mapTypeId={"roadmap"}
-        // Set center to mapCenter state
         center={mapCenter}
+        zoom={mapZoom} // Set zoom level
       ></Map>
     </div>
   ) : null;

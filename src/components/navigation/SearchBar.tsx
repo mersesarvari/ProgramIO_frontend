@@ -11,7 +11,6 @@ const Searchbard = () => {
   const [addressData, setAddressData] = useState(null);
   const ref = useRef(null);
   const searchInputRef = useRef(null);
-  const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,6 +60,10 @@ const Searchbard = () => {
 
     return `${styles} w-full`;
   };
+
+  useEffect(() => {
+    console.log("Current address:", addressData);
+  }, [addressData]);
 
   return (
     <>
@@ -254,10 +257,12 @@ const Searchbard = () => {
             <GoogleMapSearch
               width="100%"
               height="100%"
+              //Setting new york as default coordinate
               coordinate={{
-                lat: addressData?.lat ? addressData?.lat : 0,
-                lng: addressData?.lng ? addressData?.lng : 0,
+                lat: addressData?.lat ? addressData?.lat : 40.71427,
+                lng: addressData?.lng ? addressData?.lng : -74.00597,
               }}
+              zoom={9}
             ></GoogleMapSearch>
           </SearchBarMenu>
         </div>
