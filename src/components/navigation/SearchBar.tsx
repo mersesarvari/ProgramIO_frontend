@@ -21,7 +21,8 @@ const Searchbard = () => {
 
   useEffect(() => {
     console.log("Hovered index:", hoveredIndex);
-  }, [hoveredIndex]);
+    console.log("Opened index:", openedIndex);
+  }, [hoveredIndex, openedIndex]);
 
   const getButtonStyles = (index: number) => {
     let styles = "";
@@ -65,14 +66,18 @@ const Searchbard = () => {
         >
           {/* Button 1 */}
           <div
-            className={`${
+            className={`basis-4/12 flex flex-row  ${
               openedIndex === 2 && hoveredIndex === 1
-                ? "basis-4/12 flex flex-row rounded-full bg-gray-300"
-                : "basis-4/12 flex flex-row rounded-full"
+                ? " rounded-l-full bg-gray-300 "
+                : " "
+            }${
+              openedIndex === 1 && hoveredIndex === 2
+                ? " rounded-l-full bg-gray-300 "
+                : " "
             }`}
           >
             <button
-              className={`basis-1/2 border-x-2 ${getButtonStyles(1)}`}
+              className={`border-x-2 ${getButtonStyles(1)}`}
               onClick={() => setOpenedIndex(1)}
               onMouseEnter={() => {
                 setHoveredIndex(1);
@@ -89,12 +94,33 @@ const Searchbard = () => {
                 </div>
               </div>
             </button>
-
-            {/* Button 2 */}
+          </div>
+          {/* Button 2 */}
+          <div
+            className={`basis-2/12 flex flex-row ${
+              //If the left item is hovered
+              openedIndex === 2 && hoveredIndex === 1
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 2 && hoveredIndex === 3
+                ? " rounded-l-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 1 && hoveredIndex === 2
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 3 && hoveredIndex === 2
+                ? " rounded-l-full bg-gray-300 "
+                : " "
+            }`}
+          >
             <button
-              className={`basis-1/2  rounded-full border-x-2 ${getButtonStyles(
-                2
-              )}`}
+              className={`rounded-full border-x-2 ${getButtonStyles(2)}`}
               onClick={() => setOpenedIndex(2)}
               onMouseEnter={() => {
                 setHoveredIndex(2);
@@ -113,12 +139,40 @@ const Searchbard = () => {
             </button>
           </div>
           {/* Button 3 */}
-          <div className="basis-2/12 rounded-full ">
+          <div
+            className={`basis-2/12 flex flex-row ${
+              //If the left item is hovered
+              openedIndex === 3 && hoveredIndex === 2
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 3 && hoveredIndex === 4
+                ? " rounded-l-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 2 && hoveredIndex === 3
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 4 && hoveredIndex === 3
+                ? " rounded-l-full bg-gray-300 "
+                : " "
+            }`}
+          >
             <button
               className={`size-full rounded-full border-x-2 ${getButtonStyles(
                 3
               )}`}
               onClick={() => setOpenedIndex(3)}
+              onMouseEnter={() => {
+                setHoveredIndex(3);
+              }}
+              onMouseLeave={() => {
+                setHoveredIndex(null);
+              }}
               tabIndex={3}
             >
               <div className="m-auto text-left ml-6 py-auto">
@@ -130,12 +184,35 @@ const Searchbard = () => {
             </button>
           </div>
           {/* Button 4 */}
-          <div className="basis-4/12 rounded-full">
+          <div
+            className={`basis-4/12 flex flex-row ${
+              //If the left item is hovered
+              openedIndex === 4 && hoveredIndex === 3
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 3 && hoveredIndex === 4
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }${
+              //If the left item is hovered
+              openedIndex === 4 && hoveredIndex === 3
+                ? " rounded-r-full bg-gray-300 "
+                : " "
+            }`}
+          >
             <button
               className={`size-full rounded-full border-x-2 ${getButtonStyles(
                 4
               )}`}
               onClick={() => setOpenedIndex(4)}
+              onMouseEnter={() => {
+                setHoveredIndex(4);
+              }}
+              onMouseLeave={() => {
+                setHoveredIndex(null);
+              }}
               tabIndex={4}
             >
               <div className="m-auto text-left ml-6 py-auto">
