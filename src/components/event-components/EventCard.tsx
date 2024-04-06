@@ -44,8 +44,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
 
   return imageQuery.data && !imageQuery.isLoading && eventItem ? (
     <div
-      className="card-compact grid grid-cols-1 grid-rows-2"
-      style={{ position: "relative" }}
+      className="card-compact"
+      style={{ position: "relative", display: "flex", flexDirection: "column" }}
       onMouseEnter={() => {
         setHovered(true);
       }}
@@ -57,9 +57,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
       {/* NEW BADGE */}
       {isEventNew(eventItem.create_date) ? (
         <div
-          className="badge badge-success gap-2"
+          className="badge badge-success gap-2 z-10"
           style={{
-            zIndex: 500,
             position: "absolute",
             marginTop: "10px",
             marginLeft: "12px",
@@ -79,7 +78,10 @@ const EventCard: React.FC<EventCardProps> = ({ eventItem }) => {
           isHovered={isHovered}
         ></MyCarcasuel>
       </div>
-      <div className="card-body items-left text-left px-0 py-0 mt-0 col-span-1">
+      <div
+        className="card-body items-left text-left px-0 py-0 mt-0 col-span-1"
+        style={{ flex: "1" }}
+      >
         <h2 className="card-title items-center w-full font-bold text-gray-900 dark:text-white">
           {eventItem.name}
           <Rating className="">

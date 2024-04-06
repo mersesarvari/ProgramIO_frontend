@@ -1,27 +1,6 @@
-import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { Map } from "@vis.gl/react-google-maps";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
-
-type MarkerProps = {
-  events: EventType[];
-};
-
-const Markers: React.FC<MarkerProps> = ({ events }) => {
-  return (
-    <>
-      {events.map((event) => (
-        <AdvancedMarker
-          position={event.address.coordinate}
-          key={event._id.toString()}
-        >
-          <img
-            src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=pexels-wendy-wei-1190298.jpg&fm=jpg"
-            style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-          ></img>
-        </AdvancedMarker>
-      ))}
-    </>
-  );
-};
+import { useEffect } from "react";
 
 type GoogleMapProps = {
   width?: string;
@@ -29,15 +8,21 @@ type GoogleMapProps = {
   defaultZoom?: number;
   defaultCenter?: { lat: number; lng: number };
   minZoom?: number;
+  city?: { lat: number; lng: number }; // New prop for the city
 };
 
-const GoogleMap: React.FC<GoogleMapProps> = ({
+const GoogleMapSearch: React.FC<GoogleMapProps> = ({
   width = "auto",
   height = "103vh",
   defaultZoom = 2,
   defaultCenter = { lat: 47.5079, lng: 19.0454 },
   minZoom = 1.93,
+  city, // Receive the city prop
 }) => {
+  useEffect(() => {
+    console.log("Google map center changed:", defaultCenter, defaultCenter);
+  }, [defaultCenter]);
+
   //TODO: await implementation
   const { data, isLoading, error } = useGetAllEventsQuery();
 
@@ -47,11 +32,21 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     west: -180,
     east: 180,
   };
+
+  // Update defaultCenter if city prop is provided
+  const center = city ? city : defaultCenter;
+
   return data && !isLoading ? (
-    <div style={{ height: height, width: width }}>
+    <div
+      style={{
+        height: height,
+        width: width,
+      }}
+    >
       <Map
+        style={{ borderRadius: "20px" }}
         defaultZoom={defaultZoom}
-        defaultCenter={defaultCenter}
+        defaultCenter={center} // Use center variable
         minZoom={minZoom}
         mapId={"9298a4530532565e"}
         restriction={{
@@ -60,11 +55,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         }}
         disableDefaultUI={true}
         mapTypeId={"roadmap"}
-      >
-        <Markers events={data} />
-      </Map>
+      ></Map>
     </div>
   ) : null;
 };
 
-export default GoogleMap;
+export default GoogleMapSearch;

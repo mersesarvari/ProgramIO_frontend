@@ -1,22 +1,37 @@
-import { TextInput } from "flowbite-react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useRef } from "react";
+import SearchBarMenu from "./SearchBarMenu";
+import GoogleMapSearch from "../map/GoogleMapSearch";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import Autocomplete from "react-google-autocomplete";
+import GoogleMapAutocompleteCity from "../fields/GoogleMapAutocompleteCity";
 
 const Searchbard = () => {
   const [openedIndex, setOpenedIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [addressData, setAddressData] = useState(null);
   const ref = useRef(null);
   const searchInputRef = useRef(null);
+  const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
-        setOpenedIndex(null); // Reset openedIndex if clicked outside
+        setOpenedIndex(null); // Reset openedIndex if clicked outside the SearchBar
       }
     };
 
+    const handleBodyClick = (event) => {
+      if (!ref.current.contains(event.target)) {
+        setOpenedIndex(null); // Reset openedIndex if clicked anywhere outside the SearchBar
+      }
+    };
+
+    document.body.addEventListener("click", handleBodyClick);
     document.body.addEventListener("click", handleClickOutside);
 
     return () => {
+      document.body.removeEventListener("click", handleBodyClick);
       document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -35,7 +50,7 @@ const Searchbard = () => {
     }
     //When menu is active
     if (openedIndex === index) {
-      styles += ` rounded-full border-gray-400 bg-white `;
+      styles += ` rounded-full border-gray-400 bg-[white] `;
     }
     //When all menu is inactive
     if (openedIndex === null) {
@@ -53,15 +68,17 @@ const Searchbard = () => {
     return `${styles} w-full`;
   };
 
+  useEffect(() => {
+    console.log("Address data:", addressData);
+  }, [addressData]);
+
   return (
     <>
       {/* Search navitem */}
-      <div
-        ref={ref}
-        className="flex pt-16 bg-gray-50 h-84 w-full border-b-2 border-gray-200 items-center justify-center text-center"
-      >
+      <div className="flex pt-16 bg-gray-50 h-84 w-full border-b-2 border-gray-200 items-center justify-center text-center">
         {/* SearchBar */}
         <div
+          ref={ref}
           className={`w-8/12 xl:w-6/12 h-[72px] z-400 my-10 ${
             openedIndex === null ? " bg-white" : "bg-gray-200"
           } rounded-full flex flex-row border-gray-300 border-2 size-full group`}
@@ -222,14 +239,32 @@ const Searchbard = () => {
               }}
               tabIndex={4}
             >
-              <div className="m-auto text-left mx-6 py-auto">
-                <div className="text-sm font-bold text-black">Where</div>
-                <div className="text-sm font-normal text-gray">
-                  Search locations
+              <div className="flex flex-row">
+                <div className="basis-8/12 m-auto text-left mx-6 py-auto">
+                  <div className="text-sm font-bold text-black">Where</div>
+                  <div className="text-sm font-normal text-gray">
+                    Search locations
+                  </div>
+                </div>
+                {/* Search icon */}
+                <div className="basis-4/12 flex justify-end">
+                  <div className="relative r-0 m-auto size-14 py-auto bg-red-700 rounded-full text-white font-bold text-sm items-center justify-center text-center">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <MagnifyingGlassIcon className="size-6" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </button>
           </div>
+          {/* Search menu */}
+          <SearchBarMenu isOpened={openedIndex === null ? false : true}>
+            <APIProvider apiKey={apiKey.toString()}>
+              <GoogleMapAutocompleteCity />
+
+              <GoogleMapSearch width="100%" height="100%"></GoogleMapSearch>
+            </APIProvider>
+          </SearchBarMenu>
         </div>
       </div>
     </>

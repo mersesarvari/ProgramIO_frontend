@@ -5,8 +5,8 @@ const AlertIcon = () => {
   const [isHovered, setHovered] = useState(false);
   return (
     <button
+      className="z-10"
       style={{
-        zIndex: 300,
         position: "absolute",
         color: "white",
         fontSize: "50px",

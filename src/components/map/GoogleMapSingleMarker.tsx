@@ -1,6 +1,6 @@
 import { Map, AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { useLoadScript } from "@react-google-maps/api";
+import { useEffect } from "react";
 
 type GoogleMapProps = {
   width?: string;
