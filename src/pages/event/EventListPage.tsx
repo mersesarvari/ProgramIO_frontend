@@ -2,7 +2,6 @@ import EventCard from "../../components/event-components/EventCard";
 import { useGetAllEventsQuery } from "../../app/api/eventApi";
 import { useEffect, useState } from "react";
 import SearchBarMenu from "../../components/navigation/searchbar/SearchBarMenu";
-import GoogleMap from "../../components/map/GoogleMap";
 import { useSelector } from "react-redux";
 import SearchBar from "../../components/navigation/searchbar/SearchBar";
 
@@ -25,17 +24,9 @@ const EventListPage = () => {
     <>
       <div className="flex pt-16 bg-gray-50 h-84 w-full border-b-2 border-gray-200 items-center justify-center text-center">
         <SearchBar setOpenedIndex={setOpenedIndex} openedIndex={openedIndex}>
-          <SearchBarMenu isOpened={openedIndex === null ? false : true}>
-            <GoogleMap
-              width="100%"
-              height="100%"
-              //Setting new york as default coordinate
-              coordinate={{
-                lat: addressRedux?.lat ? addressRedux?.lat : 40.71427,
-                lng: addressRedux?.lng ? addressRedux?.lng : -74.00597,
-              }}
-            ></GoogleMap>
-          </SearchBarMenu>
+          <SearchBarMenu
+            isOpened={openedIndex === null ? false : true}
+          ></SearchBarMenu>
         </SearchBar>
       </div>
       <div className="grid grid-flow-row-dense gap-5 grid-cols-1 auto-rows-max xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 pt-20 xl:px-20 lg:px-10">

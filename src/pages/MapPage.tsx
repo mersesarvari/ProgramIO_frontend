@@ -1,5 +1,4 @@
 import { APIProvider } from "@vis.gl/react-google-maps";
-import EventGoogleMap from "../components/map/EventGoogleMap";
 import { useState } from "react";
 import SearchBar from "../components/navigation/searchbar/SearchBar";
 import GoogleMap from "../components/map/GoogleMap";

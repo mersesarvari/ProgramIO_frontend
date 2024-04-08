@@ -28,7 +28,7 @@ const GoogleLocationSearchInput: React.FC<AutocompleteProps> = ({
     setTypingTimeout(
       setTimeout(() => {
         handleSearch(inputValue);
-      }, 500) // Adjust the delay time here (in milliseconds)
+      }, 400) // Adjust the delay time here (in milliseconds)
     );
   };
 
