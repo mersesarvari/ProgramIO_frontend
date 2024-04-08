@@ -44,7 +44,7 @@ const LoggedOutRoutes = () => {
 };
 
 const AdminRoutes = () => {
-  const user = useSelector(selectCurrentUser);
+  //const user = useSelector(selectCurrentUser);
   const isAuthenticatedAdmin = () => {
     const userCookieString = Cookies.get("user");
     let userCookie = null;

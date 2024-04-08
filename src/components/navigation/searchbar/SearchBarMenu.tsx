@@ -1,6 +1,7 @@
 type SearchBarMenuProps = {
   isOpened: boolean;
   setOpened?: React.Dispatch<React.SetStateAction<boolean>>;
+  children?: React.ReactNode;
 };
 
 const SearchBarMenu: React.FC<SearchBarMenuProps> = ({

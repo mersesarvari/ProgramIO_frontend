@@ -3,25 +3,18 @@ import OptionBar from "../components/navigation/OptionBar";
 import MapPage from "./MapPage";
 import EventListPage from "./event/EventListPage";
 
-const renderPage = (activeView: number) => {
-  switch (activeView) {
-    case 0:
-      return <EventListPage />;
-    case 1:
-      return <MapPage />;
-    case 2:
-      return <></>;
-    default:
-      return <>Error page does not exists</>;
-  }
-};
-
 const Home = () => {
   const [activeView, setActiveView] = useState(0);
+
   return (
     <>
       <OptionBar value={activeView} setValue={setActiveView} />
-      {renderPage(activeView)}
+      {activeView === 0 && <EventListPage />}
+      {activeView === 1 && <MapPage />}
+      {activeView === 2 && <></>}
+      {activeView !== 0 && activeView !== 1 && activeView !== 2 && (
+        <>Error page does not exist</>
+      )}
     </>
   );
 };

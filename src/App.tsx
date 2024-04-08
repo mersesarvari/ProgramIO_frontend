@@ -10,7 +10,6 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import { APIProvider } from "@vis.gl/react-google-maps";
-
 const EventSinglePage = React.lazy(
   () => import("./pages/event/EventSinglePage")
 );

@@ -1,15 +1,28 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useRef } from "react";
-import SearchBarMenu from "./SearchBarMenu";
-import GoogleMap from "../../map/GoogleMap";
 import GoogleLocationSearchInput from "../../fields/GoogleLocationSearchInput";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setAddress } from "../../../app/slices/addressSlice";
 
-const Searchbard = () => {
-  const [openedIndex, setOpenedIndex] = useState(null);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+type SearchBarProps = {
+  openedIndex: number;
+  setOpenedIndex: React.Dispatch<React.SetStateAction<number>>;
+  children?: React.ReactNode;
+  className?: string;
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  openedIndex = null,
+  setOpenedIndex,
+  children,
+  className = "",
+}) => {
   const [addressData, setAddressData] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const ref = useRef(null);
   const searchInputRef = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,18 +74,21 @@ const Searchbard = () => {
   };
 
   useEffect(() => {
-    console.log("Current address:", addressData);
+    if (addressData && addressData.lat && addressData.lng) {
+      dispatch(setAddress({ address: addressData }));
+    } else {
+      dispatch(setAddress({ address: null }));
+    }
   }, [addressData]);
 
   return (
     <>
-      {/* Search navitem */}
-      <div className="flex pt-16 bg-gray-50 h-84 w-full border-b-2 border-gray-200 items-center justify-center text-center">
-        {/* SearchBar */}
+      {/* SearchBar */}
+      <div className={className === "" ? "" : className}>
         <div
-          className={`w-8/12 xl:w-6/12 h-[72px] z-400 my-10 ${
+          className={`flex w-full h-[72px] z-400 my-10 ${
             openedIndex === null ? " bg-white" : "bg-gray-200"
-          } rounded-full flex flex-row border-gray-300 border-2 size-full group`}
+          } rounded-full flex flex-row border-gray-300 border-2 size-full group `}
           ref={ref}
         >
           {/* Button 1 */}
@@ -105,7 +121,6 @@ const Searchbard = () => {
                 <div className="text-sm font-bold text-black">Where</div>
                 <GoogleLocationSearchInput
                   inputRef={searchInputRef}
-                  data={addressData}
                   setData={setAddressData}
                   placeholder="Search your location"
                   className="bg-transparent border-none focus:border-none focus:border-0 focus:ring-0 m-0 p-0"
@@ -252,22 +267,11 @@ const Searchbard = () => {
             </button>
           </div>
           {/* Search menu */}
-          <SearchBarMenu isOpened={openedIndex === null ? false : true}>
-            <GoogleMap
-              width="100%"
-              height="100%"
-              //Setting new york as default coordinate
-              coordinate={{
-                lat: addressData?.lat ? addressData?.lat : 40.71427,
-                lng: addressData?.lng ? addressData?.lng : -74.00597,
-              }}
-              zoom={9}
-            ></GoogleMap>
-          </SearchBarMenu>
+          {children}
         </div>
       </div>
     </>
   );
 };
 
-export default Searchbard;
+export default SearchBar;
